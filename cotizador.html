@@ -94,6 +94,18 @@ textarea{min-height:120px;resize:vertical}
 .motivo{font-size:12.5px;color:var(--tinta-suave);margin-top:8px}
 .fila-excluir{margin-top:10px;font-size:13px;color:var(--tinta-suave)}
 .fila-excluir input{margin-right:6px}
+.fila-excluir label{display:block;font-weight:400;font-size:13px;color:var(--tinta);margin-bottom:4px;cursor:pointer}
+
+/* Combobox de producto con buscador sobre el catálogo completo */
+.combo{position:relative}
+.combo-lista{position:absolute;top:100%;left:0;right:0;background:var(--superficie);border:1px solid var(--borde);border-radius:8px;margin-top:4px;max-height:300px;overflow-y:auto;z-index:25;box-shadow:0 8px 24px rgba(22,50,59,.14);display:none}
+.combo-lista.visible{display:block}
+.combo-grupo{font-size:11px;font-weight:700;color:var(--tinta-suave);padding:6px 12px;text-transform:uppercase;letter-spacing:.5px;background:var(--fondo);position:sticky;top:0}
+.combo-item{padding:8px 12px;cursor:pointer;font-size:13.5px;border-bottom:1px solid var(--borde)}
+.combo-item:last-child{border-bottom:none}
+.combo-item:hover{background:var(--agua-claro)}
+.combo-item .precio{color:var(--tinta-suave)}
+.combo-vacio{padding:10px 12px;font-size:13px;color:var(--tinta-suave)}
 
 /* Barra fija inferior */
 .barra-final{position:fixed;bottom:0;left:0;right:0;background:var(--superficie);border-top:1px solid var(--borde);padding:14px 0;box-shadow:0 -4px 20px rgba(22,50,59,.08);display:none;z-index:30}
@@ -154,13 +166,13 @@ textarea{min-height:120px;resize:vertical}
   <section class="paso">
     <div class="paso-titulo"><div class="paso-num">2</div><h2>Pedido del cliente</h2></div>
     <div class="pestanas">
-      <button class="pestana activa" id="pestanaTexto" onclick="cambiarPestana('texto')">Pegar texto</button>
-      <button class="pestana" id="pestanaArchivo" onclick="cambiarPestana('archivo')">Subir archivo</button>
+      <button class="pestana activa" id="pestanaArchivo" onclick="cambiarPestana('archivo')">Subir archivo</button>
+      <button class="pestana" id="pestanaTexto" onclick="cambiarPestana('texto')">Pegar texto</button>
     </div>
-    <div id="panelTexto">
+    <div id="panelTexto" style="display:none">
       <textarea id="textoPedido" placeholder="Pega aquí el pedido tal como lo mandó el cliente (WhatsApp, correo)…"></textarea>
     </div>
-    <div id="panelArchivo" style="display:none">
+    <div id="panelArchivo">
       <div class="zona-archivo" id="zonaArchivo" onclick="document.getElementById('entradaArchivo').click()">
         <strong>Haz clic para elegir un archivo</strong> o arrástralo aquí<br>
         <span style="font-size:12.5px">PDF, imagen (JPG/PNG), Excel o texto</span>
@@ -360,6 +372,22 @@ function quitarArchivo(){
 
 /* ================= PASO 3: PROCESAR Y REVISAR ================= */
 let lineasResultado = [];
+let catalogoCompleto = [];
+
+function esc(s){
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+const sinAcentos = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+async function cargarCatalogo(){
+  if(catalogoCompleto.length) return;
+  try{
+    const d = await llamar('/api/catalog');
+    catalogoCompleto = d.products || [];
+  }catch(e){
+    console.warn('No se pudo cargar el catálogo completo para el buscador:', e.message);
+  }
+}
 
 async function procesarPedido(){
   avisar('');
@@ -382,10 +410,14 @@ async function procesarPedido(){
     'Leyendo el pedido y buscando en el catálogo… (si el sistema estaba dormido puede tardar hasta 1 minuto)';
 
   try{
-    const d = await llamar('/api/match', { method:'POST', body: JSON.stringify(cuerpo) });
+    const [d] = await Promise.all([
+      llamar('/api/match', { method:'POST', body: JSON.stringify(cuerpo) }),
+      cargarCatalogo(),
+    ]);
     lineasResultado = d.lines.map(l => ({
       ...l,
       incluir: l.status === 'matched',
+      accion: l.status === 'revision' ? 'nota' : null, // nota | incluir | excluir
       productoElegido: l.producto ? l.producto.id : (l.candidatos[0]?.id || null),
       cantidadElegida: l.quantity,
     }));
@@ -400,24 +432,85 @@ async function procesarPedido(){
 
 const NOMBRE_CASO = {1:'Historial del cliente',2:'Coincidencia de texto',3:'Producto estándar',4:'Licitación','bastón':'Bastón automático'};
 
+/* ---- Combobox de producto con buscador sobre el catálogo completo ---- */
+function buscarProductoPorId(l, id){
+  return [l.producto, ...(l.candidatos||[]), ...catalogoCompleto].find(p => p && p.id === id) || null;
+}
+function etiquetaProducto(p){
+  return `${p.name} — $${(p.list_price||0).toFixed(2)}`;
+}
+function renderCombo(i){
+  const l = lineasResultado[i];
+  const sel = l.productoElegido ? buscarProductoPorId(l, l.productoElegido) : null;
+  return `<div class="combo"><label>Producto de Klimm</label>
+    <input type="text" class="combo-entrada" id="comboEntrada${i}" autocomplete="off"
+      value="${esc(sel ? etiquetaProducto(sel) : '')}"
+      placeholder="Escribe para buscar en todo el catálogo…"
+      onfocus="abrirCombo(${i})" oninput="filtrarCombo(${i})">
+    <div class="combo-lista" id="comboLista${i}"></div>
+  </div>`;
+}
+function abrirCombo(i){
+  const inp = document.getElementById('comboEntrada'+i);
+  inp.select();
+  filtrarCombo(i, true);
+}
+function filtrarCombo(i, inicial){
+  const l = lineasResultado[i];
+  const inp = document.getElementById('comboEntrada'+i);
+  const lista = document.getElementById('comboLista'+i);
+  const q = inicial ? '' : sinAcentos(inp.value.trim());
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const coincide = p => tokens.every(t => sinAcentos(p.name).includes(t));
+
+  const sugeridos = [l.producto, ...(l.candidatos||[])].filter(Boolean)
+    .filter((p, ix, arr) => arr.findIndex(x => x.id === p.id) === ix)
+    .filter(coincide);
+  const idsSugeridos = new Set(sugeridos.map(p => p.id));
+  const resto = catalogoCompleto.filter(p => !idsSugeridos.has(p.id) && coincide(p)).slice(0, 50);
+
+  let html = '';
+  if(sugeridos.length){
+    html += `<div class="combo-grupo">Sugeridos</div>` + sugeridos.map(p => itemCombo(i, p)).join('');
+  }
+  if(resto.length){
+    html += `<div class="combo-grupo">Catálogo completo</div>` + resto.map(p => itemCombo(i, p)).join('');
+  }
+  if(!html) html = '<div class="combo-vacio">Sin coincidencias en el catálogo</div>';
+  lista.innerHTML = html;
+  lista.classList.add('visible');
+}
+function itemCombo(i, p){
+  return `<div class="combo-item" onmousedown="elegirProducto(${i}, ${p.id})">${esc(p.name)} <span class="precio">— $${(p.list_price||0).toFixed(2)}</span></div>`;
+}
+function elegirProducto(i, id){
+  const l = lineasResultado[i];
+  l.productoElegido = id;
+  const p = buscarProductoPorId(l, id);
+  document.getElementById('comboEntrada'+i).value = p ? etiquetaProducto(p) : '';
+  document.getElementById('comboLista'+i).classList.remove('visible');
+  actualizarResumen();
+}
+document.addEventListener('click', e => {
+  if(!e.target.closest('.combo')) document.querySelectorAll('.combo-lista').forEach(x => x.classList.remove('visible'));
+});
+
+function setAccion(i, accion){
+  const l = lineasResultado[i];
+  l.accion = accion;
+  l.incluir = accion === 'incluir';
+  document.getElementById('linea'+i).classList.toggle('excluida', accion === 'excluir');
+  actualizarResumen();
+}
+
 function pintarResultados(){
   const cont = document.getElementById('listaResultados');
   cont.innerHTML = lineasResultado.map((l, i) => {
     const esRevision = l.status === 'revision';
-    const opciones = [l.producto, ...(l.candidatos||[])].filter(Boolean)
-      .filter((p, idx, arr) => arr.findIndex(x => x.id === p.id) === idx);
-    const selector = opciones.length
-      ? `<div><label>Producto de Klimm</label>
-         <select onchange="lineasResultado[${i}].productoElegido = Number(this.value)">
-           ${opciones.map(p => `<option value="${p.id}" ${p.id===l.productoElegido?'selected':''}>
-             ${p.name} — $${(p.list_price||0).toFixed(2)}</option>`).join('')}
-         </select></div>`
-      : `<div><label>Producto de Klimm</label>
-         <div class="motivo" style="margin:0">Sin candidatos — irá como nota de revisión en la cotización</div></div>`;
     return `
     <div class="linea ${esRevision?'revision':''} ${!l.incluir && !esRevision ?'excluida':''}" id="linea${i}">
       <div class="linea-encabezado">
-        <div class="linea-cliente">El cliente pidió:<br><strong>${l.client_line}</strong></div>
+        <div class="linea-cliente">El cliente pidió:<br><strong>${esc(l.client_line)}</strong></div>
         <div class="chips">
           ${esRevision
             ? '<span class="chip chip-revision">Requiere revisión</span>'
@@ -426,18 +519,18 @@ function pintarResultados(){
         </div>
       </div>
       <div class="linea-cuerpo">
-        ${selector}
+        ${renderCombo(i)}
         <div><label>Cantidad</label>
         <input type="text" inputmode="numeric" value="${l.cantidadElegida}"
           onchange="lineasResultado[${i}].cantidadElegida = Math.max(1, parseInt(this.value)||1); this.value = lineasResultado[${i}].cantidadElegida"></div>
       </div>
-      ${l.motivo ? `<div class="motivo">${l.motivo}</div>` : ''}
-      ${(l.avisos||[]).map(a => `<div class="aviso">${a}</div>`).join('')}
+      ${l.motivo ? `<div class="motivo">${esc(l.motivo)}</div>` : ''}
+      ${(l.avisos||[]).map(a => `<div class="aviso">${esc(a)}</div>`).join('')}
       <div class="fila-excluir">
         ${esRevision
-          ? (opciones.length
-             ? `<label><input type="checkbox" onchange="lineasResultado[${i}].incluir = this.checked; actualizarResumen()"> Ya lo revisé — incluir el producto seleccionado</label>`
-             : `<span>Esta línea irá como nota ⚠ en la cotización para resolverla en Odoo</span>`)
+          ? `<label><input type="radio" name="accion${i}" ${l.accion==='incluir'?'checked':''} onchange="setAccion(${i},'incluir')"> Ya lo revisé — incluir el producto seleccionado</label>
+             <label><input type="radio" name="accion${i}" ${l.accion==='nota'?'checked':''} onchange="setAccion(${i},'nota')"> Enviar como nota ⚠ de revisión en la cotización (resolver en Odoo)</label>
+             <label><input type="radio" name="accion${i}" ${l.accion==='excluir'?'checked':''} onchange="setAccion(${i},'excluir')"> Excluir por completo — no lo manejamos ni hay sustituto</label>`
           : `<label><input type="checkbox" checked onchange="lineasResultado[${i}].incluir = this.checked; document.getElementById('linea${i}').classList.toggle('excluida', !this.checked); actualizarResumen()"> Incluir en la cotización</label>`}
       </div>
     </div>`;
@@ -449,22 +542,32 @@ function pintarResultados(){
 }
 
 function actualizarResumen(){
-  const incluidas = lineasResultado.filter(l => l.incluir).length;
-  const notas = lineasResultado.filter(l => l.status==='revision' && !l.incluir).length;
+  const incluidas = lineasResultado.filter(l =>
+    l.status==='revision' ? l.accion==='incluir' : l.incluir).length;
+  const notas = lineasResultado.filter(l => l.status==='revision' && l.accion==='nota').length;
+  const excluidas = lineasResultado.filter(l =>
+    l.status==='revision' ? l.accion==='excluir' : !l.incluir).length;
   document.getElementById('resumenFinal').innerHTML =
     `<strong>${incluidas}</strong> producto(s) a cotizar` +
     (notas ? ` · <strong>${notas}</strong> nota(s) de revisión` : '') +
+    (excluidas ? ` · ${excluidas} excluida(s)` : '') +
     ` · Cliente: <strong>${clienteSeleccionado?.name||''}</strong>`;
   document.getElementById('botonCrear').disabled = incluidas + notas === 0;
 }
 
 /* ================= PASO 4: CREAR EN ODOO ================= */
 async function crearCotizacion(){
+  const sinProducto = lineasResultado.filter(l =>
+    l.status==='revision' && l.accion==='incluir' && !l.productoElegido);
+  if(sinProducto.length){
+    avisar(`Hay ${sinProducto.length} línea(s) marcada(s) para incluir sin producto seleccionado. Elige el producto en el buscador o cambia la acción a nota/excluir.`, 'error');
+    return;
+  }
   const lines = lineasResultado
-    .filter(l => l.incluir && l.productoElegido)
+    .filter(l => (l.status==='revision' ? l.accion==='incluir' : l.incluir) && l.productoElegido)
     .map(l => ({ templateId: l.productoElegido, quantity: l.cantidadElegida }));
   const lineasRevision = lineasResultado
-    .filter(l => l.status==='revision' && !l.incluir)
+    .filter(l => l.status==='revision' && l.accion==='nota')
     .map(l => `${l.client_line} (cantidad: ${l.cantidadElegida}) — ${l.motivo||'sin match'}`);
 
   const boton = document.getElementById('botonCrear');
