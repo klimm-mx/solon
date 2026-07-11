@@ -92,7 +92,8 @@ textarea{min-height:120px;resize:vertical}
 .aviso{font-size:12.5px;color:var(--revision);margin-top:8px;padding-left:18px;position:relative}
 .aviso::before{content:'⚠';position:absolute;left:0}
 .motivo{font-size:12.5px;color:var(--tinta-suave);margin-top:8px}
-.fila-excluir{margin-top:10px;font-size:13px;color:var(--tinta-suave)}
+.pidio{font-size:12px;color:var(--tinta-suave);margin-top:4px;font-weight:400}
+.pidio strong{color:var(--agua-oscuro);font-weight:600}
 .fila-excluir input{margin-right:6px}
 .fila-excluir label{display:block;font-weight:400;font-size:13px;color:var(--tinta);margin-bottom:4px;cursor:pointer}
 
@@ -417,9 +418,11 @@ async function procesarPedido(){
     lineasResultado = d.lines.map(l => ({
       ...l,
       incluir: l.status === 'matched',
-      accion: l.status === 'revision' ? 'nota' : null, // nota | incluir | excluir
+      accion: l.status === 'revision' ? 'nota' : null,
       productoElegido: l.producto ? l.producto.id : (l.candidatos[0]?.id || null),
       cantidadElegida: l.quantity,
+      tamano_valor: l.tamano_valor || null,
+      tamano_unidad: l.tamano_unidad || null,
     }));
     pintarResultados();
   }catch(e){
@@ -503,6 +506,34 @@ function setAccion(i, accion){
   actualizarResumen();
 }
 
+function labelPidio(l){
+  // Muestra "Pidió: …" solo cuando aporta información no obvia del texto del cliente.
+  // Caso A: solo tamaño (ej. "60 litros")  → "Pidió: 60 l"
+  // Caso B: solo piezas distintas del texto (ej. bolsas) → "Pidió: 100 pzas"
+  // Caso C: ambas cosas complementarias (ej. "10 cloros de 5 l") → "Pidió: 10 pzas de 5 l"
+  // No se muestra si no hay datos extras o si la línea fue auto-añadida (bastón)
+  if(l.caso === 'bastón') return '';
+  const qty = l.quantity;
+  const tv = l.tamano_valor;
+  const tu = l.tamano_unidad;
+  const tieneT = tv && tu;
+  const UNIDADES_DISPLAY = { l:'l', ml:'ml', kg:'kg', gr:'g', pza:'pzas', rollo:'rollos' };
+  const uDisp = tieneT ? (UNIDADES_DISPLAY[tu] || tu) : null;
+  let texto = '';
+  if(tieneT && qty <= 1){
+    // Solo tamaño pedido (el cliente no especificó cantidad de piezas aparte)
+    texto = `${tv} ${uDisp}`;
+  } else if(tieneT && qty > 1){
+    // Ambos: piezas Y tamaño son complementarios
+    texto = `${qty} pzas de ${tv} ${uDisp}`;
+  } else if(qty > 1){
+    // Solo piezas (sin tamaño especificado)
+    texto = `${qty} pzas`;
+  }
+  if(!texto) return '';
+  return `<div class="pidio">Pidió: <strong>${esc(texto)}</strong></div>`;
+}
+
 function pintarResultados(){
   const cont = document.getElementById('listaResultados');
   cont.innerHTML = lineasResultado.map((l, i) => {
@@ -510,7 +541,7 @@ function pintarResultados(){
     return `
     <div class="linea ${esRevision?'revision':''} ${!l.incluir && !esRevision ?'excluida':''}" id="linea${i}">
       <div class="linea-encabezado">
-        <div class="linea-cliente">El cliente pidió:<br><strong>${esc(l.client_line)}</strong></div>
+        <div class="linea-cliente">El cliente pidió:<br><strong>${esc(l.client_line)}</strong>${labelPidio(l)}</div>
         <div class="chips">
           ${esRevision
             ? '<span class="chip chip-revision">Requiere revisión</span>'
