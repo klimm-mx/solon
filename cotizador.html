@@ -423,6 +423,7 @@ async function procesarPedido(){
       cantidadElegida: l.quantity,
       tamano_valor: l.tamano_valor || null,
       tamano_unidad: l.tamano_unidad || null,
+      unidad_pedido: l.unidad_pedido || null,
     }));
     pintarResultados();
   }catch(e){
@@ -507,28 +508,33 @@ function setAccion(i, accion){
 }
 
 function labelPidio(l){
-  // Muestra "Pidió: …" solo cuando aporta información no obvia del texto del cliente.
-  // Caso A: solo tamaño (ej. "60 litros")  → "Pidió: 60 l"
-  // Caso B: solo piezas distintas del texto (ej. bolsas) → "Pidió: 100 pzas"
-  // Caso C: ambas cosas complementarias (ej. "10 cloros de 5 l") → "Pidió: 10 pzas de 5 l"
-  // No se muestra si no hay datos extras o si la línea fue auto-añadida (bastón)
+  // Muestra "Pidió: …" solo con datos VERIFICABLES:
+  // - unidad_pedido es copia literal de la unidad del cliente (litro, kilo, caja…)
+  // - el tamaño solo se muestra si su número aparece textual en la línea del cliente
+  // Si un dato fue inferido y no es verificable, no se muestra (mejor nada que un invento).
   if(l.caso === 'bastón') return '';
   const qty = l.quantity;
   const tv = l.tamano_valor;
   const tu = l.tamano_unidad;
-  const tieneT = tv && tu;
   const UNIDADES_DISPLAY = { l:'l', ml:'ml', kg:'kg', gr:'g', pza:'pzas', rollo:'rollos' };
-  const uDisp = tieneT ? (UNIDADES_DISPLAY[tu] || tu) : null;
+  // ¿El tamaño extraído aparece textualmente en la línea del cliente?
+  const tamanoVerificable = tv && tu &&
+    new RegExp('(^|[^0-9.,])' + String(tv).replace('.','\\.') + '([^0-9]|$)').test(l.client_line || '');
+
+  let u = String(l.unidad_pedido || '').toLowerCase().trim();
+  if(['pieza','piezas','pza','pzas','pz','unidad','unidades','pieza(s)'].includes(u)) u = '';
+
   let texto = '';
-  if(tieneT && qty <= 1){
-    // Solo tamaño pedido (el cliente no especificó cantidad de piezas aparte)
-    texto = `${tv} ${uDisp}`;
-  } else if(tieneT && qty > 1){
-    // Ambos: piezas Y tamaño son complementarios
-    texto = `${qty} pzas de ${tv} ${uDisp}`;
+  if(u){
+    // El cliente cuenta en una unidad distinta a piezas (litros, kilos, cajas, bultos…)
+    const plural = (qty !== 1 && !u.endsWith('s')) ? u + 's' : u;
+    texto = `${qty} ${plural}`;
+  } else if(qty > 1 && tamanoVerificable){
+    texto = `${qty} pzas de ${tv} ${UNIDADES_DISPLAY[tu] || tu}`;
   } else if(qty > 1){
-    // Solo piezas (sin tamaño especificado)
     texto = `${qty} pzas`;
+  } else if(tamanoVerificable){
+    texto = `${tv} ${UNIDADES_DISPLAY[tu] || tu}`;
   }
   if(!texto) return '';
   return `<div class="pidio">Pidió: <strong>${esc(texto)}</strong></div>`;
