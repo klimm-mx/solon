@@ -424,6 +424,7 @@ async function procesarPedido(){
       tamano_valor: l.tamano_valor || null,
       tamano_unidad: l.tamano_unidad || null,
       unidad_pedido: l.unidad_pedido || null,
+      producto_base: l.producto_base || null,
     }));
     pintarResultados();
   }catch(e){
@@ -607,12 +608,28 @@ async function crearCotizacion(){
     .filter(l => l.status==='revision' && l.accion==='nota')
     .map(l => `${l.client_line} (cantidad: ${l.cantidadElegida}) — ${l.motivo||'sin match'}`);
 
+  // Registro de demanda sin catálogo: lo excluido y lo que quedó en nota
+  const lineasSinCatalogo = lineasResultado
+    .filter(l => l.status==='revision' && (l.accion==='excluir' || l.accion==='nota'))
+    .map(l => ({
+      client_line: l.client_line,
+      producto_base: l.producto_base || null,
+      cantidad: l.cantidadElegida,
+      unidad_pedido: l.unidad_pedido || null,
+      accion: l.accion==='excluir' ? 'excluida' : 'nota',
+      motivo: l.motivo || null,
+    }));
+
   const boton = document.getElementById('botonCrear');
   boton.disabled = true; boton.textContent = 'Creando…';
   try{
     const d = await llamar('/api/quote', {
       method:'POST',
-      body: JSON.stringify({ partnerId: clienteSeleccionado.id, lines, lineasRevision })
+      body: JSON.stringify({
+        partnerId: clienteSeleccionado.id,
+        clienteNombre: clienteSeleccionado.name || null,
+        lines, lineasRevision, lineasSinCatalogo,
+      })
     });
     avisar(`✓ Cotización en borrador creada en Odoo. <a href="${d.url}" target="_blank">Abrir cotización #${d.orderId}</a> para revisarla y enviarla.`, 'exito');
     document.getElementById('pasoResultados').style.display = 'none';

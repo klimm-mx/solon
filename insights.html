@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klimm · Demanda sin catálogo</title>
+<style>
+:root{
+  --agua:#0e7490; --agua-oscuro:#155e75; --agua-claro:#ecfeff;
+  --tinta:#16323b; --tinta-suave:#5b7480;
+  --fondo:#f4f7f8; --superficie:#ffffff; --borde:#dbe5e9;
+  --ambar:#b45309; --ambar-fondo:#fffbeb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
+header{background:var(--superficie);border-bottom:1px solid var(--borde);padding:16px 32px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:20px}
+header h1 span{color:var(--agua)}
+header .sistema{font-size:12px;letter-spacing:1.5px;color:var(--tinta-suave)}
+main{max-width:1000px;margin:24px auto;padding:0 20px}
+.panel{background:var(--superficie);border:1px solid var(--borde);border-radius:12px;padding:24px;margin-bottom:20px}
+.intro{font-size:14px;color:var(--tinta-suave);line-height:1.6;margin-bottom:16px}
+.filtros{display:flex;gap:16px;align-items:end;flex-wrap:wrap}
+.filtros label{display:block;font-size:12px;font-weight:600;color:var(--tinta-suave);margin-bottom:4px}
+.filtros input[type=date]{padding:8px 10px;border:1px solid var(--borde);border-radius:8px;font-size:14px;font-family:inherit}
+.filtros button{background:var(--agua);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer}
+.filtros button:hover{background:var(--agua-oscuro)}
+.rapidos{display:flex;gap:8px;margin-top:8px}
+.rapidos button{background:var(--agua-claro);color:var(--agua-oscuro);border:1px solid var(--borde);border-radius:20px;padding:4px 14px;font-size:12.5px;cursor:pointer}
+.rapidos button:hover{border-color:var(--agua)}
+.tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.tarjeta{background:var(--superficie);border:1px solid var(--borde);border-radius:12px;padding:18px;text-align:center}
+.tarjeta .numero{font-size:30px;font-weight:700;color:var(--agua)}
+.tarjeta .etiqueta{font-size:12.5px;color:var(--tinta-suave);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:10px 12px;background:var(--fondo);color:var(--tinta-suave);font-size:12px;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--borde);cursor:pointer;user-select:none}
+th:hover{color:var(--agua)}
+td{padding:10px 12px;border-bottom:1px solid var(--borde);vertical-align:top}
+tr:hover td{background:var(--agua-claro)}
+.termino{font-weight:600}
+.ejemplos{font-size:12px;color:var(--tinta-suave);margin-top:3px;line-height:1.5}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--ambar-fondo);color:var(--ambar);margin-left:6px}
+.centrado{text-align:center}
+.vacio{text-align:center;padding:40px;color:var(--tinta-suave)}
+.error{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:14px}
+.nota-pie{font-size:12px;color:var(--tinta-suave);margin-top:14px;line-height:1.6}
+@media(max-width:640px){ .filtros{flex-direction:column;align-items:stretch} th,td{padding:8px 6px;font-size:13px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>Klimm · <span>Demanda sin catálogo</span></h1>
+  <div class="sistema">SISTEMA SOLÓN</div>
+</header>
+<main>
+  <div class="panel">
+    <p class="intro">Productos que los clientes han pedido y que <strong>no se cotizaron</strong> por no existir en el catálogo (excluidos o dejados como nota de revisión en el cotizador). Ordenados por frecuencia, sirven para decidir ampliaciones de catálogo con demanda real.</p>
+    <div class="filtros">
+      <div><label>Desde</label><input type="date" id="fDesde"></div>
+      <div><label>Hasta</label><input type="date" id="fHasta"></div>
+      <button onclick="pintar()">Aplicar</button>
+    </div>
+    <div class="rapidos">
+      <button onclick="rango(3)">Últimos 3 meses</button>
+      <button onclick="rango(6)">Últimos 6 meses</button>
+      <button onclick="rango(12)">Último año</button>
+      <button onclick="rango(0)">Todo</button>
+    </div>
+  </div>
+
+  <div id="zonaError"></div>
+  <div class="tarjetas" id="tarjetas" style="display:none">
+    <div class="tarjeta"><div class="numero" id="tTerminos">–</div><div class="etiqueta">productos distintos pedidos</div></div>
+    <div class="tarjeta"><div class="numero" id="tSolicitudes">–</div><div class="etiqueta">solicitudes totales</div></div>
+    <div class="tarjeta"><div class="numero" id="tClientes">–</div><div class="etiqueta">clientes que pidieron algo sin catálogo</div></div>
+  </div>
+
+  <div class="panel">
+    <table id="tabla" style="display:none">
+      <thead><tr>
+        <th onclick="ordenar('veces')">Veces pedido ↓</th>
+        <th onclick="ordenar('termino')">Producto pedido</th>
+        <th onclick="ordenar('clientes')" class="centrado">Clientes distintos</th>
+        <th onclick="ordenar('cantidad')" class="centrado">Cantidad acumulada</th>
+        <th onclick="ordenar('ultima')">Última vez</th>
+      </tr></thead>
+      <tbody id="cuerpoTabla"></tbody>
+    </table>
+    <div class="vacio" id="zonaVacio">Cargando datos…</div>
+    <p class="nota-pie">Los datos se registran automáticamente cada vez que en el cotizador se crea una cotización con líneas excluidas o en nota de revisión. Fuente: <code>datos.json</code> de este mismo repositorio.</p>
+  </div>
+</main>
+
+<script>
+const URL_DATOS = 'https://raw.githubusercontent.com/klimm-mx/solon/main/datos.json';
+let registros = [];
+let orden = { campo: 'veces', dir: -1 };
+
+const sinAcentos = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function rango(meses){
+  const hasta = new Date();
+  document.getElementById('fHasta').value = hasta.toISOString().slice(0,10);
+  if(meses === 0){
+    document.getElementById('fDesde').value = '';
+  } else {
+    const desde = new Date();
+    desde.setMonth(desde.getMonth() - meses);
+    document.getElementById('fDesde').value = desde.toISOString().slice(0,10);
+  }
+  pintar();
+}
+
+function ordenar(campo){
+  if(orden.campo === campo) orden.dir *= -1;
+  else orden = { campo, dir: campo === 'termino' ? 1 : -1 };
+  pintar();
+}
+
+function pintar(){
+  const desde = document.getElementById('fDesde').value;
+  const hasta = document.getElementById('fHasta').value;
+  const filtrados = registros.filter(r => {
+    const f = (r.fecha||'').slice(0,10);
+    if(desde && f < desde) return false;
+    if(hasta && f > hasta) return false;
+    return true;
+  });
+
+  // Agrupar por producto_base normalizado (o la línea completa si no hay base)
+  const grupos = {};
+  for(const r of filtrados){
+    const clave = sinAcentos(r.producto_base || r.pidio) || '(sin texto)';
+    if(!grupos[clave]) grupos[clave] = { clave, termino: r.producto_base || r.pidio, veces:0, clientes:new Set(), cantidad:0, unidades:new Set(), ultima:'', ejemplos:new Set(), excluidas:0, notas:0 };
+    const g = grupos[clave];
+    g.veces++;
+    if(r.cliente) g.clientes.add(r.cliente);
+    g.cantidad += Number(r.cantidad)||0;
+    if(r.unidad_pedido) g.unidades.add(r.unidad_pedido);
+    if((r.fecha||'') > g.ultima) g.ultima = r.fecha||'';
+    if(r.pidio) g.ejemplos.add(r.pidio);
+    if(r.accion === 'excluida') g.excluidas++; else g.notas++;
+  }
+
+  let lista = Object.values(grupos);
+  const val = g => orden.campo==='veces'?g.veces : orden.campo==='clientes'?g.clientes.size : orden.campo==='cantidad'?g.cantidad : orden.campo==='ultima'?g.ultima : sinAcentos(g.termino);
+  lista.sort((a,b) => { const x=val(a), y=val(b); return (x<y?-1:x>y?1:0) * orden.dir; });
+
+  document.getElementById('tTerminos').textContent = lista.length;
+  document.getElementById('tSolicitudes').textContent = filtrados.length;
+  document.getElementById('tClientes').textContent = new Set(filtrados.map(r=>r.cliente).filter(Boolean)).size;
+  document.getElementById('tarjetas').style.display = 'grid';
+
+  const cuerpo = document.getElementById('cuerpoTabla');
+  if(!lista.length){
+    document.getElementById('tabla').style.display = 'none';
+    document.getElementById('zonaVacio').style.display = 'block';
+    document.getElementById('zonaVacio').textContent = registros.length
+      ? 'No hay solicitudes sin catálogo en el rango de fechas elegido.'
+      : 'Aún no hay registros. Se irán acumulando conforme el cotizador excluya líneas sin catálogo.';
+    return;
+  }
+  cuerpo.innerHTML = lista.map(g => {
+    const unidad = g.unidades.size === 1 ? [...g.unidades][0] + (g.cantidad!==1?'s':'') : (g.unidades.size>1 ? 'unid. mixtas' : 'pzas');
+    const ejemplos = [...g.ejemplos].slice(0,3).map(esc).join(' · ');
+    return `<tr>
+      <td class="centrado"><strong>${g.veces}</strong>${g.excluidas ? `<span class="badge">${g.excluidas} sin sustituto</span>` : ''}</td>
+      <td><div class="termino">${esc(g.termino)}</div><div class="ejemplos">${ejemplos}</div></td>
+      <td class="centrado">${g.clientes.size}</td>
+      <td class="centrado">${g.cantidad ? g.cantidad + ' ' + esc(unidad) : '–'}</td>
+      <td>${g.ultima ? g.ultima.slice(0,10) : '–'}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tabla').style.display = 'table';
+  document.getElementById('zonaVacio').style.display = 'none';
+}
+
+async function cargar(){
+  try{
+    const r = await fetch(URL_DATOS + '?t=' + Date.now());
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    registros = Array.isArray(d.registros) ? d.registros : [];
+    rango(6); // vista inicial: últimos 6 meses
+  }catch(e){
+    document.getElementById('zonaError').innerHTML =
+      `<div class="error">No se pudo cargar datos.json desde GitHub (${esc(e.message)}). Verifica que el archivo exista en el repositorio klimm-mx/solon.</div>`;
+    document.getElementById('zonaVacio').textContent = 'Sin datos.';
+  }
+}
+cargar();
+</script>
+</body>
+</html>
