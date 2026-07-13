@@ -620,6 +620,30 @@ async function crearCotizacion(){
       motivo: l.motivo || null,
     }));
 
+  // Captura para autoaprendizaje: líneas donde el vendedor cambió la sugerencia.
+  // La sugerencia original fue l.producto (o el primer candidato en revisión).
+  const correcciones = lineasResultado
+    .filter(l => l.caso !== 'bastón')
+    .filter(l => (l.status!=='revision' ? l.incluir : l.accion==='incluir'))
+    .map(l => {
+      const sugeridoId = l.producto ? l.producto.id : (l.candidatos[0]?.id || null);
+      if(!l.productoElegido || !sugeridoId || l.productoElegido === sugeridoId) return null;
+      const sugerido = buscarProductoPorId(l, sugeridoId);
+      const elegido = buscarProductoPorId(l, l.productoElegido);
+      return {
+        client_line: l.client_line,
+        producto_base: l.producto_base || null,
+        sugerido_id: sugeridoId,
+        sugerido_nombre: sugerido ? sugerido.name : null,
+        elegido_id: l.productoElegido,
+        elegido_nombre: elegido ? elegido.name : null,
+        caso: l.caso ?? null,
+        confianza: l.confianza || null,
+        status: l.status,
+      };
+    })
+    .filter(Boolean);
+
   const boton = document.getElementById('botonCrear');
   boton.disabled = true; boton.textContent = 'Creando…';
   try{
@@ -628,7 +652,7 @@ async function crearCotizacion(){
       body: JSON.stringify({
         partnerId: clienteSeleccionado.id,
         clienteNombre: clienteSeleccionado.name || null,
-        lines, lineasRevision, lineasSinCatalogo,
+        lines, lineasRevision, lineasSinCatalogo, correcciones,
       })
     });
     avisar(`✓ Cotización en borrador creada en Odoo. <a href="${d.url}" target="_blank">Abrir cotización #${d.orderId}</a> para revisarla y enviarla.`, 'exito');
