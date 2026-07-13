@@ -1,4 +1,65 @@
 {
   "descripcion": "Solicitudes de clientes sin producto en catálogo — sistema Solón (Klimm)",
-  "registros": []
+  "registros": [
+    {
+      "fecha": "2026-07-13T17:30:48.026Z",
+      "cliente_id": 1457,
+      "cliente": "Grupo Nach",
+      "pidio": "Sarricida",
+      "producto_base": "sarricida",
+      "cantidad": 3,
+      "unidad_pedido": "l",
+      "accion": "nota",
+      "motivo": "La categoría \"pesticidas_y_repelentes_de_plagas\" no tiene producto Estándar definido",
+      "cotizacion_id": 1538
+    },
+    {
+      "fecha": "2026-07-13T17:30:48.026Z",
+      "cliente_id": 1457,
+      "cliente": "Grupo Nach",
+      "pidio": "Contenedores de basura abatibles con tres separa",
+      "producto_base": "contenedores de basura abatibles con tres separaciones",
+      "cantidad": 9,
+      "unidad_pedido": "pza",
+      "accion": "nota",
+      "motivo": "La marca/término \"abatibles, tres separaciones\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1538
+    },
+    {
+      "fecha": "2026-07-13T17:30:48.026Z",
+      "cliente_id": 1457,
+      "cliente": "Grupo Nach",
+      "pidio": "Cloro concentracion 3% y 6%",
+      "producto_base": "cloro concentración",
+      "cantidad": 2,
+      "unidad_pedido": "l",
+      "accion": "nota",
+      "motivo": "La marca/término \"3%, 6%\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1538
+    },
+    {
+      "fecha": "2026-07-13T17:30:48.026Z",
+      "cliente_id": 1457,
+      "cliente": "Grupo Nach",
+      "pidio": "Contenedor residuos manos libres 130 lt apertura",
+      "producto_base": "contenedor residuos manos libres",
+      "cantidad": 10,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"manos libres, apertura\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1538
+    },
+    {
+      "fecha": "2026-07-13T17:30:48.026Z",
+      "cliente_id": 1457,
+      "cliente": "Grupo Nach",
+      "pidio": "Bolsa transparente .70x.50",
+      "producto_base": "bolsa transparente",
+      "cantidad": 23,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"transparente\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1538
+    }
+  ]
 }
