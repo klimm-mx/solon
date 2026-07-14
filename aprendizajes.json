@@ -1050,6 +1050,36 @@
       "confianza": "baja",
       "status_original": "matched",
       "cotizacion_id": 1539
+    },
+    {
+      "fecha": "2026-07-14T23:39:30.482Z",
+      "cliente_id": 1033,
+      "cliente": "Monarch Haus",
+      "pidio": "2\tRoma 10 kg",
+      "producto_base": "jabón",
+      "sugerido_id": 427,
+      "sugerido": "Jabón Líquido Para Manos Klimm Aroma Almendra 5 Litros PRO",
+      "elegido_id": 41,
+      "elegido": "Detergente Roma De 10 Kg La Corona",
+      "caso": 2,
+      "confianza": null,
+      "status_original": "revision",
+      "cotizacion_id": 1541
+    },
+    {
+      "fecha": "2026-07-14T23:39:30.482Z",
+      "cliente_id": 1033,
+      "cliente": "Monarch Haus",
+      "pidio": "2\t700175 TORK Advanced Higiénico en Bobina 6/200m HD",
+      "producto_base": "papel higiénico",
+      "sugerido_id": 199,
+      "sugerido": "Papel Higiénico Tradicional Elite Premium (6046) 24 rollos",
+      "elegido_id": 24366,
+      "elegido": "TORK Advanced Higiénico en Bobina 6/200m HD 700175",
+      "caso": 2,
+      "confianza": null,
+      "status_original": "revision",
+      "cotizacion_id": 1541
     }
   ]
 }
