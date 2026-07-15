@@ -347,17 +347,34 @@ async function leerArchivoUno(archivo){
     const libro = XLSX.read(buf);
     const hoja = libro.Sheets[libro.SheetNames[0]];
     const filas = XLSX.utils.sheet_to_json(hoja, { header: 1, defval: '' });
+    // Detectar fila de encabezado
     let inicio = 0;
     for(let i = 0; i < Math.min(5, filas.length); i++){
       const vals = filas[i].map(v => String(v||'').trim());
       const tieneNumero = vals.some(v => /^\d+$/.test(v));
       if(!tieneNumero){ inicio = i + 1; } else { break; }
     }
-    const texto = filas.slice(inicio)
+    // Detectar columnas por encabezado o heurística
+    const enc = inicio > 0 ? filas[inicio-1].map(v => String(v||'').toLowerCase().trim()) : [];
+    const idxDesc = enc.findIndex(h => /concepto|descrip|product|nombre|articulo/.test(h));
+    const idxUnid = enc.findIndex(h => /unidad|um|u\.m|unid/.test(h));
+    const idxCant = enc.findIndex(h => /cantidad|cant|pzas|piezas|qty/.test(h));
+    const nCols = (filas[inicio] || []).length || 4;
+    const iDesc = idxDesc >= 0 ? idxDesc : 1;
+    const iUnid = idxUnid >= 0 ? idxUnid : nCols - 2;
+    const iCant = idxCant >= 0 ? idxCant : nCols - 1;
+    // Formato estructurado: Claude ve claramente qué es descripción, unidad y cantidad
+    const lineas = filas.slice(inicio)
       .filter(r => r.some(v => String(v||'').trim()))
-      .map(r => r.map(v => String(v||'').trim()).filter(Boolean).join('\t'))
-      .join('\n');
-    return { tipo: 'texto', nombre: archivo.name, dato: texto };
+      .map(r => {
+        const desc = String(r[iDesc]||'').trim();
+        const unid = String(r[iUnid]||'').trim();
+        const cant = String(r[iCant]||'').trim();
+        if(!desc) return null;
+        return `${desc} |UNIDAD:${unid} |CANTIDAD:${cant}`;
+      })
+      .filter(Boolean);
+    return { tipo: 'texto', nombre: archivo.name, dato: lineas.join('\n') };
   } else if(['csv','txt'].includes(ext)){
     return { tipo: 'texto', nombre: archivo.name, dato: await archivo.text() };
   } else if(ext === 'pdf' || ['png','jpg','jpeg','webp'].includes(ext)){
