@@ -1080,6 +1080,51 @@
       "confianza": null,
       "status_original": "revision",
       "cotizacion_id": 1541
+    },
+    {
+      "fecha": "2026-07-15T15:03:21.305Z",
+      "cliente_id": 1396,
+      "cliente": "Bluum House Hair & Nails",
+      "pidio": "Me vendes fabuloso de 6 botes de 5 kitros",
+      "producto_base": "fabuloso",
+      "sugerido_id": 213,
+      "sugerido": "Fabuloso Lavanda 5 Litros",
+      "elegido_id": 23950,
+      "elegido": "Limpiador Multiusos 5 Litros Mar Fresco Klimm PRO",
+      "caso": 2,
+      "confianza": "media",
+      "status_original": "matched",
+      "cotizacion_id": 1542
+    },
+    {
+      "fecha": "2026-07-15T15:03:21.305Z",
+      "cliente_id": 1396,
+      "cliente": "Bluum House Hair & Nails",
+      "pidio": "Pastillas pato purific",
+      "producto_base": "pastillas",
+      "sugerido_id": 280,
+      "sugerido": "Pastillas limpiadoras Pato paquete con 4 SCJ",
+      "elegido_id": 22,
+      "elegido": "Pato discos activos Lima Fresca de 38 gr c/aparato SCJ",
+      "caso": 2,
+      "confianza": "media",
+      "status_original": "matched",
+      "cotizacion_id": 1542
+    },
+    {
+      "fecha": "2026-07-15T15:03:21.305Z",
+      "cliente_id": 1396,
+      "cliente": "Bluum House Hair & Nails",
+      "pidio": "Rollos de Sanitas",
+      "producto_base": "papel higienico",
+      "sugerido_id": 201,
+      "sugerido": "Papel Higiénico Dalia Ph19104 – 4 Rollos Psf Pro",
+      "elegido_id": 197,
+      "elegido": "Toallas Interdobladas Kimberly-Clark Sanitas 20 Fajillas Con 100 Pzas C/U",
+      "caso": 2,
+      "confianza": "media",
+      "status_original": "matched",
+      "cotizacion_id": 1542
     }
   ]
 }
