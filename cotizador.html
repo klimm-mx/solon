@@ -175,10 +175,10 @@ textarea{min-height:120px;resize:vertical}
     </div>
     <div id="panelArchivo">
       <div class="zona-archivo" id="zonaArchivo" onclick="document.getElementById('entradaArchivo').click()">
-        <strong>Haz clic para elegir un archivo</strong> o arrástralo aquí<br>
-        <span style="font-size:12.5px">PDF, imagen (JPG/PNG), Excel o texto</span>
+        <strong>Haz clic para elegir archivos</strong> o arrástralos aquí<br>
+        <span style="font-size:12.5px">PDF, imagen (JPG/PNG), Excel o texto · puedes elegir varios a la vez</span>
       </div>
-      <input type="file" id="entradaArchivo" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.csv,.txt" style="display:none">
+      <input type="file" id="entradaArchivo" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.csv,.txt" style="display:none" multiple>
       <div id="archivoCargado" style="display:none" class="archivo-cargado">
         <span id="nombreArchivo"></span>
         <button class="quitar" onclick="quitarArchivo()">Quitar</button>
@@ -326,37 +326,68 @@ function cambiarPestana(cual){
 
 const entradaArchivo = document.getElementById('entradaArchivo');
 const zonaArchivo = document.getElementById('zonaArchivo');
-entradaArchivo.addEventListener('change', e => { if(e.target.files[0]) cargarArchivo(e.target.files[0]); });
+entradaArchivo.addEventListener('change', e => {
+  if(e.target.files.length) cargarArchivos(Array.from(e.target.files));
+});
 zonaArchivo.addEventListener('dragover', e => { e.preventDefault(); zonaArchivo.classList.add('arrastre'); });
 zonaArchivo.addEventListener('dragleave', () => zonaArchivo.classList.remove('arrastre'));
 zonaArchivo.addEventListener('drop', e => {
   e.preventDefault(); zonaArchivo.classList.remove('arrastre');
-  if(e.dataTransfer.files[0]) cargarArchivo(e.dataTransfer.files[0]);
+  if(e.dataTransfer.files.length) cargarArchivos(Array.from(e.dataTransfer.files));
 });
 
-async function cargarArchivo(archivo){
-  archivoBase64 = archivoTipo = archivoTextoExtraido = null;
+// Estado de archivos cargados (puede ser varios)
+let archivosTexto = [];    // { nombre, texto } para Excel/CSV/TXT
+let archivosBase64 = [];   // { nombre, base64, tipo } para imágenes/PDF
+
+async function leerArchivoUno(archivo){
   const ext = archivo.name.split('.').pop().toLowerCase();
-  try{
-    if(['xlsx','xls'].includes(ext)){
-      const buf = await archivo.arrayBuffer();
-      const libro = XLSX.read(buf);
-      archivoTextoExtraido = libro.SheetNames
-        .map(n => XLSX.utils.sheet_to_csv(libro.Sheets[n])).join('\n');
-    } else if(['csv','txt'].includes(ext)){
-      archivoTextoExtraido = await archivo.text();
-    } else if(ext === 'pdf' || ['png','jpg','jpeg','webp'].includes(ext)){
-      archivoBase64 = await new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(r.result.split(',')[1]);
-        r.onerror = () => rej(new Error('No se pudo leer el archivo'));
-        r.readAsDataURL(archivo);
-      });
-      archivoTipo = ext === 'pdf' ? 'application/pdf' : (ext === 'jpg' ? 'image/jpeg' : 'image/' + ext);
-    } else {
-      throw new Error('Tipo de archivo no compatible: ' + ext);
+  if(['xlsx','xls'].includes(ext)){
+    const buf = await archivo.arrayBuffer();
+    const libro = XLSX.read(buf);
+    const hoja = libro.Sheets[libro.SheetNames[0]];
+    const filas = XLSX.utils.sheet_to_json(hoja, { header: 1, defval: '' });
+    let inicio = 0;
+    for(let i = 0; i < Math.min(5, filas.length); i++){
+      const vals = filas[i].map(v => String(v||'').trim());
+      const tieneNumero = vals.some(v => /^\d+$/.test(v));
+      if(!tieneNumero){ inicio = i + 1; } else { break; }
     }
-    document.getElementById('nombreArchivo').textContent = '✓ ' + archivo.name;
+    const texto = filas.slice(inicio)
+      .filter(r => r.some(v => String(v||'').trim()))
+      .map(r => r.map(v => String(v||'').trim()).filter(Boolean).join('\t'))
+      .join('\n');
+    return { tipo: 'texto', nombre: archivo.name, dato: texto };
+  } else if(['csv','txt'].includes(ext)){
+    return { tipo: 'texto', nombre: archivo.name, dato: await archivo.text() };
+  } else if(ext === 'pdf' || ['png','jpg','jpeg','webp'].includes(ext)){
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('No se pudo leer'));
+      r.readAsDataURL(archivo);
+    });
+    const tipo = ext === 'pdf' ? 'application/pdf' : (ext === 'jpg' ? 'image/jpeg' : 'image/' + ext);
+    return { tipo: 'base64', nombre: archivo.name, dato: base64, mediaType: tipo };
+  } else {
+    throw new Error('Tipo no compatible: ' + archivo.name);
+  }
+}
+
+async function cargarArchivos(archivos){
+  archivosTexto = []; archivosBase64 = [];
+  archivoBase64 = archivoTipo = archivoTextoExtraido = null; // compatibilidad legada
+  try{
+    const resultados = await Promise.all(archivos.map(leerArchivoUno));
+    for(const r of resultados){
+      if(r.tipo === 'texto') archivosTexto.push({ nombre: r.nombre, texto: r.dato });
+      else archivosBase64.push({ nombre: r.nombre, base64: r.dato, tipo: r.mediaType });
+    }
+    const nombres = archivos.map(a => a.name);
+    document.getElementById('nombreArchivo').textContent =
+      archivos.length === 1
+        ? '✓ ' + nombres[0]
+        : `✓ ${archivos.length} archivos: ${nombres.slice(0,3).join(', ')}${archivos.length>3?'…':''}`;
     document.getElementById('archivoCargado').style.display = 'flex';
     zonaArchivo.style.display = 'none';
   }catch(e){
@@ -365,6 +396,7 @@ async function cargarArchivo(archivo){
 }
 
 function quitarArchivo(){
+  archivosTexto = []; archivosBase64 = [];
   archivoBase64 = archivoTipo = archivoTextoExtraido = null;
   entradaArchivo.value = '';
   document.getElementById('archivoCargado').style.display = 'none';
@@ -398,10 +430,25 @@ async function procesarPedido(){
     partnerId: clienteSeleccionado.id,
     modoLicitacion: document.getElementById('modoLicitacion').checked,
   };
-  if(archivoBase64){ cuerpo.fileBase64 = archivoBase64; cuerpo.fileMediaType = archivoTipo; }
-  else if(archivoTextoExtraido){ cuerpo.clientText = archivoTextoExtraido; }
-  else if(texto){ cuerpo.clientText = texto; }
-  else { avisar('Pega el pedido o sube un archivo (Paso 2).', 'error'); return; }
+
+  const hayTextos = archivosTexto.length > 0;
+  const hayBase64 = archivosBase64.length > 0;
+  const hayTextoManual = !!texto;
+
+  if(!hayTextos && !hayBase64 && !hayTextoManual){
+    avisar('Pega el pedido o sube un archivo (Paso 2).', 'error'); return;
+  }
+
+  // Texto manual o Excel/CSV/TXT: se concatenan y van como clientText
+  if(hayTextoManual) cuerpo.clientText = texto;
+  if(hayTextos){
+    const todos = archivosTexto.map(a => a.texto).join('\n');
+    cuerpo.clientText = cuerpo.clientText ? cuerpo.clientText + '\n' + todos : todos;
+  }
+  // Imágenes/PDF: van como array; el backend los procesa en paralelo
+  if(hayBase64){
+    cuerpo.files = archivosBase64.map(a => ({ base64: a.base64, mediaType: a.tipo }));
+  }
 
   document.getElementById('botonProcesar').disabled = true;
   document.getElementById('pasoResultados').style.display = 'none';
