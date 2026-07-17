@@ -948,6 +948,42 @@
       "accion": "excluida",
       "motivo": "La marca/término \"acero\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1550
+    },
+    {
+      "fecha": "2026-07-17T21:37:07.752Z",
+      "cliente_id": 1461,
+      "cliente": "CEDSA Ingeniería, MRO y EPP",
+      "pidio": "CONO P/AGUA 4OZ C/250 PZ |UNIDAD:Paquete |CANTIDAD:200",
+      "producto_base": "cono",
+      "cantidad": 200,
+      "unidad_pedido": "paquete",
+      "accion": "excluida",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1551
+    },
+    {
+      "fecha": "2026-07-17T21:37:07.752Z",
+      "cliente_id": 1461,
+      "cliente": "CEDSA Ingeniería, MRO y EPP",
+      "pidio": "JABON DE MANO TORK CAJA C/6 |UNIDAD:Cajas |CANTIDAD:22",
+      "producto_base": "jabón de mano",
+      "cantidad": 22,
+      "unidad_pedido": "caja",
+      "accion": "excluida",
+      "motivo": "La marca/término \"Tork\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1551
+    },
+    {
+      "fecha": "2026-07-17T21:37:07.752Z",
+      "cliente_id": 1461,
+      "cliente": "CEDSA Ingeniería, MRO y EPP",
+      "pidio": "MANGO CLIP ACERO |UNIDAD:Pieza |CANTIDAD:10",
+      "producto_base": "mango clip",
+      "cantidad": 10,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"acero\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1551
     }
   ]
 }
