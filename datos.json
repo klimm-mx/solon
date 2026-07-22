@@ -984,6 +984,54 @@
       "accion": "excluida",
       "motivo": "La marca/término \"acero\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1551
+    },
+    {
+      "fecha": "2026-07-22T20:38:02.976Z",
+      "cliente_id": 1472,
+      "cliente": "Suministros Integrales de Inmuebles",
+      "pidio": "JABON ROMA 10 KG",
+      "producto_base": "jabon",
+      "cantidad": 1,
+      "unidad_pedido": "pieza",
+      "accion": "nota",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1562
+    },
+    {
+      "fecha": "2026-07-22T20:38:02.976Z",
+      "cliente_id": 1472,
+      "cliente": "Suministros Integrales de Inmuebles",
+      "pidio": "VANISH 9 LTS",
+      "producto_base": "vanish",
+      "cantidad": 2,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"vanish\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1562
+    },
+    {
+      "fecha": "2026-07-22T20:38:02.976Z",
+      "cliente_id": 1472,
+      "cliente": "Suministros Integrales de Inmuebles",
+      "pidio": "MOPEADOR REYNERA COMPLETOS CON PALO",
+      "producto_base": "mopeador",
+      "cantidad": 2,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"reynera\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1562
+    },
+    {
+      "fecha": "2026-07-22T20:38:02.976Z",
+      "cliente_id": 1472,
+      "cliente": "Suministros Integrales de Inmuebles",
+      "pidio": "REPUESOS PARA MOPEADOR COLOR MORADO",
+      "producto_base": "repuesto mopeador",
+      "cantidad": 2,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"color morado\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1562
     }
   ]
 }
