@@ -1032,6 +1032,42 @@
       "accion": "excluida",
       "motivo": "La marca/término \"color morado\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1562
+    },
+    {
+      "fecha": "2026-07-27T18:19:32.501Z",
+      "cliente_id": 988,
+      "cliente": "Servicio Impecable",
+      "pidio": "Multiusos Desengrasante |UNIDAD:Multiusos Desengrasante |CANTIDAD:6",
+      "producto_base": "multiusos desengrasante",
+      "cantidad": 6,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "La marca/término \"desengrasante\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1574
+    },
+    {
+      "fecha": "2026-07-27T18:19:32.501Z",
+      "cliente_id": 988,
+      "cliente": "Servicio Impecable",
+      "pidio": "Bolsa negra plástico 90x120 calibre 12 (NO SE ACEPTA EN ROLLO) |UNIDAD:Bolsa negra plástico 90x120 calibre 12 (NO SE ACEPTA EN ROLLO) |CANTIDAD:30",
+      "producto_base": "bolsa negra plástico",
+      "cantidad": 30,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"calibre 12\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1574
+    },
+    {
+      "fecha": "2026-07-27T18:19:32.501Z",
+      "cliente_id": 988,
+      "cliente": "Servicio Impecable",
+      "pidio": "Funda para MOP 60 cm. |UNIDAD:Funda para MOP 60 cm. |CANTIDAD:1",
+      "producto_base": "funda para mop",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1574
     }
   ]
 }
