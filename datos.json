@@ -1116,6 +1116,30 @@
       "accion": "excluida",
       "motivo": "La marca/término \"rodante\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1583
+    },
+    {
+      "fecha": "2026-07-30T21:44:22.110Z",
+      "cliente_id": 1497,
+      "cliente": "Carolina de los Angelez Velez Flores",
+      "pidio": "DISPENSADOR DE PARED AUTOMÁTICO DE AROMATIZANTE. |UNIDAD:PIEZA |CANTIDAD:100",
+      "producto_base": "dispensador de pared automático de aromatizante",
+      "cantidad": 100,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"automático\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1586
+    },
+    {
+      "fecha": "2026-07-30T21:44:22.110Z",
+      "cliente_id": 1497,
+      "cliente": "Carolina de los Angelez Velez Flores",
+      "pidio": "REPUESTO DE AROMATIZANTE DE 100 MILILITROS. |UNIDAD:PAQUETE |CANTIDAD:20",
+      "producto_base": "repuesto de aromatizante",
+      "cantidad": 20,
+      "unidad_pedido": "paquete",
+      "accion": "excluida",
+      "motivo": "Tamaño pedido (100 ml) fuera de rango razonable de la línea (0.4-0.4 l)",
+      "cotizacion_id": 1586
     }
   ]
 }
