@@ -1104,6 +1104,18 @@
       "accion": "excluida",
       "motivo": "Tamaño pedido (100 ml) fuera de rango razonable de la línea (0.4-0.4 l)",
       "cotizacion_id": 1582
+    },
+    {
+      "fecha": "2026-07-30T17:19:47.739Z",
+      "cliente_id": 1497,
+      "cliente": "Carolina de los Angelez Velez Flores",
+      "pidio": "CONTENEDOR RODANTE PARA BASURA |UNIDAD:PIEZA |CANTIDAD:1",
+      "producto_base": "contenedor rodante para basura",
+      "cantidad": 1,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"rodante\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1583
     }
   ]
 }
