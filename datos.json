@@ -1140,6 +1140,66 @@
       "accion": "excluida",
       "motivo": "Tamaño pedido (100 ml) fuera de rango razonable de la línea (0.4-0.4 l)",
       "cotizacion_id": 1586
+    },
+    {
+      "fecha": "2026-08-03T17:06:43.965Z",
+      "cliente_id": 1504,
+      "cliente": "Grupo Zorro Abarrotero",
+      "pidio": "DEPOSITO DE FLOTADOR PARA TABLETA DE CLORO 1 -1 PZA",
+      "producto_base": "deposito de flotador",
+      "cantidad": 1,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"para tableta de cloro\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1591
+    },
+    {
+      "fecha": "2026-08-03T17:06:43.965Z",
+      "cliente_id": 1504,
+      "cliente": "Grupo Zorro Abarrotero",
+      "pidio": "GUANTE DE POLIPAPEL 1-100 PZA",
+      "producto_base": "guante",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1591
+    },
+    {
+      "fecha": "2026-08-03T17:06:43.965Z",
+      "cliente_id": 1504,
+      "cliente": "Grupo Zorro Abarrotero",
+      "pidio": "RED PARA CABELLO 1-100 PZA",
+      "producto_base": "red para cabello",
+      "cantidad": 100,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1591
+    },
+    {
+      "fecha": "2026-08-03T17:06:43.965Z",
+      "cliente_id": 1504,
+      "cliente": "Grupo Zorro Abarrotero",
+      "pidio": "REPUESTO REACTIVO OTO KIT CLORO RESIDUAL 1-1",
+      "producto_base": "repuesto reactivo",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"oto kit cloro residual\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1591
+    },
+    {
+      "fecha": "2026-08-03T17:06:43.965Z",
+      "cliente_id": 1504,
+      "cliente": "Grupo Zorro Abarrotero",
+      "pidio": "VASO CONO PARA AGUA 1-1 PZA",
+      "producto_base": "vaso cono",
+      "cantidad": 1,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"para agua\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1591
     }
   ]
 }
