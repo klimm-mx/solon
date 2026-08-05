@@ -1200,6 +1200,114 @@
       "accion": "excluida",
       "motivo": "La marca/término \"para agua\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1591
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "CERA LIQUIDA ANTIDERRAPANTE CON 20% DE SÓLIDOS, PARA LOSETA VINÍLICA CUBETA DE 19 LITROS. |UNIDAD:20 |CANTIDAD:28",
+      "producto_base": "cera líquida",
+      "cantidad": 28,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"antiderrapante\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "GUANTE DE NEOPRENO, RESISTENTE A TODO TIPO DE LÍQUIDOS PARA LIMPIEZA DE SOLVENTES Y ACIDOS INDUSTRIALES 5O% GRANDES Y 50% MEDIANOS. LARGO: 37 A 45 CM. EN BOLSA DE PLÁSTICO CONTENIDO 1 PAR.EMPAQUETADO EN CAJA DE CARTON DE 25 A 50 PARES C/U. |UNIDAD:250 |CANTIDAD:350",
+      "producto_base": "guante de neopreno",
+      "cantidad": 350,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"neopreno, resistente a solventes y ácidos\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "JABÓN ANTIBACTERIAL PARA MANOS, AROMAS:  TROPICAL, SANDIA, TUTI FRUTTI, NARANJA, MENTA, MANZANA VERDE, JAZMÍN, ALMENDRAS. PRESENTACION EN BOTELLA DE 1 LT CON DISPENSADOR. EMPACADA EN CAJA DE 12 BOTELLAS. |UNIDAD:960 |CANTIDAD:1344",
+      "producto_base": "jabón antibacterial",
+      "cantidad": 1344,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "Tamaño pedido (1 l) fuera de rango razonable de la línea (4-4 l)",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "LÍQUIDO GERMICIDA, PARA SANITARIOS, COLOR INDISTINTO. CON AROMA AGRADABLE, (PUEDE SER A LIMÓN, ALMENDRAS, FLORES, ETC.), DENSIDAD DE 0.95 A 1.1 G/CM3, CON PH DE 6 A 8 %, SÓLIDOS DE 1.5 A 8, SOLUBILIDAD AL AGUA 100%, VISCOSIDAD A 25 GRADOS CENTÍGRADOS. TIEMPO DE ESCURRIMIENTO EN COPA DE ZAHN NO. 1 DE 20 A 60 SEGUNDOS, TIEMPO DE VIDA EN ANAQUEL 24 MESES MÍNIMO, PRINCIPIO ACTIVO: 1% (CUATERNARIO DE AMONIO) BIODEGRADABLE, NO DEBE CONTENER ÁLCALIS PESADOS. CUBETA CON TAPA CON ROSCA DE 19 LITROS, LOS ENVASES DEBEN ESTAR DEBIDAMENTE ETIQUETADOS CON LAS ESPECIFICACIONES DEL PRODUCTO. LA CUBETA Y EL PRODUCTO DEBERÁN PERMANECER SIN ALTERACIONES EN CONDICIONES DE ALMACENAJE Y MEDIDAS DE HIGIENE Y SEGURIDAD DURANTE 2 AÑOS. CUBETA DE PLÁSTICO RESISTENTE, DE PRIMERA, NUEVOS QUE SOPORTEN LA ESTIBA DE 4 CUBETAS SIN SUFRIR DETERIORO. |UNIDAD:100 |CANTIDAD:140",
+      "producto_base": "líquido germicida",
+      "cantidad": 140,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"germicida, sanitarios, aromatizado\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "LIMPIADOR UNIVERSAL QUITA GRAFITTI, GLICOL DE ETILENO, ÉTER DE MONOBUTYL, O UN SOLVENTE QUE NO.SEA ABRASIVO PARA LA SUPERFICIES PORCELANIZADAS COMO EL PIZARRÓN BLANCO Y QUE REMUEVA CINTA ADHESIVA COMO EL DIUREX, RESIDUOS GOMOSOS, CHICLE, LÁPIZ DE CERA, MARCADOR PERMANENTE, GRAFITTI EN SPRAY, LÁPIZ, PLUMA, CRAYÓN INDUSTRIAL, CRAYOLA DE COLORES, CORRECTOR., EN ENVASE DE PRIMERA OPACO CON TAPA Y CONTRA TAPA DE 4 LT CON ETIQUETA QUE CONTENGA LAS CARACTERÍSTICAS DEL PRODUCTO EMPAQUETADO EN CAJA DE 4 BOTELLAS C/4LT L   . |UNIDAD:300 |CANTIDAD:420",
+      "producto_base": "limpiador universal",
+      "cantidad": 420,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"quita grafitti, solvente\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "LIQUIDO PARA LIMPIAR PIZARRÓN, CON DETERGENTES, SOLVENTES ORGÁNICOS, EMULSIFICANTES, AROMA A NARANJA, 100% BIODEGRADABLE, EN ENVASE DE PRIMERA OPACO, CON TAPA Y CONTRA TAPA DE 4 LTS., CON ETIQUETA |UNIDAD:300 |CANTIDAD:420",
+      "producto_base": "líquido para limpiar pizarrón",
+      "cantidad": 420,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"pizarrón, detergentes, solventes\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "NEUTRALIZADOR DE MALOS OLORES: LÍQUIDO CONCENTRADO PARA CONTROLAR Y NEUTRALIZAR LOS MALOS OLORES EN BAÑOS. MEZCLA DE AGENTES GERMICIDAS, NEUTRALIZANTES, ODORÍFICOS, DETERGENTES, EMULSIFICANTES CON ESENCIA DE GRAN FIJACIÓN PARA NEUTRALIZAR MALOS OLORES Y MANTENER EN CONDICIONES DE LIMPIEZA Y DESINFECCIÓN DE SANITARIOS. ENVASE DE PRIMERA OPACO CON TAPA Y CONTRA TAPA DE 4 LT. CON ETIQUETA QUE CONTENGA LAS CARACTERÍSTICAS Y NOMBRE DEL PRODUCTO.EMPAQUETADO EN CAJA DE 4 BOTELLAS C/4LT. |UNIDAD:320 |CANTIDAD:448",
+      "producto_base": "neutralizador de malos olores",
+      "cantidad": 448,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"concentrado, sanitarios\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "MECAHILO BOLA DE 2 CABOS, HILO DE IXTLE, BLANCO SECO, PESOS 2 KG MÍNIMO. COSTAL CON 10 PIEZAS. |UNIDAD:20 |CANTIDAD:28",
+      "producto_base": "mecahilo",
+      "cantidad": 28,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"bola de 2 cabos, ixtle, blanco\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-05T22:51:28.293Z",
+      "cliente_id": 1508,
+      "cliente": "SAC Consulting Mark",
+      "pidio": "POLVO LIMPIADOR, CONTENIDO: CARBONATO DE CALCIO,    ALQUILARIL SULFONATO DE CALCIO, ÁCIDO TRICLORO-CIANURO,  BROMURO DE SODIO, BICLORO Y BIODEGRADABLE. CILINDRO DE CARTÓN, CON TAPA REMOVIBLE. ALTURA DEL CILINDRO: 18.7 CM A 19.3 CM. DIÁMETRO: 6.8 A 7.2 CM., CONTENIDO: 582 G., CAJA CON 24 BOTES. |UNIDAD:600 |CANTIDAD:840",
+      "producto_base": "polvo limpiador",
+      "cantidad": 840,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La categoría \"limpiador_abrasivo_polvo_crema\" no tiene producto Licitación ni Estándar definido",
+      "cotizacion_id": 1597
     }
   ]
 }
