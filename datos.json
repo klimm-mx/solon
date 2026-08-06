@@ -1308,6 +1308,42 @@
       "accion": "excluida",
       "motivo": "La categoría \"limpiador_abrasivo_polvo_crema\" no tiene producto Licitación ni Estándar definido",
       "cotizacion_id": 1597
+    },
+    {
+      "fecha": "2026-08-06T19:37:51.723Z",
+      "cliente_id": 1512,
+      "cliente": "Proservip",
+      "pidio": "Desinfectante",
+      "producto_base": "desinfectante",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"grado comercial, amplio espectro\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1600
+    },
+    {
+      "fecha": "2026-08-06T19:37:51.723Z",
+      "cliente_id": 1512,
+      "cliente": "Proservip",
+      "pidio": "Limpiacristales",
+      "producto_base": "limpiacristales",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"sin base de amoniaco para espacios cerrados\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1600
+    },
+    {
+      "fecha": "2026-08-06T19:37:51.723Z",
+      "cliente_id": 1512,
+      "cliente": "Proservip",
+      "pidio": "Líquido para inodoros",
+      "producto_base": "líquido para inodoros",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"anti-sarro y desinfectante\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1600
     }
   ]
 }
