@@ -1344,6 +1344,90 @@
       "accion": "excluida",
       "motivo": "La marca/término \"anti-sarro y desinfectante\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1600
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "CEPILLO LARGO CON BASTÓN. CERDAS DE CABALLO CON BASE DE MADERA PINTADO Y ENLACADO. DESARMADO. LARGO DE BASE: 1 M, CON BORDES REDONDEADOS, ANCHO: 6.5 A 7 CM, ESPESOR:1.7 A 2.0. BASE REFORZADA PARA BASTÓN, CERDAS CON 62 LÍNEAS DE AMARRES APROXIMADAMENTE. LARGO DE LA CERDA DE 4.SCM, CALIBRE 0.1 A 0.2 MM. MEDIDAS DEL BASTÓN PINTADO DE 115 A 125 CM DE LARGO EN MADERA PUNTA LAPIZ, DIÁMETRO 3/4\". EMPAQUE QUE CONTENGA 10 PIEZAS. |UNIDAD:PIEZA |CANTIDAD:48",
+      "producto_base": "cepillo largo",
+      "cantidad": 48,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"cerdas caballo con bastón desarmado\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "GUANTE DE NEOPRENO, RESISTENTE A TODO TIPO DE LÍQUIDOS PARA LIMPIEZA DE SOLVENTES Y ACIDOS INDUSTRIALES 5O% GRANDES Y 50% MEDIANOS. LARGO: 37 A 45 CM. EN BOLSA DE PLÁSTICO CONTENIDO 1 PAR.EMPAQUETADO EN CAJA DE CARTON DE 25 A 50 PARES C/U. |UNIDAD:PAR |CANTIDAD:250",
+      "producto_base": "guante de neopreno",
+      "cantidad": 250,
+      "unidad_pedido": "par",
+      "accion": "excluida",
+      "motivo": "La marca/término \"resistente líquidos solventes ácidos\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "LÍQUIDO GERMICIDA, PARA SANITARIOS, COLOR INDISTINTO. CON AROMA AGRADABLE, (PUEDE SER A LIMÓN, ALMENDRAS, FLORES, ETC.), DENSIDAD DE 0.95 A 1.1 G/CM3, CON PH DE 6 A 8 %, SÓLIDOS DE 1.5 A 8, SOLUBILIDAD AL AGUA 100%, VISCOSIDAD A 25 GRADOS CENTÍGRADOS. TIEMPO DE ESCURRIMIENTO EN COPA DE ZAHN NO. 1 DE 20 A 60 SEGUNDOS, TIEMPO DE VIDA EN ANAQUEL 24 MESES MÍNIMO, PRINCIPIO ACTIVO: 1% (CUATERNARIO DE AMONIO) BIODEGRADABLE, NO DEBE CONTENER ÁLCALIS PESADOS. CUBETA CON TAPA CON ROSCA DE 19 LITROS, LOS ENVASES DEBEN ESTAR DEBIDAMENTE ETIQUETADOS CON LAS ESPECIFICACIONES DEL PRODUCTO. LA CUBETA Y EL PRODUCTO DEBERÁN PERMANECER SIN ALTERACIONES EN CONDICIONES DE ALMACENAJE Y MEDIDAS DE HIGIENE Y SEGURIDAD DURANTE 2 AÑOS. CUBETA DE PLÁSTICO RESISTENTE, DE PRIMERA, NUEVOS QUE SOPORTEN LA ESTIBA DE 4 CUBETAS SIN SUFRIR DETERIORO. |UNIDAD:CUBETA |CANTIDAD:100",
+      "producto_base": "líquido germicida",
+      "cantidad": 100,
+      "unidad_pedido": "cubeta",
+      "accion": "excluida",
+      "motivo": "La marca/término \"sanitarios con aroma\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "LIMPIADOR UNIVERSAL QUITA GRAFITTI, GLICOL DE ETILENO, ÉTER DE MONOBUTYL, O UN SOLVENTE QUE NO.SEA ABRASIVO PARA LA SUPERFICIES PORCELANIZADAS COMO EL PIZARRÓN BLANCO Y QUE REMUEVA CINTA ADHESIVA COMO EL DIUREX, RESIDUOS GOMOSOS, CHICLE, LÁPIZ DE CERA, MARCADOR PERMANENTE, GRAFITTI EN SPRAY, LÁPIZ, PLUMA, CRAYÓN INDUSTRIAL, CRAYOLA DE COLORES, CORRECTOR., EN ENVASE DE PRIMERA OPACO CON TAPA Y CONTRA TAPA DE 4 LT CON ETIQUETA QUE CONTENGA LAS CARACTERÍSTICAS DEL PRODUCTO EMPAQUETADO EN CAJA DE 4 BOTELLAS C/4LT L . |UNIDAD:GALON |CANTIDAD:300",
+      "producto_base": "limpiador universal",
+      "cantidad": 300,
+      "unidad_pedido": "galon",
+      "accion": "excluida",
+      "motivo": "La marca/término \"quita grafitti glicol\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "LIQUIDO PARA LIMPIAR PIZARRÓN, CON DETERGENTES, SOLVENTES ORGÁNICOS, EMULSIFICANTES, AROMA A NARANJA, 100% BIODEGRADABLE, EN ENVASE DE PRIMERA OPACO, CON TAPA Y CONTRA TAPA DE 4 LTS., CON ETIQUETA QUE CONTENGA LAS CARACTERÍSTICAS Y EL NOMBRE DEL PRODUCTO EMPAQUETADO EN CAJA DE 4 BOTELLAS C/4LT. |UNIDAD:GALON |CANTIDAD:300",
+      "producto_base": "líquido para limpiar pizarrón",
+      "cantidad": 300,
+      "unidad_pedido": "galon",
+      "accion": "excluida",
+      "motivo": "La marca/término \"detergentes solventes aroma naranja\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "NEUTRALIZADOR DE MALOS OLORES: LÍQUIDO CONCENTRADO PARA CONTROLAR Y NEUTRALIZAR LOS MALOS OLORES EN BAÑOS. MEZCLA DE AGENTES GERMICIDAS, NEUTRALIZANTES, ODORÍFICOS, DETERGENTES, EMULSIFICANTES CON ESENCIA DE GRAN FIJACIÓN PARA NEUTRALIZAR MALOS OLORES Y MANTENER EN CONDICIONES DE LIMPIEZA Y DESINFECCIÓN DE SANITARIOS. ENVASE DE PRIMERA OPACO CON TAPA Y CONTRA TAPA DE 4 LT. CON ETIQUETA QUE CONTENGA LAS CARACTERÍSTICAS Y NOMBRE DEL PRODUCTO.EMPAQUETADO EN CAJA DE 4 BOTELLAS C/4LT. |UNIDAD:GALON |CANTIDAD:320",
+      "producto_base": "neutralizador de malos olores",
+      "cantidad": 320,
+      "unidad_pedido": "galon",
+      "accion": "excluida",
+      "motivo": "La marca/término \"líquido concentrado baños\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-12T21:00:07.885Z",
+      "cliente_id": 1518,
+      "cliente": "Lisset Fleitas Galdo",
+      "pidio": "MECAHILO BOLA DE 2 CABOS, HILO DE IXTLE, BLANCO SECO, PESOS 2 KG MÍNIMO. COSTAL CON 10 PIEZAS. |UNIDAD:PIEZA |CANTIDAD:20",
+      "producto_base": "mecahilo",
+      "cantidad": 20,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"bola 2 cabos hilo ixtle blanco\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1610
     }
   ]
 }
