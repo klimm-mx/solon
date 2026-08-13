@@ -1428,6 +1428,18 @@
       "accion": "excluida",
       "motivo": "La marca/término \"bola 2 cabos hilo ixtle blanco\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1610
+    },
+    {
+      "fecha": "2026-08-13T22:11:57.154Z",
+      "cliente_id": 1522,
+      "cliente": "Bevos Holdings",
+      "pidio": "Toalla Manos Rollo 180 M Con 6 Pzas Dalia",
+      "producto_base": "toalla",
+      "cantidad": 6,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1613
     }
   ]
 }
