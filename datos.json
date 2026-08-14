@@ -1644,6 +1644,18 @@
       "accion": "excluida",
       "motivo": "La categoría \"limpiador_abrasivo_polvo_crema\" no tiene producto Licitación ni Estándar definido",
       "cotizacion_id": 1615
+    },
+    {
+      "fecha": "2026-08-14T19:52:32.526Z",
+      "cliente_id": 1530,
+      "cliente": "Generadora de Ambientes",
+      "pidio": "TRAPEADOR TWISTER CASTOR |UNIDAD:1 |CANTIDAD:1",
+      "producto_base": "trapeador",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"castor\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1616
     }
   ]
 }
