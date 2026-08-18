@@ -1656,6 +1656,90 @@
       "accion": "excluida",
       "motivo": "La marca/término \"castor\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1616
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "BOLSA ROJA DE RPBI 55 X 60 CON AMARRE",
+      "producto_base": "bolsa de rpbi",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"roja con amarre\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "REPUESTO DE TRAPEADOR VERDE",
+      "producto_base": "repuesto de trapeador",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"verde\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "BOLSA AMARILLA RPBI 55X60 CHICA",
+      "producto_base": "bolsa amarilla rpbi",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"amarilla chica\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "GUANTE DE LATEX AZUL #8.5",
+      "producto_base": "guante de latex",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "FUNDA PARA MOP 90CM 6403 EL CASTOR",
+      "producto_base": "funda para mop",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "La marca/término \"El Castor\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "ESCOBA MINI 67 X 18 CM",
+      "producto_base": "escoba mini",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"mini\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-18T23:39:13.161Z",
+      "cliente_id": 1541,
+      "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
+      "pidio": "BOLSA AMARILLA RPBI 55X60 CHICA",
+      "producto_base": "bolsa amarilla rpbi",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"amarilla chica\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1625
     }
   ]
 }
