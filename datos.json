@@ -1788,6 +1788,54 @@
       "accion": "excluida",
       "motivo": "La marca/término \"reciclaje\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1628
+    },
+    {
+      "fecha": "2026-08-19T23:41:54.858Z",
+      "cliente_id": 1547,
+      "cliente": "Grupo San Isidro",
+      "pidio": "BOLSA DE POLIETILENO DE BAJA DENSIDAD DE 1.10 X 1.20 METROS Y 0.038 MILIMETROSDE ESPESOR, PESO DE 91.2 GRAMOS, SELLO ESTRELLA, COLOR VERDE AGUA TRASLUCIDO,PARA CARRO COLECTOR DE BASURA. CAJA CON 100 PIEZAS. CUYAS ESPECIFICACIONESTECNICA S DEBEN CUMPLIR CON LA NORMA NMX-E-235-CNCP-2015.",
+      "producto_base": "bolsa",
+      "cantidad": 2400,
+      "unidad_pedido": "caja",
+      "accion": "excluida",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1629
+    },
+    {
+      "fecha": "2026-08-19T23:41:54.858Z",
+      "cliente_id": 1547,
+      "cliente": "Grupo San Isidro",
+      "pidio": "BOLSA DE POLIETILENO DE BAJA DENSIDAD DE 50 X 60 CENTIMETROS Y 0.038 MILIMETROSDE ESPESOR, PESO 20.7 GRAMOS, COLOR VERDE AGUA TRASLUCIDO, PARA BOTE TIPOCAMPANA. CAJA CON 400 PIEZAS. CUYAS ESPECIFICACIONES TECNICAS DEBEN CUMPLIR CONLA NORMA NMX-E-235-CNCP-2015.",
+      "producto_base": "bolsa",
+      "cantidad": 800,
+      "unidad_pedido": "caja",
+      "accion": "excluida",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1629
+    },
+    {
+      "fecha": "2026-08-19T23:41:54.858Z",
+      "cliente_id": 1547,
+      "cliente": "Grupo San Isidro",
+      "pidio": "LIMPIADOR EN POLVO CON CLORO, PARA LIMPIEZA POR FROTE DE UTENSILIOS DE COCINA YCOMEDOR. CUYAS ESPECIFICACIONES TECNICAS DEBEN CUMPLIR CON LA NMX-K-644-NORMEX-2008. BOTE DE CARTON O PLASTICO CON TAPA PERFORADA Y FONDO METALICO OPLASTICO, CON SELLO DESPRENDIBLE, PARA CONTENER 600 GR.",
+      "producto_base": "limpiador",
+      "cantidad": 576,
+      "unidad_pedido": "bote",
+      "accion": "excluida",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1629
+    },
+    {
+      "fecha": "2026-08-19T23:41:54.858Z",
+      "cliente_id": 1547,
+      "cliente": "Grupo San Isidro",
+      "pidio": "LIMPIADOR LIQUIDO DESINFECTANTE GERMICIDA PARA ASEO Y DESINFECCION SIMULTANEA DEQUIROFANOS Y AREAS BLANCAS, FORMULADO A BASE DE PEROXIDO DE HIDROGENOESTABILIZADO Y ACELERADO AL 7%, SAL DE ACIDO CARBOXILICO SULFONADO,POLIOXIETILEN (40) OCTIL FENOL ETER, SAL DISODICA DE DIFENIL OXIDO SULFONADO YALQUILADO, MEZCLA DE ACIDOS ORGANICOS E INORGANICOS SAL DISODICA DEL ALQUILATOSULFONADO DIFENIL OXIDO, ACIDO DODECIL BENCENSULFONICO, OCTIL FENOL ETOXILADO,EXCIPIENTE Y AGUA DESTILADA CBP, CON AMPLIO ESPECTRO BACTERICIDA, VIRUCIDAESPORICIDA, TUBERCOLICIDA Y FUNGICIDA, PARA REDUCIR LA ACTIVIDAD MICROBIANA EN99.999% DE UNA SUSPENSION CONTENIENDO DE 75 A 125, 10 A LA SEXTACELULAS/MILILITRO (CEPAS DE STAPHYLOCOCCU S AEUREUS Y ESCHERICHIA COLI) DESPUESDE 30 SEGUNDOS DE CONTACTO CON EL PRODUCTO A LA DILUCION DE USO DE 1/16, ACTIVOEN TODO TIPO DE AGUA, BIODEGRADABLE, NO CORROSIVO, NO IRRITANTE DE PIEL OJOS YVIAS RESPIRATORIAS, AROMA CARACTERISTICO, NO REQUIERE ENJUAGE. PRESENTACION:ENVASE DE PLASTICO CON TAPA DE ROSCA, CON PELICULA PLASTICA DE SEGURIDAD,CANTIDAD 4 LITROS, CADUCIDAD MINIMA DE 1 AÑO A PARTIR DE LA FECHA DE RECEPCION.",
+      "producto_base": "limpiador desinfectante",
+      "cantidad": 12,
+      "unidad_pedido": "envase",
+      "accion": "excluida",
+      "motivo": "La marca/término \"peróxido de hidrógeno, germicida, quirófanos, áreas blancas\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1629
     }
   ]
 }
