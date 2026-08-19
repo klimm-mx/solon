@@ -1740,6 +1740,54 @@
       "accion": "excluida",
       "motivo": "La marca/término \"amarilla chica\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1625
+    },
+    {
+      "fecha": "2026-08-19T23:12:06.198Z",
+      "cliente_id": 1545,
+      "cliente": "CIRRO Fullfilment",
+      "pidio": "Detergente neutro\t10 kg",
+      "producto_base": "detergente neutro",
+      "cantidad": 10,
+      "unidad_pedido": "kg",
+      "accion": "excluida",
+      "motivo": "La marca/término \"neutro\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1628
+    },
+    {
+      "fecha": "2026-08-19T23:12:06.198Z",
+      "cliente_id": 1545,
+      "cliente": "CIRRO Fullfilment",
+      "pidio": "Aire comprimido para equipos\t5 piz",
+      "producto_base": "aire comprimido para equipos",
+      "cantidad": 5,
+      "unidad_pedido": "piz",
+      "accion": "excluida",
+      "motivo": "No se identificó una categoría del catálogo para esta línea",
+      "cotizacion_id": 1628
+    },
+    {
+      "fecha": "2026-08-19T23:12:06.198Z",
+      "cliente_id": 1545,
+      "cliente": "CIRRO Fullfilment",
+      "pidio": "Contenedores con tapa\t1",
+      "producto_base": "contenedores con tapa",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"con tapa\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1628
+    },
+    {
+      "fecha": "2026-08-19T23:12:06.198Z",
+      "cliente_id": 1545,
+      "cliente": "CIRRO Fullfilment",
+      "pidio": "Contenedor para reciclaje\t1",
+      "producto_base": "contenedor para reciclaje",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"reciclaje\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1628
     }
   ]
 }
