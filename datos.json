@@ -1836,6 +1836,18 @@
       "accion": "excluida",
       "motivo": "La marca/término \"peróxido de hidrógeno, germicida, quirófanos, áreas blancas\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1629
+    },
+    {
+      "fecha": "2026-08-21T00:15:28.468Z",
+      "cliente_id": 1549,
+      "cliente": "Quick & Safe Logistics",
+      "pidio": "Vaso cónico desechable, fabricado en papel bond blanco, con boca redondeada y tratamiento impermeabilizante inerte a base de parafina |UNIDAD:37 |CANTIDAD:Vaso cónico desechable, fabricado en papel bond blanco, con boca redondeada y tratamiento impermeabilizante inerte a base de parafina",
+      "producto_base": "vaso desechable",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "No se identificó una categoría del catálogo para esta línea",
+      "cotizacion_id": 1631
     }
   ]
 }
