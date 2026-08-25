@@ -1848,6 +1848,42 @@
       "accion": "excluida",
       "motivo": "No se identificó una categoría del catálogo para esta línea",
       "cotizacion_id": 1631
+    },
+    {
+      "fecha": "2026-08-25T20:10:31.133Z",
+      "cliente_id": 1557,
+      "cliente": "Grupo Construtech",
+      "pidio": "BOMBA DE HULE NATURAL FLEXIBLE, COLOR NEGRO, DE 14 A 16 CENTIMETROS DE DIAMETROEXTERIOR, 1 CENTIMETRO DE ESPESOR Y 8.90 CENTIMETROS DE ALTURA, CON CABOATORNILLABLE Y BASTON DE MADERA DE 2 CENTIMETROS DE DIAMETRO Y 34 CENTIMETROSDE LARGO, PARA DESTAPAR W.C. |UNIDAD:PZA |CANTIDAD:236",
+      "producto_base": "bomba destapacañas",
+      "cantidad": 236,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"negro\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1644
+    },
+    {
+      "fecha": "2026-08-25T20:10:31.133Z",
+      "cliente_id": 1557,
+      "cliente": "Grupo Construtech",
+      "pidio": "BOMBA DE HULE NATURAL FLEXIBLE, COLOR ROJO, DE 12 A 14 CENTIMETROS DE DIAMETROEXTERIOR, 1 CENTIMETRO DE ESPESOR Y  8.5 A 9.0 CENTIMETROS  DE ALTURA, CONCABO  ATORNILLABLE Y BASTON DE MADERA Y/O PLASTICO DE  2 CENTIMETROS DEDIAMETRO Y 33 A 35 CENTIMETROS  DE LARGO, PARA DESTAPAR LAVABOS. |UNIDAD:PZA |CANTIDAD:236",
+      "producto_base": "bomba destapacañas",
+      "cantidad": 236,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"rojo\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1644
+    },
+    {
+      "fecha": "2026-08-25T20:10:31.133Z",
+      "cliente_id": 1557,
+      "cliente": "Grupo Construtech",
+      "pidio": "ENVASE CON TAPA ELABORADO DE  POLIETILENO  DE ALTA DENSIDAD, PARA EL TRASLADODE SUSTANCIAS Y MEZCLAS QUIMICAS CAPACIDAD 1000 ML. EN COLOR NEGRO Y CON LALEYENDA: HIPOCLORITO DE SODIO. |UNIDAD:PZA |CANTIDAD:1232",
+      "producto_base": "envase",
+      "cantidad": 1232,
+      "unidad_pedido": "pza",
+      "accion": "excluida",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1644
     }
   ]
 }
