@@ -1884,6 +1884,18 @@
       "accion": "excluida",
       "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
       "cotizacion_id": 1644
+    },
+    {
+      "fecha": "2026-08-26T21:20:20.098Z",
+      "cliente_id": 1564,
+      "cliente": "ODA Eventos Sociales",
+      "pidio": "9- Bote  para baños de acero inoxidable con tapa o ver (otras opciones en color blanco)",
+      "producto_base": "bote para baños",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"acero inoxidable con tapa\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1648
     }
   ]
 }
