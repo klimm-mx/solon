@@ -1944,6 +1944,66 @@
       "accion": "excluida",
       "motivo": "La marca/término \"repuesto para dosificador\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1650
+    },
+    {
+      "fecha": "2026-08-27T14:41:30.371Z",
+      "cliente_id": 1570,
+      "cliente": "Corporación Armo",
+      "pidio": "BOLSA PLASTICO ROJA 38X22X58 CMS |UNIDAD:PIEZA |CANTIDAD:150",
+      "producto_base": "bolsa plástico",
+      "cantidad": 150,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"roja\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1651
+    },
+    {
+      "fecha": "2026-08-27T14:41:30.371Z",
+      "cliente_id": 1570,
+      "cliente": "Corporación Armo",
+      "pidio": "PASTA DENTAL |UNIDAD:PIEZA |CANTIDAD:7500",
+      "producto_base": "pasta dental",
+      "cantidad": 7500,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "No se identificó una categoría del catálogo para esta línea",
+      "cotizacion_id": 1651
+    },
+    {
+      "fecha": "2026-08-27T14:41:30.371Z",
+      "cliente_id": 1570,
+      "cliente": "Corporación Armo",
+      "pidio": "ATOMIZADOR PLASTICO, CAPACIDAD DE  250 ML. |UNIDAD:PIEZA |CANTIDAD:142",
+      "producto_base": "atomizador plástico",
+      "cantidad": 142,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "Tamaño pedido (250 ml) fuera de rango razonable de la línea (1-1 l)",
+      "cotizacion_id": 1651
+    },
+    {
+      "fecha": "2026-08-27T14:41:30.371Z",
+      "cliente_id": 1570,
+      "cliente": "Corporación Armo",
+      "pidio": "GEL ANTISÉPTICO ENVASE CON 250 ML, GEL ANTIBACTERIAL PARA MANOS QUE NO REQUIERE ENJUAGUE, |UNIDAD:ENVASE |CANTIDAD:100",
+      "producto_base": "gel antiséptico",
+      "cantidad": 100,
+      "unidad_pedido": "envase",
+      "accion": "excluida",
+      "motivo": "La marca/término \"antibacterial para manos, sin enjuague\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1651
+    },
+    {
+      "fecha": "2026-08-27T14:41:30.371Z",
+      "cliente_id": 1570,
+      "cliente": "Corporación Armo",
+      "pidio": "BLOQUEADOR SOLAR FPS 50, 100 G. |UNIDAD:PIEZA |CANTIDAD:6026",
+      "producto_base": "bloqueador solar",
+      "cantidad": 6026,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "No se identificó una categoría del catálogo para esta línea",
+      "cotizacion_id": 1651
     }
   ]
 }
