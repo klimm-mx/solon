@@ -2004,6 +2004,126 @@
       "accion": "excluida",
       "motivo": "No se identificó una categoría del catálogo para esta línea",
       "cotizacion_id": 1651
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "ATRAPA MOSCAS CJA 4 ROLLOS",
+      "producto_base": "atrapa moscas",
+      "cantidad": 4,
+      "unidad_pedido": "rollo",
+      "accion": "excluida",
+      "motivo": "La categoría \"pesticidas_y_repelentes_de_plagas\" no tiene producto Estándar definido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "GUANTES NEGROS ALTEX",
+      "producto_base": "guantes",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"altex\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "LAZO 4 CABOS 10MTS",
+      "producto_base": "lazo",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"4 cabos\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "LAZO 4 CABOS 15MTS",
+      "producto_base": "lazo",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"4 cabos\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "LAZO 4 CABOS 20MTS",
+      "producto_base": "lazo",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"4 cabos\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "PIEDRA",
+      "producto_base": "piedra",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "No se identificó una categoría del catálogo para esta línea",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "TAMBOR 120LTS",
+      "producto_base": "tambor",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "TRAPO COCINA CANTABRIA 1m",
+      "producto_base": "trapo cocina",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"cantabria\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "TRAPO COCINA CANTABRIA Ch",
+      "producto_base": "trapo cocina",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"cantabria\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-27T21:03:51.489Z",
+      "cliente_id": 1575,
+      "cliente": "Limpia Punch",
+      "pidio": "TRAPO SERVILLETA DECORADO",
+      "producto_base": "trapo servilleta",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"decorado\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1655
     }
   ]
 }
