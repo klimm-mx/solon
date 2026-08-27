@@ -1896,6 +1896,54 @@
       "accion": "excluida",
       "motivo": "La marca/término \"acero inoxidable con tapa\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1648
+    },
+    {
+      "fecha": "2026-08-27T00:22:11.172Z",
+      "cliente_id": 1568,
+      "cliente": "Hope Mexicana de Negocios",
+      "pidio": "BOLSA DE POLIETILENO TRANSPARENTE DE 50X70 CMS.",
+      "producto_base": "bolsa de polietileno",
+      "cantidad": 5,
+      "unidad_pedido": "kilo",
+      "accion": "excluida",
+      "motivo": "La marca/término \"transparente, 50x70 cm\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1650
+    },
+    {
+      "fecha": "2026-08-27T00:22:11.172Z",
+      "cliente_id": 1568,
+      "cliente": "Hope Mexicana de Negocios",
+      "pidio": "ESCOBA METALICA RECTA PARA JARDINERO, 22 DIENTES CON TENSOR, ANCHO 55 CM",
+      "producto_base": "escoba metálica",
+      "cantidad": 20,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"recta, para jardinero, 22 dientes, con tensor, 55 cm ancho\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1650
+    },
+    {
+      "fecha": "2026-08-27T00:22:11.172Z",
+      "cliente_id": 1568,
+      "cliente": "Hope Mexicana de Negocios",
+      "pidio": "ESCOBETILLA DE CERDAS PLASTICAS CON MANGO DE PLASTICO",
+      "producto_base": "escobetilla",
+      "cantidad": 18,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"cerdas plásticas, con mango de plástico\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1650
+    },
+    {
+      "fecha": "2026-08-27T00:22:11.172Z",
+      "cliente_id": 1568,
+      "cliente": "Hope Mexicana de Negocios",
+      "pidio": "SHAMPOO DE MANOS, REPUESTO PARA DOSIFICADOR DE 500 ML.",
+      "producto_base": "shampoo de manos",
+      "cantidad": 20,
+      "unidad_pedido": "pieza",
+      "accion": "excluida",
+      "motivo": "La marca/término \"repuesto para dosificador\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1650
     }
   ]
 }
