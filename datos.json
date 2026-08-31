@@ -2124,6 +2124,42 @@
       "accion": "excluida",
       "motivo": "La marca/término \"decorado\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1655
+    },
+    {
+      "fecha": "2026-08-31T22:36:09.236Z",
+      "cliente_id": 1580,
+      "cliente": "Destination Service",
+      "pidio": "Desodorante de media luna para auto",
+      "producto_base": "desodorante",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"media luna, para auto\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1658
+    },
+    {
+      "fecha": "2026-08-31T22:36:09.236Z",
+      "cliente_id": 1580,
+      "cliente": "Destination Service",
+      "pidio": "Papel aluminio Jumbo 400m",
+      "producto_base": "papel aluminio",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1658
+    },
+    {
+      "fecha": "2026-08-31T22:36:09.236Z",
+      "cliente_id": 1580,
+      "cliente": "Destination Service",
+      "pidio": "Servilleta para tortillas de 57*60 cm C/Fieco",
+      "producto_base": "servilleta",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"fieco\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1658
     }
   ]
 }
