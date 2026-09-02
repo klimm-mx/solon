@@ -99,10 +99,14 @@ function findByLabels(lines, labels) {
           const collected = [];
           for (let j = i + 1; j < lines.length; j++) {
             if (looksLikeLabel(lines[j])) break;
+            if (isProviderFooter(lines[j])) break;  // no tragarse el pie de SUME
             collected.push(lines[j]);
           }
           value = collected.join(' ').trim();
         }
+        // Si tras recolectar el valor ES el pie de página (campo venía vacío
+        // y solo seguía la firma del proveedor), tratarlo como vacío.
+        if (isProviderFooter(value)) value = '';
         return { value, lineIndex: i };
       }
     }
@@ -113,6 +117,15 @@ function findByLabels(lines, labels) {
 // ¿La línea parece ser "Etiqueta: ..."? (para saber dónde termina un valor multilínea)
 function looksLikeLabel(line) {
   return /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,40}\s*:/.test(line);
+}
+
+// ¿La línea es el pie de página fijo del proveedor SUME Clientes?
+// Aparece al final de cada correo: "Sume Clientes | Lomas de San Francisco...".
+// Cuando el campo TEXTO viene vacío, el pie quedaba justo debajo y se colaba
+// como si fuera el pedido del lead. Lo reconocemos para excluirlo.
+function isProviderFooter(line) {
+  if (!line) return false;
+  return /sume\s*clientes\s*\|/i.test(line);
 }
 
 function escapeRegExp(s) {

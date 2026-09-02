@@ -25,10 +25,12 @@
 // Texto que no vale la pena reflejar: genérico, vacío, o ruido.
 // Si el lead solo puso "info" o "cotización", no hay nada que personalizar;
 // el mensaje base de disposición inmediata ya cubre eso.
+// Solo lo VERDADERAMENTE vacío de intención cae aquí (usa la pregunta original).
+// Nota: "cotización", "catálogo", "precios" YA NO son genéricos — expresan una
+// intención clara que la línea IA puede reflejar y encaminar a cotización.
 const TEXTO_GENERICO = new Set([
   'info', 'informacion', 'información', 'informes',
-  'cotizacion', 'cotización', 'cotizar', 'precio', 'precios',
-  'catalogo', 'catálogo', 'productos', 'hola', 'buenas',
+  'hola', 'buenas', 'buenos dias', 'buenos días', 'buenas tardes',
   'interesado', 'interesada', 'mas informacion', 'más información',
 ]);
 
@@ -90,22 +92,36 @@ function construirPrompt(texto) {
     'Eres el redactor de primer contacto de Klimm (distribuidora de productos',
     'de limpieza e insumos). Un prospecto llegó por la landing y escribió lo',
     'que necesita. Tu tarea: redactar UNA sola línea, breve y natural, que',
-    'refleje que entendiste lo que pidió, para insertarla en un mensaje de',
-    'WhatsApp de primer contacto.',
+    'refleje que entendiste lo que pidió y lo encamine, para insertarla en un',
+    'mensaje de WhatsApp de primer contacto.',
     '',
-    'Reglas duras:',
+    'Reglas duras del negocio:',
     '- De usted. Nunca tutees.',
     '- NO hagas preguntas. El prospecto ya dijo lo que quiere; no se lo vuelvas a preguntar.',
-    '- NO prometas precios, plazos ni existencias concretas (no los sabes).',
+    '- Klimm NO tiene lista de precios. El catálogo es una liga a la web SIN precios.',
+    '  Para dar precio se hace una COTIZACIÓN. Por eso NUNCA prometas "lista de',
+    '  precios" ni "le envío precios". Si pide precios, encamina a cotización.',
+    '- Puedes ofrecer compartir el catálogo (la liga) y preparar una cotización.',
+    '- ESPEJO: si el prospecto usó la palabra "cotizar/cotización", úsala tú también.',
+    '  Si NO la usó, encamina con un verbo neutro ("con gusto le atiendo",',
+    '  "le preparo lo que necesita") sin forzar la palabra cotización.',
+    '- NO prometas plazos ni existencias concretas (no los sabes).',
     '- NO saludes ni te presentes (eso ya está en el mensaje).',
-    '- Una sola línea, máximo ~20 palabras. Sin saltos de línea.',
-    '- Refleja el producto o necesidad tal como lo dijo, con naturalidad.',
+    '- Una sola línea, máximo ~22 palabras. Sin saltos de línea.',
+    '- Refleja el producto o necesidad tal como lo dijo, pero con tu redacción',
+    '  limpia (no copies sus mayúsculas ni sus faltas de ortografía).',
     '',
-    'Ejemplo:',
-    'Pedido del prospecto: "Necesito 200 cajas de guantes de nitrilo"',
-    'Línea: "Veo que requiere guantes de nitrilo por volumen."',
+    'Ejemplos:',
+    'Pedido: "Saber el mayoreo de escobas, mechudos y palos de metal"',
+    'Línea: "Veo que le interesan escobas, mechudos y palos de metal; con gusto le preparo una cotización."',
     '',
-    `Pedido del prospecto: "${texto.trim()}"`,
+    'Pedido: "quisiera cotizar un listado de 39 artículos"',
+    'Línea: "Veo que requiere cotizar un listado de artículos; con gusto lo reviso y le preparo su cotización."',
+    '',
+    'Pedido: "Quiero catalogo o precios de mayoreo"',
+    'Línea: "Con gusto le comparto el catálogo y le preparo una cotización de lo que necesite."',
+    '',
+    `Pedido: "${texto.trim()}"`,
     'Línea:',
   ].join('\n');
 }

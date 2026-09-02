@@ -115,10 +115,13 @@ const correoSinTel = [
     sinHuecos(t.mensaje);
   });
 
-  await test('IA pregunta -> descartada, cae a mensaje base', async () => {
+  await test('IA pregunta -> descartada, cae a la pregunta original', async () => {
     const t = await procesarCorreoEntrante(correoCompleto, { callLLM: llmPregunta });
-    assert.strictEqual(t.personalizado, false, 'pregunta debe descartarse');
-    assert.ok(!t.mensaje.includes('?'), 'sin signos de pregunta');
+    assert.strictEqual(t.personalizado, false, 'la línea IA con pregunta debe descartarse');
+    // Al descartarse la línea IA, el mensaje cae al cierre por defecto, que ES
+    // la pregunta original de Klimm (con '?'). Lo que NO debe aparecer es la
+    // pregunta redundante que inventó la IA sobre el producto.
+    assert.ok(!t.mensaje.includes('cantidad'), 'no debe colarse la pregunta redundante de la IA');
     assert.ok(t.avisos.some((a) => a.includes('viola-tono')), 'aviso de tono');
     sinHuecos(t.mensaje);
   });
@@ -181,8 +184,11 @@ const correoSinTel = [
   testSync('lineaRespetaTono acepta línea de usted', () => {
     assert.strictEqual(lineaRespetaTono('Veo que requiere guantes de nitrilo.'), true);
   });
-  testSync('textoEsUsable rechaza genérico', () => {
-    assert.strictEqual(textoEsUsable('cotización'), false);
+  testSync('textoEsUsable rechaza genérico real ("info")', () => {
+    assert.strictEqual(textoEsUsable('info'), false);
+  });
+  testSync('textoEsUsable ACEPTA cotización (ya no es genérico)', () => {
+    assert.strictEqual(textoEsUsable('cotización'), true);
   });
   testSync('textoEsUsable acepta pedido real', () => {
     assert.strictEqual(textoEsUsable('Necesito 200 cajas de guantes'), true);
