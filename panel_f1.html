@@ -126,9 +126,40 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
   justify-content:center;padding:0 5px;border:1px solid var(--borde)}
 .pestana.activa .pestana-num{background:var(--agua-claro);color:var(--agua-oscuro);border-color:var(--agua-claro)}
 .cola-vacia{text-align:center;color:var(--tinta-suave);font-size:13.5px;padding:32px 16px;font-style:italic}
+
+/* Modal de configuración (mismo patrón que el cotizador) */
+.velo{position:fixed;inset:0;background:rgba(22,50,59,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.velo.visible{display:flex}
+.modal{background:var(--superficie);border-radius:var(--radio);padding:26px;max-width:460px;width:100%}
+.modal h3{margin-bottom:6px}
+.modal p{font-size:13px;color:var(--tinta-suave);margin-bottom:16px}
+.modal .campo{margin-bottom:14px}
+.modal label{display:block;font-size:12px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-bottom:5px}
+.modal input{width:100%;padding:11px 13px;border:1px solid var(--borde);border-radius:8px;font-size:14px;font-family:inherit}
+.modal input:focus{outline:2px solid var(--agua);outline-offset:-1px;border-color:var(--agua)}
+.modal .boton-guardar{width:100%;background:var(--agua);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.modal .boton-guardar:hover{background:var(--agua-oscuro)}
 </style>
 </head>
 <body>
+
+<!-- Configuración de conexión (una sola vez por navegador; mismo patrón que
+     el cotizador). Aparece si falta backend o clave. -->
+<div class="velo" id="veloConfig">
+  <div class="modal">
+    <h3>Conectar con Solón</h3>
+    <p>Configuración de una sola vez en este navegador. Pide estos datos al administrador.</p>
+    <div class="campo">
+      <label for="confUrl">Dirección del backend</label>
+      <input type="text" id="confUrl" value="https://klimm-backend.onrender.com">
+    </div>
+    <div class="campo">
+      <label for="confClave">Clave de acceso</label>
+      <input type="password" id="confClave" placeholder="Clave del backend">
+    </div>
+    <button class="boton-guardar" onclick="guardarConfig()">Guardar y empezar</button>
+  </div>
+</div>
 
 <header>
   <div class="contenedor">
@@ -579,10 +610,28 @@ pintarDetalle();
    y llama con la cabecera x-backend-key. Mientras el backend no entregue
    leads, el panel muestra los datos de EJEMPLO de arriba. Cuando el endpoint
    responde, los reemplaza. NO rompe nada si no hay backend. */
-const BACKEND = localStorage.getItem('solon_backend') || '';
-const CLAVE   = localStorage.getItem('solon_clave')   || '';
+const BACKEND_KEY = 'solon_backend', CLAVE_KEY = 'solon_clave';
+let BACKEND = localStorage.getItem(BACKEND_KEY) || '';
+let CLAVE   = localStorage.getItem(CLAVE_KEY)   || '';
 const RUTA_COLA = '/agente/f1/cola';
 const RUTA_CONTACTADO = '/agente/f1/contactado';
+
+// Si falta configurar la conexión, mostrar el modal (mismo patrón cotizador).
+if (!BACKEND || !CLAVE) {
+  document.getElementById('veloConfig').classList.add('visible');
+}
+
+function guardarConfig(){
+  const url = document.getElementById('confUrl').value.trim().replace(/\/$/,'');
+  const clave = document.getElementById('confClave').value.trim();
+  if (!url || !clave){ alert('Completa los dos campos'); return; }
+  localStorage.setItem(BACKEND_KEY, url);
+  localStorage.setItem(CLAVE_KEY, clave);
+  BACKEND = url; CLAVE = clave;
+  document.getElementById('veloConfig').classList.remove('visible');
+  // Empezar a leer leads reales de inmediato con la config recién puesta.
+  cargarLeadsReales();
+}
 
 // Cada cuánto el panel vuelve a pedir la cola (decisión: 5s).
 const REFRESCO_PANEL_MS = 5000;
