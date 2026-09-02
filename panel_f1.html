@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agente — Solón · Klimm</title>
+<style>
+:root{
+  --fondo:#F5F9FA; --superficie:#FFFFFF; --tinta:#16323B; --tinta-suave:#5A7480;
+  --agua:#0FA3C7; --agua-oscuro:#0B7E9A; --agua-claro:#E3F4F9;
+  --ok:#1B9E63; --ok-bg:#E8F6EF; --media:#C7871B; --media-bg:#FBF3E3;
+  --alerta:#C43D3D; --alerta-bg:#FBECEC; --revision:#B06A00; --revision-bg:#FFF6E8;
+  --borde:#DCE7EB; --radio:10px;
+  --wa:#25D366; --wa-oscuro:#1DA851;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--fondo);color:var(--tinta);font-size:15px;line-height:1.5}
+.contenedor{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* Encabezado — mismo patrón que Cotizador y Costos */
+header{background:var(--superficie);border-bottom:1px solid var(--borde);padding:14px 0;position:sticky;top:0;z-index:40}
+header .contenedor{display:flex;align-items:baseline;justify-content:space-between}
+.marca{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.marca span{color:var(--agua)}
+.sistema{font-size:12px;color:var(--tinta-suave);letter-spacing:.8px;text-transform:uppercase}
+
+/* Distribución de dos columnas: cola + detalle */
+.tablero{display:grid;grid-template-columns:340px 1fr;gap:20px;padding:24px 0 60px}
+
+/* Columna de la cola */
+.cola-cabecera{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cola-cabecera h2{font-size:15px;font-weight:600}
+.cola-conteo{font-size:12px;color:var(--tinta-suave)}
+.cola-conteo strong{color:var(--agua-oscuro);font-size:14px}
+.cola{display:flex;flex-direction:column;gap:8px}
+
+.lead-item{background:var(--superficie);border:1px solid var(--borde);border-radius:var(--radio);padding:12px 14px;cursor:pointer;position:relative;transition:border-color .12s,box-shadow .12s}
+.lead-item:hover{border-color:var(--agua)}
+.lead-item.activo{border-color:var(--agua);box-shadow:0 0 0 1px var(--agua)}
+.lead-item.enviado{opacity:.55}
+.lead-item.bloqueado{border-left:4px solid var(--alerta)}
+.lead-item .li-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lead-item .li-nombre{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lead-item .li-hora{font-size:11px;color:var(--tinta-suave);flex-shrink:0}
+.lead-item .li-pedido{font-size:12.5px;color:var(--tinta-suave);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lead-item .li-estado{margin-top:7px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* Punto de "nuevo" con pulso — única motion no disparada por el usuario */
+.pulso{width:8px;height:8px;border-radius:50%;background:var(--agua);flex-shrink:0;position:relative}
+.lead-item.nuevo .pulso::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--agua);animation:latir 1.6s ease-out infinite}
+@keyframes latir{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.lead-item.nuevo .pulso::after{animation:none;opacity:.5}}
+
+/* Chips — reusados del cotizador */
+.chip{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:12px;letter-spacing:.3px;display:inline-block}
+.chip-nuevo{background:var(--agua-claro);color:var(--agua-oscuro)}
+.chip-ia{background:var(--ok-bg);color:var(--ok)}
+.chip-base{background:var(--fondo);color:var(--tinta-suave);border:1px solid var(--borde)}
+.chip-rojo{background:var(--alerta-bg);color:var(--alerta)}
+.chip-enviado{background:var(--ok-bg);color:var(--ok)}
+
+/* Columna de detalle */
+.detalle{background:var(--superficie);border:1px solid var(--borde);border-radius:var(--radio);padding:0;overflow:hidden;align-self:start;position:sticky;top:84px}
+.detalle.rojo{border-color:var(--alerta)}
+.det-cabecera{padding:20px 22px 16px;border-bottom:1px solid var(--borde)}
+.det-cabecera.rojo{background:var(--alerta-bg);border-bottom-color:#F0C9C9}
+.det-nombre{font-size:20px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:10px}
+.det-sub{font-size:13px;color:var(--tinta-suave);margin-top:2px}
+.det-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+.det-meta .campo .et{font-size:11px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.det-meta .campo .va{font-size:14px;font-weight:600;margin-top:1px}
+
+.det-cuerpo{padding:20px 22px}
+.bloque{margin-bottom:18px}
+.bloque-et{font-size:11px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-bottom:6px}
+.pidio-texto{background:var(--fondo);border:1px solid var(--borde);border-radius:8px;padding:11px 13px;font-size:14px;color:var(--tinta);font-style:italic}
+.pidio-vacio{color:var(--tinta-suave);font-style:italic}
+
+/* Mensaje editable — el corazón operativo */
+.mensaje-caja{position:relative}
+textarea.mensaje{width:100%;min-height:120px;padding:13px 14px;border:1px solid var(--borde);border-radius:8px;font-size:14.5px;font-family:inherit;line-height:1.55;background:var(--superficie);color:var(--tinta);resize:vertical}
+textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-color:var(--agua)}
+.mensaje-pie{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.mensaje-nota{font-size:12px;color:var(--tinta-suave)}
+.restaurar{background:none;border:none;color:var(--agua-oscuro);cursor:pointer;font-size:12.5px;font-weight:600;text-decoration:underline;font-family:inherit}
+
+/* Avisos del parser — reusa el patrón del cotizador */
+.aviso{font-size:12.5px;color:var(--revision);margin-top:8px;padding-left:20px;position:relative}
+.aviso::before{content:'⚠';position:absolute;left:0}
+.bloqueo{background:var(--alerta-bg);border:1px solid #F0C9C9;border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--alerta);margin-bottom:16px}
+.bloqueo strong{display:block;margin-bottom:2px}
+
+/* Acciones */
+.det-acciones{padding:16px 22px 22px;border-top:1px solid var(--borde);display:flex;gap:10px;align-items:center}
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 22px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
+.boton-wa{background:var(--wa);color:#fff;flex:1}
+.boton-wa:hover{background:var(--wa-oscuro)}
+.boton-correo{background:var(--agua);color:#fff;flex:1}
+.boton-correo:hover{background:var(--agua-oscuro)}
+.boton-hecho{background:var(--superficie);color:var(--tinta);border:1px solid var(--borde)}
+.boton-hecho:hover{background:var(--fondo)}
+.boton svg{width:18px;height:18px;flex-shrink:0}
+
+.vacio-detalle{padding:80px 22px;text-align:center;color:var(--tinta-suave)}
+.vacio-detalle .icono{font-size:32px;opacity:.4;margin-bottom:10px}
+
+/* Aviso de "listo para enviar" */
+.reloj{font-size:12px;color:var(--tinta-suave);display:flex;align-items:center;gap:5px}
+.reloj.urgente{color:var(--alerta);font-weight:600}
+
+@media(max-width:820px){
+  .tablero{grid-template-columns:1fr;gap:14px}
+  .detalle{position:static}
+  .cola{max-height:none}
+}
+
+/* Pestañas Pendientes/Atendidos (usa la paleta 'agua' existente) */
+.pestanas{display:flex;gap:4px;margin-bottom:12px;border-bottom:1px solid var(--borde)}
+.pestana{background:none;border:none;padding:8px 14px;font-family:inherit;font-size:13.5px;
+  font-weight:600;color:var(--tinta-suave);cursor:pointer;border-bottom:2px solid transparent;
+  margin-bottom:-1px;display:flex;align-items:center;gap:7px;transition:color .12s,border-color .12s}
+.pestana:hover{color:var(--agua-oscuro)}
+.pestana.activa{color:var(--agua-oscuro);border-bottom-color:var(--agua)}
+.pestana-num{background:var(--fondo);color:var(--tinta-suave);font-size:11px;font-weight:700;
+  min-width:18px;height:18px;border-radius:9px;display:inline-flex;align-items:center;
+  justify-content:center;padding:0 5px;border:1px solid var(--borde)}
+.pestana.activa .pestana-num{background:var(--agua-claro);color:var(--agua-oscuro);border-color:var(--agua-claro)}
+.cola-vacia{text-align:center;color:var(--tinta-suave);font-size:13.5px;padding:32px 16px;font-style:italic}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor">
+    <div class="marca">Klimm <span>· Agente</span></div>
+    <div class="sistema">Sistema Solón</div>
+  </div>
+</header>
+
+<div class="contenedor">
+  <div class="tablero">
+
+    <!-- Columna izquierda: la cola de leads que van llegando -->
+    <div>
+      <div class="cola-cabecera">
+        <h2>Leads por atender</h2>
+        <div class="cola-conteo"><strong id="conteoPendientes">0</strong> pendientes</div>
+      </div>
+
+      <!-- Pestañas. Hoy: Pendientes / Atendidos (F1). El contenedor deja
+           lugar para sumar mañana "Seguimiento" (F2) como una pestaña más,
+           sin rehacer la estructura. -->
+      <div class="pestanas" id="pestanas">
+        <button class="pestana activa" data-tab="pendientes" onclick="cambiarTab('pendientes')">
+          Pendientes <span class="pestana-num" id="numPendientes">0</span>
+        </button>
+        <button class="pestana" data-tab="atendidos" onclick="cambiarTab('atendidos')">
+          Atendidos <span class="pestana-num" id="numAtendidos">0</span>
+        </button>
+        <!-- Futuro F2: <button class="pestana" data-tab="seguimiento">Seguimiento</button> -->
+      </div>
+
+      <div class="cola" id="cola"></div>
+    </div>
+
+    <!-- Columna derecha: el lead seleccionado -->
+    <div class="detalle" id="detalle">
+      <div class="vacio-detalle">
+        <div class="icono">◔</div>
+        Elige un lead de la lista para ver el mensaje y enviarlo.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PROTOTIPO — datos de ejemplo con la forma REAL de TarjetaF1
+   (lo que devuelve procesarCorreoEntrante en primerContacto.js).
+   El watcher IMAP, cuando exista, entregará objetos con esta
+   misma forma. Aquí van precargados para ver el flujo.
+   ============================================================ */
+
+// Datos de EJEMPLO — se usan mientras el backend no entregue leads reales
+// (el CRM aún no alimenta la cola). Cuando el backend responda, se reemplazan.
+let LEADS = [
+  {
+    id: 'L1',
+    hora: 'hace 2 min',
+    minutos: 2,
+    nuevo: true,
+    // --- forma TarjetaF1 ---
+    ok: true,
+    personalizado: true,
+    mensaje: 'Buen día, Mariana. Le escribo de la empresa Klimm. Veo que le interesan escobas, mechudos y trapeadores industriales; con gusto le preparo una cotización.',
+    waLink: 'https://wa.me/525512345678?text=' + encodeURIComponent('Buen día, Mariana. Le escribo de la empresa Klimm. Veo que le interesan escobas, mechudos y trapeadores industriales; con gusto le preparo una cotización.'),
+    lead: { nombre:'Mariana Gómez Ruiz', empresa:'Servicios Integrales del Bajío', ubicacion:'León, Guanajuato', texto:'Necesito saber el mayoreo de escobas, mechudos y trapeadores industriales para una empresa de limpieza', telefono:'55 1234 5678' },
+    avisos: [],
+    bloqueoEnvio: null,
+    enviado: false,
+  },
+  {
+    id: 'L2',
+    hora: 'hace 9 min',
+    minutos: 9,
+    nuevo: false,
+    ok: true,
+    personalizado: true,
+    mensaje: 'Buen día, Roberto. Le escribo de la empresa Klimm. Veo que requiere cotizar un listado de artículos; con gusto lo reviso y le preparo su cotización.',
+    waLink: 'https://wa.me/528118889999?text=' + encodeURIComponent('Buen día, Roberto. Le escribo de la empresa Klimm. Veo que requiere cotizar un listado de artículos; con gusto lo reviso y le preparo su cotización.'),
+    lead: { nombre:'Roberto Salinas', empresa:'Distribuidora Salinas', ubicacion:'Monterrey, Nuevo León', texto:'quisiera cotizar un listado de 39 artículos', telefono:'81 1888 9999' },
+    avisos: [],
+    bloqueoEnvio: null,
+    enviado: false,
+  },
+  {
+    id: 'L3',
+    hora: 'hace 14 min',
+    minutos: 14,
+    nuevo: false,
+    // --- caso SIN texto usable -> cae a la pregunta original de Klimm ---
+    ok: true,
+    personalizado: false,
+    mensaje: 'Buen día, Lucía. Le escribo de la empresa Klimm. ¿En qué productos están interesados, para poder entregarles una propuesta?',
+    waLink: 'https://wa.me/523331112222?text=' + encodeURIComponent('Buen día, Lucía. Le escribo de la empresa Klimm. ¿En qué productos están interesados, para poder entregarles una propuesta?'),
+    lead: { nombre:'Lucía Fernández', empresa:null, ubicacion:'Guadalajara, Jalisco', texto:'info', telefono:'33 3111 2222' },
+    avisos: [],
+    bloqueoEnvio: null,
+    enviado: false,
+  },
+  {
+    id: 'L4',
+    hora: 'hace 21 min',
+    minutos: 21,
+    nuevo: false,
+    // --- caso NO ENVIABLE: teléfono con formato raro ---
+    ok: false,
+    personalizado: true,
+    mensaje: 'Buen día, Jorge. Le escribo de la empresa Klimm. Con gusto le comparto el catálogo y le preparo una cotización de los productos de limpieza que necesite.',
+    waLink: null,
+    lead: { nombre:'Jorge Méndez', empresa:'Hotelería del Pacífico', ubicacion:'Puerto Vallarta, Jalisco', texto:'Quiero catálogo o precios de mayoreo de productos de limpieza', telefono:'444-12' },
+    avisos: [],
+    bloqueoEnvio: 'Teléfono con formato inesperado ("444-12"). Revisar antes de enviar.',
+    correo: 'jorge.mendez@hoteleriapacifico.mx', // vendría del parser (fields.correo)
+    enviado: false,
+  },
+  {
+    id: 'L5',
+    hora: 'hace 33 min',
+    minutos: 33,
+    nuevo: false,
+    // --- nombre no usable: se redacta sin saludar por nombre + aviso ---
+    ok: true,
+    personalizado: true,
+    mensaje: 'Buen día. Le escribo de la empresa Klimm. Veo que le interesa el jabón para manos a granel; con gusto le preparo una cotización.',
+    waLink: 'https://wa.me/525598887777?text=' + encodeURIComponent('Buen día. Le escribo de la empresa Klimm. Veo que le interesa el jabón para manos a granel; con gusto le preparo una cotización.'),
+    lead: { nombre:'.', empresa:'Corporativo GN', ubicacion:'CDMX', texto:'jabon para manos a granel', telefono:'55 9888 7777' },
+    avisos: ['Nombre no usable para saludar ("."): se redactó sin dirigirse a nadie.'],
+    bloqueoEnvio: null,
+    enviado: false,
+  },
+];
+
+let activoId = LEADS[0].id;
+const borradores = {}; // ediciones locales del operador
+
+// --- Estado de pestañas -------------------------------------------------
+// El panel maneja dos listas. Mientras vienen datos de EJEMPLO (un solo
+// array LEADS), derivamos pendientes/atendidos de la bandera 'enviado'/'atendido'.
+// Cuando el backend responde, el puente ya las entrega separadas.
+let tabActiva = 'pendientes';
+
+function listaPendientes(){
+  return LEADS.filter(l => !(l.atendido || l.enviado));
+}
+function listaAtendidos(){
+  return LEADS.filter(l => (l.atendido || l.enviado));
+}
+function listaActiva(){
+  return tabActiva === 'atendidos' ? listaAtendidos() : listaPendientes();
+}
+
+function cambiarTab(tab){
+  tabActiva = tab;
+  // Al cambiar de pestaña, seleccionar el primero de esa lista (si hay).
+  const lista = listaActiva();
+  activoId = lista.length ? lista[0].id : null;
+  document.querySelectorAll('.pestana').forEach(b => {
+    b.classList.toggle('activa', b.dataset.tab === tab);
+  });
+  pintarCola();
+  pintarDetalle();
+}
+
+const $ = (s, el=document) => el.querySelector(s);
+const esc = (s) => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+const iconoWA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C9.6 8.5 9 7 8.7 6.4c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.2 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.5-.3M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2m0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2"/></svg>';
+const iconoMail = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+const iconoCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>';
+
+function pintarCola(){
+  const cola = $('#cola');
+  const pend = listaPendientes();
+  const aten = listaAtendidos();
+
+  // Contadores (cabecera y pestañas)
+  $('#conteoPendientes').textContent = pend.length;
+  const nP = $('#numPendientes'), nA = $('#numAtendidos');
+  if (nP) nP.textContent = pend.length;
+  if (nA) nA.textContent = aten.length;
+
+  const lista = listaActiva();
+
+  if (!lista.length){
+    cola.innerHTML = `<div class="cola-vacia">${
+      tabActiva === 'atendidos'
+        ? 'Aún no hay leads atendidos hoy.'
+        : 'No hay leads pendientes. Todo al día.'
+    }</div>`;
+    return;
+  }
+
+  cola.innerHTML = lista.map(l => {
+    const esAtendido = (l.atendido || l.enviado);
+    const clases = ['lead-item'];
+    if (l.id === activoId) clases.push('activo');
+    if (esAtendido) clases.push('enviado');
+    if (l.bloqueoEnvio) clases.push('bloqueado');
+    if (l.nuevo && !esAtendido) clases.push('nuevo');
+
+    let estado = '';
+    if (esAtendido){
+      estado = '<span class="chip chip-enviado">Atendido</span>';
+    } else if (l.bloqueoEnvio){
+      estado = '<span class="chip chip-rojo">Sin WhatsApp</span>';
+    } else {
+      estado = l.personalizado
+        ? '<span class="chip chip-ia">Personalizado</span>'
+        : '<span class="chip chip-base">Pregunta base</span>';
+    }
+
+    const pedido = l.lead.texto ? esc(l.lead.texto) : 'Sin mensaje';
+
+    return `<div class="${clases.join(' ')}" onclick="seleccionar('${l.id}')">
+      <div class="li-top">
+        <div class="li-nombre">${(l.nuevo && !esAtendido) ? '<span class="pulso"></span> ' : ''}${esc(l.lead.nombre && l.lead.nombre.length>1 ? l.lead.nombre : (l.lead.empresa || 'Lead sin nombre'))}</div>
+        <div class="li-hora">${esc(l.hora)}</div>
+      </div>
+      <div class="li-pedido">${pedido}</div>
+      <div class="li-estado">${estado}</div>
+    </div>`;
+  }).join('');
+}
+
+function seleccionar(id){
+  activoId = id;
+  const l = LEADS.find(x => x.id === id);
+  if (l) l.nuevo = false; // al abrirlo deja de ser "nuevo"
+  pintarCola();
+  pintarDetalle();
+}
+
+function pintarDetalle(){
+  const l = LEADS.find(x => x.id === activoId);
+  const det = $('#detalle');
+  if (!l){ det.innerHTML = ''; return; }
+
+  const bloqueado = !!l.bloqueoEnvio;
+  det.className = 'detalle' + (bloqueado ? ' rojo' : '');
+
+  const nombreVisible = (l.lead.nombre && l.lead.nombre.length > 1) ? l.lead.nombre : (l.lead.empresa || 'Lead sin nombre');
+  const mensajeActual = (borradores[l.id] !== undefined) ? borradores[l.id] : l.mensaje;
+  const editado = borradores[l.id] !== undefined && borradores[l.id] !== l.mensaje;
+
+  // Meta (empresa / ubicación / teléfono)
+  const meta = [];
+  if (l.lead.empresa) meta.push(`<div class="campo"><div class="et">Empresa</div><div class="va">${esc(l.lead.empresa)}</div></div>`);
+  if (l.lead.ubicacion) meta.push(`<div class="campo"><div class="et">Ubicación</div><div class="va">${esc(l.lead.ubicacion)}</div></div>`);
+  meta.push(`<div class="campo"><div class="et">Teléfono</div><div class="va">${esc(l.lead.telefono || '—')}</div></div>`);
+
+  // Reloj de R1
+  const urgente = l.minutos >= 15;
+  const reloj = l.enviado ? '' :
+    `<div class="reloj ${urgente?'urgente':''}">${urgente?'⏱':'○'} llegó ${esc(l.hora)}</div>`;
+
+  // Bloque de bloqueo (rojo)
+  const bloqueoHTML = bloqueado
+    ? `<div class="bloqueo"><strong>No se puede enviar por WhatsApp</strong>${esc(l.bloqueoEnvio)}</div>`
+    : '';
+
+  // Avisos del parser
+  const avisosHTML = (l.avisos && l.avisos.length)
+    ? l.avisos.map(a => `<div class="aviso">${esc(a)}</div>`).join('')
+    : '';
+
+  // Pedido del lead
+  const pidioHTML = l.lead.texto
+    ? `<div class="pidio-texto">"${esc(l.lead.texto)}"</div>`
+    : `<div class="pidio-texto pidio-vacio">El lead no escribió nada. El mensaje usa la pregunta de Klimm.</div>`;
+
+  const esAtendido = (l.atendido || l.enviado);
+
+  // Acciones según estado
+  let accionesHTML = '';
+  if (esAtendido){
+    // Opción A: atendido = SOLO LECTURA. Se consulta qué se le envió; no se
+    // reenvía desde aquí (recontacto es territorio de F2/seguimiento).
+    accionesHTML = `<span style="font-size:13px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>`;
+  } else if (bloqueado){
+    // C2-D18 cerrado: clic humano por correo
+    const mailto = l.lead.correo
+      ? `mailto:${l.lead.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(mensajeActual)}`
+      : '#';
+    accionesHTML = `<a class="boton boton-correo" href="${mailto}" onclick="marcarEnviado('${l.id}')">${iconoMail} Abrir correo con el mensaje</a>
+      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+  } else {
+    const link = borradores[l.id] !== undefined
+      ? l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(mensajeActual)
+      : l.waLink;
+    accionesHTML = `<a class="boton boton-wa" href="${link}" target="_blank" onclick="marcarEnviado('${l.id}')">${iconoWA} Abrir WhatsApp y enviar</a>
+      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+  }
+
+  // El textarea es editable solo si NO está atendido (atendido = consulta).
+  const textareaHTML = esAtendido
+    ? `<div class="pidio-texto" style="font-style:normal">${esc(mensajeActual)}</div>`
+    : `<div class="mensaje-caja">
+          <textarea class="mensaje" id="ta-${l.id}" oninput="editar('${l.id}', this.value)">${esc(mensajeActual)}</textarea>
+          <div class="mensaje-pie">
+            <span class="mensaje-nota">${editado ? 'Editado — el botón usa tu versión.' : 'Puede ajustarlo antes de enviar.'}</span>
+            ${editado ? `<button class="restaurar" onclick="restaurar('${l.id}')">Restaurar original</button>` : ''}
+          </div>
+        </div>`;
+
+  det.innerHTML = `
+    <div class="det-cabecera ${bloqueado?'rojo':''}">
+      <div class="det-nombre">${esc(nombreVisible)}</div>
+      <div class="det-sub">${reloj}</div>
+      <div class="det-meta">${meta.join('')}</div>
+    </div>
+    <div class="det-cuerpo">
+      ${bloqueoHTML}
+      <div class="bloque">
+        <div class="bloque-et">Lo que pidió</div>
+        ${pidioHTML}
+      </div>
+      <div class="bloque">
+        <div class="bloque-et">${esAtendido ? 'Mensaje enviado' : ('Mensaje a enviar'+(l.personalizado?' · personalizado por IA':' · pregunta base de Klimm'))}</div>
+        ${textareaHTML}
+        ${avisosHTML}
+      </div>
+    </div>
+    <div class="det-acciones">${accionesHTML}</div>
+  `;
+}
+
+function editar(id, val){
+  borradores[id] = val;
+  // Repintar solo el pie y el link sin perder foco del textarea:
+  const l = LEADS.find(x=>x.id===id);
+  const pie = $('.mensaje-nota');
+  if (pie) pie.textContent = (val !== l.mensaje) ? 'Editado — el botón usa tu versión.' : 'Puede ajustarlo antes de enviar.';
+  // actualizar href del botón wa/correo
+  const btnWa = $('.boton-wa'); const btnCorreo = $('.boton-correo');
+  if (btnWa && l.waLink){ btnWa.href = l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(val); }
+  if (btnCorreo && l.correo){ btnCorreo.href = `mailto:${l.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(val)}`; }
+  // mostrar/ocultar "restaurar"
+  if ((val !== l.mensaje) && !$('.restaurar')){ pintarDetalleSuave(id); }
+}
+function pintarDetalleSuave(id){
+  // repinta pie conservando el valor editado y el foco
+  const ta = document.getElementById('ta-'+id);
+  const pos = ta ? ta.selectionStart : null;
+  pintarDetalle();
+  const ta2 = document.getElementById('ta-'+id);
+  if (ta2 && pos!=null){ ta2.focus(); ta2.setSelectionRange(pos,pos); }
+}
+
+function restaurar(id){
+  delete borradores[id];
+  pintarDetalle();
+}
+
+function marcarEnviado(id){
+  const l = LEADS.find(x=>x.id===id);
+  if (l){ l.enviado = true; l.nuevo = false; }
+  // pequeño respiro para que el enlace abra antes del repintado
+  setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
+}
+function deshacer(id){
+  const l = LEADS.find(x=>x.id===id);
+  if (l) l.enviado = false;
+  pintarCola(); pintarDetalle();
+}
+
+// Arranque
+pintarCola();
+pintarDetalle();
+
+/* ================= CONEXIÓN AL BACKEND (Solón) =================
+   Mismo patrón que cotizador.html: guarda backend + clave en este navegador
+   y llama con la cabecera x-backend-key. Mientras el backend no entregue
+   leads, el panel muestra los datos de EJEMPLO de arriba. Cuando el endpoint
+   responde, los reemplaza. NO rompe nada si no hay backend. */
+const BACKEND = localStorage.getItem('solon_backend') || '';
+const CLAVE   = localStorage.getItem('solon_clave')   || '';
+const RUTA_COLA = '/agente/f1/cola';
+
+// Cada cuánto el panel vuelve a pedir la cola (decisión: 5s).
+const REFRESCO_PANEL_MS = 5000;
+let backendVivo = false; // ¿el backend ya respondió con datos reales?
+
+async function cargarLeadsReales(){
+  if (!BACKEND || !CLAVE) return; // sin config -> quedarse con los de ejemplo
+  try {
+    const resp = await fetch(BACKEND + RUTA_COLA, {
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE }
+    });
+    if (!resp.ok) return; // 404/401 -> ejemplos, sin ruido
+    const data = await resp.json();
+    if (!data || data.ok === false) return; // backend sin datos -> ejemplos
+
+    // El puente entrega { pendientes:[], atendidos:[], leads:[] }. Unificamos
+    // en LEADS (con su bandera 'atendido'); las funciones derivan las listas.
+    let nuevos = null;
+    if (Array.isArray(data.leads)) {
+      nuevos = data.leads;
+    } else if (Array.isArray(data.pendientes) || Array.isArray(data.atendidos)) {
+      nuevos = [...(data.pendientes||[]), ...(data.atendidos||[])];
+    }
+    if (!nuevos) return;
+
+    backendVivo = true;
+
+    // --- Refresco SIN perder el trabajo en curso ---
+    // Conservar el lead abierto y cualquier borrador que se esté editando.
+    const idAbierto = activoId;
+    LEADS = nuevos;
+
+    // Si el lead que estaba abierto sigue existiendo, mantener la selección;
+    // si desapareció (p.ej. pasó a atendido y estás en pendientes), elegir
+    // el primero de la pestaña activa.
+    const sigueVisible = LEADS.some(l => l.id === idAbierto);
+    if (!sigueVisible) {
+      const lista = listaActiva();
+      activoId = lista.length ? lista[0].id : null;
+    }
+
+    pintarCola();
+    // No repintar el detalle si el usuario está editando un borrador de ese
+    // lead (para no interrumpir su escritura). Si no, repintar normal.
+    const editandoAbierto = borradores[activoId] !== undefined
+      && document.activeElement
+      && document.activeElement.id === ('ta-' + activoId);
+    if (!editandoAbierto) pintarDetalle();
+  } catch (_) {
+    // Backend dormido / sin red: seguir con lo que haya (ejemplos o última copia).
+  }
+}
+
+// Arranque de la conexión + refresco periódico.
+cargarLeadsReales();
+setInterval(cargarLeadsReales, REFRESCO_PANEL_MS);
+</script>
+</body>
+</html>
