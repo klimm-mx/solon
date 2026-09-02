@@ -408,6 +408,10 @@ function pintarDetalle(){
     // Opción A: atendido = SOLO LECTURA. Se consulta qué se le envió; no se
     // reenvía desde aquí (recontacto es territorio de F2/seguimiento).
     accionesHTML = `<span style="font-size:13px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>`;
+  } else if (l.enProceso){
+    // Opción A: el clic ya abrió WhatsApp; esperamos a que Odoo confirme el
+    // avance de etapa antes de marcar Atendido. Feedback para el operador.
+    accionesHTML = `<span style="font-size:13px;color:var(--tinta-suave);font-weight:600;display:flex;align-items:center;gap:6px">○ Registrando el contacto…</span>`;
   } else if (bloqueado){
     // C2-D18 cerrado: clic humano por correo
     const mailto = l.lead.correo
@@ -434,6 +438,12 @@ function pintarDetalle(){
           </div>
         </div>`;
 
+  // Aviso si el registro en Odoo falló (Opción A): el chat se abrió, pero la
+  // etapa no avanzó. El lead sigue en Pendientes; se puede reintentar.
+  const errorHTML = l.errorContacto
+    ? `<div class="bloqueo"><strong>El mensaje se abrió, pero no se registró en Odoo</strong>El lead sigue en Pendientes. Vuelve a dar clic para reintentar el registro.</div>`
+    : '';
+
   det.innerHTML = `
     <div class="det-cabecera ${bloqueado?'rojo':''}">
       <div class="det-nombre">${esc(nombreVisible)}</div>
@@ -441,6 +451,7 @@ function pintarDetalle(){
       <div class="det-meta">${meta.join('')}</div>
     </div>
     <div class="det-cuerpo">
+      ${errorHTML}
       ${bloqueoHTML}
       <div class="bloque">
         <div class="bloque-et">Lo que pidió</div>
@@ -483,11 +494,75 @@ function restaurar(id){
   pintarDetalle();
 }
 
+/**
+ * marcarEnviado — se dispara con el clic humano (botón WhatsApp o correo).
+ * -----------------------------------------------------------------------
+ * PASO 3 · OPCIÓN A (decisión sesión 4): el lead pasa a "Atendido" SOLO
+ * cuando Odoo confirma que se movió a "Contactado". Así el panel nunca
+ * miente: si dice Atendido, Odoo de verdad lo registró.
+ *
+ * Orden de lo que pasa al hacer clic:
+ *   1. El navegador abre el chat de WhatsApp (o el correo) por su cuenta:
+ *      es el href del <a>. Este onclick corre EN PARALELO, no lo estorba.
+ *   2. Le pedimos al backend mover la etapa (avisarContactado).
+ *   3. Si el backend responde ok -> marcamos el lead Atendido y repintamos.
+ *      Si falla -> lo dejamos en Pendientes y avisamos discretamente, para
+ *      que alguien reintente. NUNCA lo marcamos atendido "a ciegas".
+ *
+ * Compatibilidad con los datos de EJEMPLO: si el lead no tiene odooId (los
+ * L1..L5 de prueba, que no vienen de Odoo), se comporta como antes —marca
+ * atendido localmente— para no romper la demo sin backend.
+ */
 function marcarEnviado(id){
   const l = LEADS.find(x=>x.id===id);
-  if (l){ l.enviado = true; l.nuevo = false; }
-  // pequeño respiro para que el enlace abra antes del repintado
+  if (!l) return;
+  l.nuevo = false; // en cualquier caso, ya dejó de ser "recién llegado"
+  l.errorContacto = false; // si es un reintento, limpiar el aviso anterior
+
+  // Caso demo / sin backend: sin odooId no hay a quién avisar en Odoo.
+  // Mantener el comportamiento local de siempre.
+  if (l.odooId === undefined || l.odooId === null || !BACKEND || !CLAVE){
+    l.enviado = true;
+    setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
+    return;
+  }
+
+  // Opción A: esperar a Odoo. Marcamos "en proceso" para que el operador
+  // vea que algo está pasando, sin afirmar todavía que quedó atendido.
+  l.enProceso = true;
   setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
+
+  avisarContactado(l.odooId).then((ok)=>{
+    l.enProceso = false;
+    if (ok){
+      l.enviado = true;          // ahora sí: Odoo confirmó el avance de etapa
+    } else {
+      // No se pudo registrar: dejarlo pendiente y avisar para reintentar.
+      l.errorContacto = true;
+    }
+    pintarCola(); pintarDetalle();
+  });
+}
+
+/**
+ * avisarContactado — le pide al backend mover el lead a "Contactado".
+ * Devuelve Promise<boolean>: true si Odoo confirmó el avance (o el lead ya
+ * estaba avanzado, que también cuenta como "registrado"); false si falló.
+ */
+async function avisarContactado(odooId){
+  try {
+    const resp = await fetch(BACKEND + RUTA_CONTACTADO, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ odooId }),
+    });
+    if (!resp.ok) return false;
+    const data = await resp.json();
+    // ok:true cubre 'movido' y 'ya-avanzado' (ambos = quedó registrado).
+    return !!(data && data.ok);
+  } catch (_) {
+    return false; // sin red / backend caído: no confirmamos
+  }
 }
 function deshacer(id){
   const l = LEADS.find(x=>x.id===id);
@@ -507,6 +582,7 @@ pintarDetalle();
 const BACKEND = localStorage.getItem('solon_backend') || '';
 const CLAVE   = localStorage.getItem('solon_clave')   || '';
 const RUTA_COLA = '/agente/f1/cola';
+const RUTA_CONTACTADO = '/agente/f1/contactado';
 
 // Cada cuánto el panel vuelve a pedir la cola (decisión: 5s).
 const REFRESCO_PANEL_MS = 5000;
@@ -537,6 +613,26 @@ async function cargarLeadsReales(){
     // --- Refresco SIN perder el trabajo en curso ---
     // Conservar el lead abierto y cualquier borrador que se esté editando.
     const idAbierto = activoId;
+
+    // Preservar estados TRANSITORIOS de un clic en curso (Opción A): si un
+    // lead está "registrando" o quedó con error de registro, el refresco de
+    // la cola NO debe borrar ese estado (la ventana es ~1s, pero real). Los
+    // reponemos por odooId sobre los objetos nuevos.
+    const transitorios = new Map();
+    for (const viejo of LEADS){
+      if (viejo && viejo.odooId != null && (viejo.enProceso || viejo.errorContacto)){
+        transitorios.set(viejo.odooId, {
+          enProceso: viejo.enProceso, errorContacto: viejo.errorContacto,
+        });
+      }
+    }
+    if (transitorios.size){
+      for (const nuevo of nuevos){
+        const t = nuevo && nuevo.odooId != null ? transitorios.get(nuevo.odooId) : null;
+        if (t){ nuevo.enProceso = t.enProceso; nuevo.errorContacto = t.errorContacto; }
+      }
+    }
+
     LEADS = nuevos;
 
     // Si el lead que estaba abierto sigue existiendo, mantener la selección;
