@@ -448,13 +448,13 @@ function pintarDetalle(){
     const mailto = l.lead.correo
       ? `mailto:${l.lead.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(mensajeActual)}`
       : '#';
-    accionesHTML = `<a class="boton boton-correo" href="${mailto}" onclick="marcarEnviado('${l.id}')">${iconoMail} Abrir correo con el mensaje</a>
+    accionesHTML = `<a class="boton boton-correo" href="${mailto}" onclick="return abrirCorreo('${l.id}', this)">${iconoMail} Abrir correo con el mensaje</a>
       <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
   } else {
-    const link = borradores[l.id] !== undefined
-      ? l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(mensajeActual)
-      : l.waLink;
-    accionesHTML = `<a class="boton boton-wa" href="${link}" target="_blank" onclick="marcarEnviado('${l.id}')">${iconoWA} Abrir WhatsApp y enviar</a>
+    // El link se calcula EN EL MOMENTO DEL CLIC leyendo el textarea, para que
+    // SIEMPRE use la versión que el operador ve en pantalla (con sus ediciones).
+    // Antes se pre-calculaba y un redibujado podía pisarlo con el original.
+    accionesHTML = `<a class="boton boton-wa" href="${l.waLink || '#'}" target="_blank" onclick="return abrirWa('${l.id}', this)">${iconoWA} Abrir WhatsApp y enviar</a>
       <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
   }
 
@@ -500,15 +500,14 @@ function pintarDetalle(){
 
 function editar(id, val){
   borradores[id] = val;
-  // Repintar solo el pie y el link sin perder foco del textarea:
   const l = LEADS.find(x=>x.id===id);
+  if (!l) return; // blindaje: si por lo que sea no se halla el lead, no tronar
+                  // (un throw aquí rompería el flujo del clic de envío).
+  // Solo actualizar el texto del pie (el link ya NO se toca aquí: abrirWa lo
+  // calcula al hacer clic, leyendo el textarea. Así nada pisa las ediciones).
   const pie = $('.mensaje-nota');
   if (pie) pie.textContent = (val !== l.mensaje) ? 'Editado — el botón usa tu versión.' : 'Puede ajustarlo antes de enviar.';
-  // actualizar href del botón wa/correo
-  const btnWa = $('.boton-wa'); const btnCorreo = $('.boton-correo');
-  if (btnWa && l.waLink){ btnWa.href = l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(val); }
-  if (btnCorreo && l.correo){ btnCorreo.href = `mailto:${l.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(val)}`; }
-  // mostrar/ocultar "restaurar"
+  // Mostrar el botón "restaurar" si empezó a editar y aún no existe.
   if ((val !== l.mensaje) && !$('.restaurar')){ pintarDetalleSuave(id); }
 }
 function pintarDetalleSuave(id){
@@ -544,6 +543,39 @@ function restaurar(id){
  * L1..L5 de prueba, que no vienen de Odoo), se comporta como antes —marca
  * atendido localmente— para no romper la demo sin backend.
  */
+/**
+ * abrirWa — se ejecuta AL HACER CLIC en "Abrir WhatsApp y enviar".
+ * Lee el mensaje ACTUAL del textarea (con las ediciones del operador) en este
+ * instante, arma el link wa.me fresco, lo pone en el botón, y dispara el
+ * registro Nuevo→Contactado. Devuelve true para que el navegador siga el link.
+ * Así el mensaje enviado SIEMPRE es el que el operador ve, nunca el original.
+ */
+function abrirWa(id, elemento){
+  const l = LEADS.find(x=>x.id===id);
+  if (!l || !l.waLink) return false;
+  // El mensaje vigente: lo que haya en el textarea; si no, el borrador; si no, el original.
+  const ta = document.getElementById('ta-'+id);
+  const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
+  // Reconstruir el link con el mensaje vigente, justo antes de abrir.
+  elemento.href = l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(mensaje);
+  // Registrar el contacto (mueve la etapa en Odoo).
+  marcarEnviado(id);
+  return true; // deja que el navegador abra el href recién puesto
+}
+
+/**
+ * abrirCorreo — igual que abrirWa pero para el botón de correo (caso sin WhatsApp).
+ */
+function abrirCorreo(id, elemento){
+  const l = LEADS.find(x=>x.id===id);
+  if (!l || !l.lead || !l.lead.correo) return false;
+  const ta = document.getElementById('ta-'+id);
+  const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
+  elemento.href = `mailto:${l.lead.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(mensaje)}`;
+  marcarEnviado(id);
+  return true;
+}
+
 function marcarEnviado(id){
   const l = LEADS.find(x=>x.id===id);
   if (!l) return;
