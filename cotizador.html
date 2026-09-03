@@ -48,6 +48,12 @@ textarea{min-height:120px;resize:vertical}
 .cliente-elegido .nombre{font-weight:700;color:var(--agua-oscuro)}
 .quitar{background:none;border:none;color:var(--tinta-suave);cursor:pointer;font-size:13px;text-decoration:underline}
 
+/* Buscador de LEAD (añadido) — mismo estilo del de cliente, con acento ámbar */
+.separador-o{display:flex;align-items:center;text-align:center;color:var(--tinta-suave);font-size:12.5px;margin:16px 0;gap:10px}
+.separador-o::before,.separador-o::after{content:'';flex:1;height:1px;background:var(--borde)}
+.lead-elegido{border-color:var(--media)!important;background:var(--media-bg)!important}
+.lead-elegido .nombre{color:var(--media)!important}
+
 /* Entrada de pedido */
 .pestanas{display:flex;gap:6px;margin-bottom:12px}
 .pestana{padding:7px 16px;border:1px solid var(--borde);border-radius:20px;background:var(--superficie);font-size:13px;font-weight:600;color:var(--tinta-suave);cursor:pointer}
@@ -148,9 +154,24 @@ textarea{min-height:120px;resize:vertical}
 
   <div id="avisoGlobal"></div>
 
-  <!-- PASO 1: Cliente -->
+  <!-- PASO 1: Lead de F1 o Cliente -->
   <section class="paso">
-    <div class="paso-titulo"><div class="paso-num">1</div><h2>Selecciona el cliente</h2></div>
+    <div class="paso-titulo"><div class="paso-num">1</div><h2>Elige el lead o el cliente</h2></div>
+
+    <!-- Lead de F1 (flujo principal): la cotización queda LIGADA al lead -->
+    <div id="zonaBusquedaLead" class="buscador">
+      <label for="entradaLead">Lead de F1 — busca por nombre, empresa, correo o teléfono</label>
+      <input type="text" id="entradaLead" placeholder="Escribe al menos 3 letras…" autocomplete="off">
+      <div id="listaLeads" class="resultados-busqueda"></div>
+    </div>
+    <div id="leadElegido" style="display:none" class="cliente-elegido lead-elegido">
+      <div><div class="nombre" id="nombreLead"></div><div class="detalle" id="detalleLead"></div></div>
+      <button class="quitar" onclick="quitarLead()">Cambiar</button>
+    </div>
+
+    <div class="separador-o">o cotiza para un cliente existente (sin lead)</div>
+
+    <!-- Cliente existente (flujo original, SIN CAMBIOS) -->
     <div id="zonaBusqueda" class="buscador">
       <label for="entradaCliente">Busca por nombre (el cliente debe existir en Odoo)</label>
       <input type="text" id="entradaCliente" placeholder="Escribe al menos 3 letras…" autocomplete="off">
@@ -300,6 +321,7 @@ async function buscarClientes(q){
 
 function elegirCliente(p){
   clienteSeleccionado = p;
+  quitarLead();                  // exclusión mutua: un lead O un cliente, no ambos
   document.getElementById('nombreCliente').textContent = p.name;
   document.getElementById('detalleCliente').textContent = [p.email, p.vat].filter(Boolean).join(' · ');
   document.getElementById('zonaBusqueda').style.display = 'none';
@@ -312,6 +334,65 @@ function quitarCliente(){
   entradaCliente.value = '';
   document.getElementById('zonaBusqueda').style.display = 'block';
   document.getElementById('clienteElegido').style.display = 'none';
+}
+
+/* ================= PASO 1 (bis): LEAD DE F1 ================= */
+let leadSeleccionado = null;
+let temporizadorLead = null;
+const entradaLead = document.getElementById('entradaLead');
+const listaLeads = document.getElementById('listaLeads');
+
+entradaLead.addEventListener('input', () => {
+  clearTimeout(temporizadorLead);
+  const q = entradaLead.value.trim();
+  if(q.length < 3){ listaLeads.classList.remove('visible'); return; }
+  temporizadorLead = setTimeout(() => buscarLeads(q), 350);
+});
+
+async function buscarLeads(q){
+  try{
+    listaLeads.innerHTML = '<div class="opcion-cliente"><span class="detalle">Buscando…</span></div>';
+    listaLeads.classList.add('visible');
+    const d = await llamar('/api/leads?q=' + encodeURIComponent(q));
+    if(!d.leads.length){
+      listaLeads.innerHTML = '<div class="opcion-cliente"><span class="detalle">Sin leads abiertos con ese nombre. (Ganados y perdidos no aparecen.)</span></div>';
+      return;
+    }
+    listaLeads.innerHTML = d.leads.map(l =>
+      `<div class="opcion-cliente" onclick='elegirLead(${JSON.stringify(l).replace(/'/g,"&#39;")})'>
+        <div class="nombre">${l.name || l.partner_name || l.contact_name || 'Lead'}</div>
+        <div class="detalle">${[l.contact_name, l.email, l.phone, l.etapa ? '· '+l.etapa : ''].filter(Boolean).join(' · ') || 'Sin datos adicionales'}</div>
+      </div>`).join('');
+  }catch(e){
+    listaLeads.innerHTML = `<div class="opcion-cliente"><span class="detalle">Error: ${e.message}</span></div>`;
+  }
+}
+
+function elegirLead(l){
+  leadSeleccionado = l;
+  quitarCliente();               // exclusión mutua: un lead O un cliente, no ambos
+  const titulo = l.name || l.partner_name || l.contact_name || 'Lead';
+  document.getElementById('nombreLead').textContent = 'Lead F1: ' + titulo;
+  document.getElementById('detalleLead').textContent =
+    [l.contact_name, l.email, l.phone, l.etapa ? 'Etapa: ' + l.etapa : ''].filter(Boolean).join(' · ');
+  document.getElementById('zonaBusquedaLead').style.display = 'none';
+  document.getElementById('leadElegido').style.display = 'flex';
+  listaLeads.classList.remove('visible');
+}
+
+function quitarLead(){
+  leadSeleccionado = null;
+  entradaLead.value = '';
+  document.getElementById('zonaBusquedaLead').style.display = 'block';
+  document.getElementById('leadElegido').style.display = 'none';
+}
+
+/* Objetivo de la cotización: el lead tiene prioridad; si no, el cliente.
+   Devuelve { tipo:'lead'|'cliente', id, nombre } o null si no hay nada elegido. */
+function objetivoSeleccionado(){
+  if(leadSeleccionado) return { tipo:'lead', id: leadSeleccionado.id, nombre: leadSeleccionado.name || leadSeleccionado.partner_name || leadSeleccionado.contact_name || null };
+  if(clienteSeleccionado) return { tipo:'cliente', id: clienteSeleccionado.id, nombre: clienteSeleccionado.name || null };
+  return null;
 }
 
 /* ================= PASO 2: PEDIDO ================= */
@@ -441,12 +522,14 @@ async function cargarCatalogo(){
 
 async function procesarPedido(){
   avisar('');
-  if(!clienteSeleccionado){ avisar('Selecciona primero el cliente (Paso 1).', 'error'); return; }
+  const objetivo = objetivoSeleccionado();
+  if(!objetivo){ avisar('Selecciona primero un lead o un cliente (Paso 1).', 'error'); return; }
   const texto = document.getElementById('textoPedido').value.trim();
   const cuerpo = {
-    partnerId: clienteSeleccionado.id,
     modoLicitacion: document.getElementById('modoLicitacion').checked,
   };
+  if(objetivo.tipo === 'lead') cuerpo.opportunityId = objetivo.id;
+  else cuerpo.partnerId = objetivo.id;
 
   const hayTextos = archivosTexto.length > 0;
   const hayBase64 = archivosBase64.length > 0;
@@ -649,11 +732,12 @@ function actualizarResumen(){
   const notas = lineasResultado.filter(l => l.status==='revision' && l.accion==='nota').length;
   const excluidas = lineasResultado.filter(l =>
     l.status==='revision' ? l.accion==='excluir' : !l.incluir).length;
+  const obj = objetivoSeleccionado();
   document.getElementById('resumenFinal').innerHTML =
     `<strong>${incluidas}</strong> producto(s) a cotizar` +
     (notas ? ` · <strong>${notas}</strong> nota(s) de revisión` : '') +
     (excluidas ? ` · ${excluidas} excluida(s)` : '') +
-    ` · Cliente: <strong>${clienteSeleccionado?.name||''}</strong>`;
+    ` · ${obj && obj.tipo==='lead' ? 'Lead' : 'Cliente'}: <strong>${obj?.nombre||''}</strong>`;
   document.getElementById('botonCrear').disabled = incluidas + notas === 0;
 }
 
@@ -711,11 +795,14 @@ async function crearCotizacion(){
   const boton = document.getElementById('botonCrear');
   boton.disabled = true; boton.textContent = 'Creando…';
   try{
+    const objetivo = objetivoSeleccionado();
+    if(!objetivo){ avisar('Selecciona un lead o un cliente antes de crear la cotización (Paso 1).', 'error'); return; }
+    const idPayload = objetivo.tipo === 'lead' ? { opportunityId: objetivo.id } : { partnerId: objetivo.id };
     const d = await llamar('/api/quote', {
       method:'POST',
       body: JSON.stringify({
-        partnerId: clienteSeleccionado.id,
-        clienteNombre: clienteSeleccionado.name || null,
+        ...idPayload,
+        clienteNombre: objetivo.nombre || null,
         lines, lineasRevision, lineasSinCatalogo, correcciones,
       })
     });
