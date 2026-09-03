@@ -2160,6 +2160,66 @@
       "accion": "excluida",
       "motivo": "La marca/término \"fieco\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1658
+    },
+    {
+      "fecha": "2026-09-03T22:50:53.947Z",
+      "cliente_id": 1592,
+      "cliente": "Eco service",
+      "pidio": "Elimina olores",
+      "producto_base": "elimina olores",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1671
+    },
+    {
+      "fecha": "2026-09-03T22:50:53.947Z",
+      "cliente_id": 1592,
+      "cliente": "Eco service",
+      "pidio": "Master para cristales",
+      "producto_base": "master para cristales",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "El cliente especificó tamaño pero los productos de la línea no tienen presentación capturada en Odoo",
+      "cotizacion_id": 1671
+    },
+    {
+      "fecha": "2026-09-03T22:50:53.947Z",
+      "cliente_id": 1592,
+      "cliente": "Eco service",
+      "pidio": "Navaja metálica de un solo filo",
+      "producto_base": "navaja metálica",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"de un solo filo\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1671
+    },
+    {
+      "fecha": "2026-09-03T22:50:53.947Z",
+      "cliente_id": 1592,
+      "cliente": "Eco service",
+      "pidio": "Ácido oxálico en polvo",
+      "producto_base": "ácido oxálico",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La categoría \"limpiador_abrasivo_polvo_crema\" no tiene producto Estándar definido",
+      "cotizacion_id": 1671
+    },
+    {
+      "fecha": "2026-09-03T22:50:53.947Z",
+      "cliente_id": 1592,
+      "cliente": "Eco service",
+      "pidio": "Cera para piso Vectra",
+      "producto_base": "cera para piso",
+      "cantidad": 1,
+      "unidad_pedido": null,
+      "accion": "excluida",
+      "motivo": "La marca/término \"Vectra\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1671
     }
   ]
 }
