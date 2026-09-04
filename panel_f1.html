@@ -91,13 +91,13 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
 .bloqueo strong{display:block;margin-bottom:2px}
 
 /* Acciones */
-.det-acciones{padding:16px 22px 22px;border-top:1px solid var(--borde);display:flex;gap:10px;align-items:center}
-.boton{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 22px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
-.boton-wa{background:var(--wa);color:#fff;flex:1}
+.det-acciones{padding:16px 22px 22px;border-top:1px solid var(--borde);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 20px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
+.boton-wa{background:var(--wa);color:#fff;flex:1 1 200px}
 .boton-wa:hover{background:var(--wa-oscuro)}
-.boton-correo{background:var(--agua);color:#fff;flex:1}
+.boton-correo{background:var(--agua);color:#fff;flex:1 1 200px}
 .boton-correo:hover{background:var(--agua-oscuro)}
-.boton-hecho{background:var(--superficie);color:var(--tinta);border:1px solid var(--borde)}
+.boton-hecho{background:var(--superficie);color:var(--tinta);border:1px solid var(--borde);flex:0 0 auto}
 .boton-hecho:hover{background:var(--fondo)}
 .boton svg{width:18px;height:18px;flex-shrink:0}
 
@@ -270,10 +270,10 @@ let LEADS = [
     personalizado: true,
     mensaje: 'Buen día, Jorge. Le escribo de la empresa Klimm. Con gusto le comparto el catálogo y le preparo una cotización de los productos de limpieza que necesite.',
     waLink: null,
-    lead: { nombre:'Jorge Méndez', empresa:'Hotelería del Pacífico', ubicacion:'Puerto Vallarta, Jalisco', texto:'Quiero catálogo o precios de mayoreo de productos de limpieza', telefono:'444-12' },
+    lead: { nombre:'Jorge Méndez', empresa:'Hotelería del Pacífico', ubicacion:'Puerto Vallarta, Jalisco', texto:'Quiero catálogo o precios de mayoreo de productos de limpieza', telefono:'444-12', correo:'jorge.mendez@hoteleriapacifico.mx' },
     avisos: [],
     bloqueoEnvio: 'Teléfono con formato inesperado ("444-12"). Revisar antes de enviar.',
-    correo: 'jorge.mendez@hoteleriapacifico.mx', // vendría del parser (fields.correo)
+    correo: 'jorge.mendez@hoteleriapacifico.mx', // respaldo: algunos flujos lo dejan en la raíz
     enviado: false,
   },
   {
@@ -288,6 +288,23 @@ let LEADS = [
     waLink: 'https://wa.me/525598887777?text=' + encodeURIComponent('Buen día. Le escribo de la empresa Klimm. Veo que le interesa el jabón para manos a granel; con gusto le preparo una cotización.'),
     lead: { nombre:'.', empresa:'Corporativo GN', ubicacion:'CDMX', texto:'jabon para manos a granel', telefono:'55 9888 7777' },
     avisos: ['Nombre no usable para saludar ("."): se redactó sin dirigirse a nadie.'],
+    bloqueoEnvio: null,
+    enviado: false,
+  },
+  {
+    id: 'L6',
+    hora: 'hace 41 min',
+    minutos: 41,
+    nuevo: false,
+    // --- caso REAL (sep-2026): teléfono BIEN escrito, pero el número NO tiene
+    //     cuenta de WhatsApp. El parser no lo puede saber; solo se descubre al
+    //     abrir el chat y rebotar. Por eso el correo debe estar SIEMPRE a la mano. ---
+    ok: true,
+    personalizado: true,
+    mensaje: 'Buen día, Genesis. Le escribo de la empresa Klimm. Con gusto reviso su solicitud y le confirmo disponibilidad y precio.',
+    waLink: 'https://wa.me/525931020079?text=' + encodeURIComponent('Buen día, Genesis. Le escribo de la empresa Klimm. Con gusto reviso su solicitud y le confirmo disponibilidad y precio.'),
+    lead: { nombre:'Genesis', empresa:'Industria Abellux', ubicacion:'Estado de México', texto:'Necesito cotizar rollo Georgia Pacific Enmotion', telefono:'593 102 0079', correo:'compras@abellux.mx' },
+    avisos: [],
     bloqueoEnvio: null,
     enviado: false,
   },
@@ -326,6 +343,30 @@ function cambiarTab(tab){
 
 const $ = (s, el=document) => el.querySelector(s);
 const esc = (s) => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/**
+ * correoDe — devuelve el correo del lead venga donde venga. El watcher aún no
+ * está encendido, así que no sabemos con certeza si lo dejará en l.lead.correo
+ * o en l.correo. Leemos de ambos (primero el anidado) para no depender de eso
+ * y de paso quitar el bug latente que apuntaba a 'mailto:undefined'.
+ * Devuelve null si no hay correo utilizable.
+ */
+function correoDe(l){
+  const c = (l && l.lead && l.lead.correo) || (l && l.correo) || '';
+  return c && c.includes('@') ? c : null;
+}
+
+/**
+ * armarMailto — construye el enlace mailto con el mensaje vigente. Por ahora el
+ * cuerpo es el mismo texto que se ve en pantalla (editable por el operador).
+ * La versión-correo redactada por la IA es una pieza aparte (backend), aún no
+ * integrada; cuando llegue, solo cambia lo que se pasa como 'cuerpo' aquí.
+ */
+function armarMailto(correo, cuerpo){
+  return 'mailto:' + correo
+    + '?subject=' + encodeURIComponent('Klimm — su solicitud')
+    + '&body=' + encodeURIComponent(cuerpo || '');
+}
 
 const iconoWA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C9.6 8.5 9 7 8.7 6.4c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.2 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.5-.3M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2m0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2"/></svg>';
 const iconoMail = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
@@ -433,33 +474,53 @@ function pintarDetalle(){
 
   const esAtendido = (l.atendido || l.enviado);
 
+  // ¿Qué canales tiene este lead a la mano?
+  const hayWa = !!l.waLink;                 // WhatsApp posible (teléfono usable)
+  const hayCorreo = !!correoDe(l);          // correo disponible (venga de donde venga)
+
+  // Botones individuales, para poder combinarlos según el estado.
+  // El link de WhatsApp/correo se calcula EN EL CLIC (abrirWa/abrirCorreo)
+  // leyendo el textarea, para que SIEMPRE use lo que el operador ve en pantalla.
+  const btnWa = hayWa
+    ? `<a class="boton boton-wa" href="${l.waLink}" target="_blank" onclick="return abrirWa('${l.id}', this)">${iconoWA} ${esAtendido ? 'Reintentar WhatsApp' : 'Abrir WhatsApp y enviar'}</a>`
+    : '';
+  const btnCorreo = hayCorreo
+    ? `<a class="boton boton-correo" href="${armarMailto(correoDe(l), mensajeActual)}" onclick="return abrirCorreo('${l.id}', this)">${iconoMail} ${esAtendido ? 'Enviar por correo' : 'Abrir correo con el mensaje'}</a>`
+    : '';
+
   // Acciones según estado
   let accionesHTML = '';
-  if (esAtendido){
-    // Opción A: atendido = SOLO LECTURA. Se consulta qué se le envió; no se
-    // reenvía desde aquí (recontacto es territorio de F2/seguimiento).
-    accionesHTML = `<span style="font-size:13px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>`;
-  } else if (l.enProceso){
-    // Opción A: el clic ya abrió WhatsApp; esperamos a que Odoo confirme el
+  if (l.enProceso){
+    // Opción A: el clic ya abrió el canal; esperamos a que Odoo confirme el
     // avance de etapa antes de marcar Atendido. Feedback para el operador.
     accionesHTML = `<span style="font-size:13px;color:var(--tinta-suave);font-weight:600;display:flex;align-items:center;gap:6px">○ Registrando el contacto…</span>`;
+  } else if (esAtendido){
+    // Atendido ya NO es solo-lectura muerta. Sigue sin ser reenvío ciego: es
+    // COMPLETAR un contacto que quizá rebotó (el número no tenía WhatsApp, o el
+    // envío no salió). Se ofrecen los mismos canales del lead para rematar por
+    // la vía que sí funcione. El texto es editable (abajo).
+    const canales = [btnWa, btnCorreo].filter(Boolean).join('\n      ');
+    accionesHTML = canales
+      ? `<span style="font-size:12.5px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px;width:100%;margin-bottom:2px">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>
+      ${canales}`
+      : `<span style="font-size:13px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>`;
   } else if (bloqueado){
-    // C2-D18 cerrado: clic humano por correo
-    const mailto = l.lead.correo
-      ? `mailto:${l.lead.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(mensajeActual)}`
-      : '#';
-    accionesHTML = `<a class="boton boton-correo" href="${mailto}" onclick="return abrirCorreo('${l.id}', this)">${iconoMail} Abrir correo con el mensaje</a>
-      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+    // Teléfono roto: WhatsApp no es opción; queda el correo (si lo hay).
+    accionesHTML = (btnCorreo || `<span style="font-size:13px;color:var(--alerta)">Sin correo para responder — revisar el teléfono en Odoo.</span>`)
+      + `\n      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
   } else {
-    // El link se calcula EN EL MOMENTO DEL CLIC leyendo el textarea, para que
-    // SIEMPRE use la versión que el operador ve en pantalla (con sus ediciones).
-    // Antes se pre-calculaba y un redibujado podía pisarlo con el original.
-    accionesHTML = `<a class="boton boton-wa" href="${l.waLink || '#'}" target="_blank" onclick="return abrirWa('${l.id}', this)">${iconoWA} Abrir WhatsApp y enviar</a>
-      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+    // Caso normal: WhatsApp como canal principal + correo al lado si existe
+    // (para el número que resulta NO tener WhatsApp y rebota). Los dos visibles;
+    // el operador elige. Ninguno es "el correcto" a ciegas.
+    accionesHTML = [btnWa, btnCorreo].filter(Boolean).join('\n      ')
+      + `\n      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
   }
 
-  // El textarea es editable solo si NO está atendido (atendido = consulta).
-  const textareaHTML = esAtendido
+  // El textarea es editable siempre que se pueda actuar sobre el lead. En
+  // Atendidos también, porque se puede rematar por otro canal (con edición).
+  // Solo queda en modo consulta si NO hay ningún canal para completar.
+  const puedeEditar = !l.enProceso && (hayWa || hayCorreo);
+  const textareaHTML = !puedeEditar
     ? `<div class="pidio-texto" style="font-style:normal">${esc(mensajeActual)}</div>`
     : `<div class="mensaje-caja">
           <textarea class="mensaje" id="ta-${l.id}" oninput="editar('${l.id}', this.value)">${esc(mensajeActual)}</textarea>
@@ -564,14 +625,19 @@ function abrirWa(id, elemento){
 }
 
 /**
- * abrirCorreo — igual que abrirWa pero para el botón de correo (caso sin WhatsApp).
+ * abrirCorreo — gemelo de abrirWa para el canal de correo. Sirve en dos
+ * momentos: cuando no hay WhatsApp posible (teléfono roto) y cuando SÍ lo había
+ * pero rebotó (número sin cuenta) y se remata por correo desde Atendidos.
+ * Nota: por ahora el cuerpo es el mismo texto que se ve en pantalla (editable).
+ * La versión-correo redactada por la IA es pieza aparte (backend), aún no aquí.
  */
 function abrirCorreo(id, elemento){
   const l = LEADS.find(x=>x.id===id);
-  if (!l || !l.lead || !l.lead.correo) return false;
+  const correo = correoDe(l);
+  if (!l || !correo) return false;
   const ta = document.getElementById('ta-'+id);
   const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
-  elemento.href = `mailto:${l.lead.correo}?subject=${encodeURIComponent('Klimm — su solicitud')}&body=${encodeURIComponent(mensaje)}`;
+  elemento.href = armarMailto(correo, mensaje);
   marcarEnviado(id);
   return true;
 }
