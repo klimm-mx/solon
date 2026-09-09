@@ -12784,6 +12784,44 @@
       "confianza": "media",
       "status_original": "matched",
       "cotizacion_id": 1672
+    },
+    {
+      "origen": "f2",
+      "fecha": "2026-09-09T20:23:35.730Z",
+      "cliente_id": 107,
+      "cliente": "Transportes TUM",
+      "pidio": null,
+      "producto_base": null,
+      "sugerido_id": null,
+      "sugerido": "Hola, les saluda Klimm. Notamos que ha pasado un tiempo desde su último pedido y queríamos saber cómo van. ¿Podemos apoyarles con su próximo surtido de productos de limpieza?",
+      "elegido_id": null,
+      "elegido": "Hola, les saluda Klimm. Notamos que ha pasado un tiempo desde su último pedido y queríamos saber cómo van. ¿Podemos apoyarles con su próximo surtido de productos de limpieza?",
+      "caso": null,
+      "confianza": null,
+      "status_original": null,
+      "cotizacion_id": null,
+      "toque": 1,
+      "canal": "whatsapp",
+      "resultado": null
+    },
+    {
+      "origen": "f2",
+      "fecha": "2026-09-09T20:23:39.412Z",
+      "cliente_id": 107,
+      "cliente": "Transportes TUM",
+      "pidio": null,
+      "producto_base": null,
+      "sugerido_id": null,
+      "sugerido": "Hola, les saluda Klimm. Notamos que ha pasado un tiempo desde su último pedido y queríamos saber cómo van. ¿Podemos apoyarles con su próximo surtido de productos de limpieza?",
+      "elegido_id": null,
+      "elegido": "Hola, les saluda Klimm. Notamos que ha pasado un tiempo desde su último pedido y queríamos saber cómo van. ¿Podemos apoyarles con su próximo surtido de productos de limpieza?",
+      "caso": null,
+      "confianza": null,
+      "status_original": null,
+      "cotizacion_id": null,
+      "toque": 1,
+      "canal": "whatsapp",
+      "resultado": null
     }
   ]
 }
