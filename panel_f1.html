@@ -1114,6 +1114,11 @@ async function f2_enviar(id){
   const c = F2_CLIENTES.find(x => x.id === id);
   if (!c) return;
 
+  // GUARDA CONTRA DOBLE CLIC: si ya hay un envío en curso para esta empresa,
+  // ignorar clics repetidos. Cada toque será un mensaje real al cliente, así
+  // que un doble clic accidental no debe registrar dos toques.
+  if (st.enviando) return;
+
   // En DEMO seguimos simulando (no tocar backend). En REAL, llamamos a /f2/toque.
   if (DEMO_F2){
     if (st.toque < 3){ st.toque++; st.borrador = null;
@@ -1123,6 +1128,14 @@ async function f2_enviar(id){
   }
 
   if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede registrar el toque.'); return; }
+
+  // Marcar "enviando" y deshabilitar los botones de envío mientras dura la
+  // llamada, para que un segundo clic apurado (antes de que abra WhatsApp) no
+  // dispare un segundo toque.
+  st.enviando = true;
+  document.querySelectorAll('#vista-seguimiento .boton-wa, #vista-seguimiento .boton-correo')
+    .forEach(b => { b.disabled = true; b.style.opacity = '0.6'; b.style.pointerEvents = 'none'; });
+
   const borrador = (st.borrador !== null && st.borrador !== undefined)
     ? st.borrador : f2_mensajeMuestra(c, st.toque);
   try {
@@ -1150,6 +1163,10 @@ async function f2_enviar(id){
     f2_pintarCola(); f2_pintarDetalle();
   } catch (_) {
     alert('Sin conexión al registrar el toque. El cliente sigue pendiente; reintenta.');
+  } finally {
+    // Liberar la guarda pase lo que pase (éxito o error), para permitir
+    // reintentar. f2_pintarDetalle recrea los botones ya habilitados.
+    st.enviando = false;
   }
 }
 
