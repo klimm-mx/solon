@@ -2,6 +2,7 @@
   "descripcion": "Correcciones manuales del vendedor sobre las sugerencias del cotizador — fase de captura para autoaprendizaje (Solón, Klimm)",
   "registros": [
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -17,6 +18,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -32,6 +34,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -47,6 +50,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -62,6 +66,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -77,6 +82,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -92,6 +98,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -107,6 +114,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -122,6 +130,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -137,6 +146,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -152,6 +162,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -167,6 +178,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -182,6 +194,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -197,6 +210,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -212,6 +226,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -227,6 +242,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -242,6 +258,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -257,6 +274,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -272,6 +290,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -287,6 +306,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -302,6 +322,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -317,6 +338,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -332,6 +354,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -347,6 +370,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -362,6 +386,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -377,6 +402,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -392,6 +418,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -407,6 +434,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -422,6 +450,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -437,6 +466,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -452,6 +482,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -467,6 +498,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -482,6 +514,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -497,6 +530,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -512,6 +546,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -527,6 +562,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -542,6 +578,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -557,6 +594,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -572,6 +610,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -587,6 +626,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -602,6 +642,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -617,6 +658,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -632,6 +674,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -647,6 +690,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -662,6 +706,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -677,6 +722,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -692,6 +738,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -707,6 +754,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -722,6 +770,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -737,6 +786,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -752,6 +802,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -767,6 +818,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -782,6 +834,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -797,6 +850,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -812,6 +866,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -827,6 +882,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -842,6 +898,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -857,6 +914,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -872,6 +930,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -887,6 +946,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -902,6 +962,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -917,6 +978,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -932,6 +994,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -947,6 +1010,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -962,6 +1026,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -977,6 +1042,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -992,6 +1058,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -1007,6 +1074,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -1022,6 +1090,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -1037,6 +1106,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-13T23:26:58.837Z",
       "cliente_id": 1011,
       "cliente": "Medios de Alimentación Mafan",
@@ -1052,6 +1122,7 @@
       "cotizacion_id": 1539
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-14T23:39:30.482Z",
       "cliente_id": 1033,
       "cliente": "Monarch Haus",
@@ -1067,6 +1138,7 @@
       "cotizacion_id": 1541
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-14T23:39:30.482Z",
       "cliente_id": 1033,
       "cliente": "Monarch Haus",
@@ -1082,6 +1154,7 @@
       "cotizacion_id": 1541
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T15:03:21.305Z",
       "cliente_id": 1396,
       "cliente": "Bluum House Hair & Nails",
@@ -1097,6 +1170,7 @@
       "cotizacion_id": 1542
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T15:03:21.305Z",
       "cliente_id": 1396,
       "cliente": "Bluum House Hair & Nails",
@@ -1112,6 +1186,7 @@
       "cotizacion_id": 1542
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T15:03:21.305Z",
       "cliente_id": 1396,
       "cliente": "Bluum House Hair & Nails",
@@ -1127,6 +1202,7 @@
       "cotizacion_id": 1542
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1142,6 +1218,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1157,6 +1234,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1172,6 +1250,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1187,6 +1266,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1202,6 +1282,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1217,6 +1298,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1232,6 +1314,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1247,6 +1330,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1262,6 +1346,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-15T20:28:11.109Z",
       "cliente_id": 551,
       "cliente": "Administracion Residencial Bosque San Angel",
@@ -1277,6 +1362,7 @@
       "cotizacion_id": 1544
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1292,6 +1378,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1307,6 +1394,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1322,6 +1410,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1337,6 +1426,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1352,6 +1442,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1367,6 +1458,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1382,6 +1474,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T18:52:39.409Z",
       "cliente_id": 1462,
       "cliente": "Probemedic Distribuciones",
@@ -1397,6 +1490,7 @@
       "cotizacion_id": 1545
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1412,6 +1506,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1427,6 +1522,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1442,6 +1538,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1457,6 +1554,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1472,6 +1570,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1487,6 +1586,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1502,6 +1602,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1517,6 +1618,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1532,6 +1634,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1547,6 +1650,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1562,6 +1666,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1577,6 +1682,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1592,6 +1698,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1607,6 +1714,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1622,6 +1730,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1637,6 +1746,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1652,6 +1762,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1667,6 +1778,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1682,6 +1794,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-16T21:55:50.216Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1697,6 +1810,7 @@
       "cotizacion_id": 1550
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1712,6 +1826,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1727,6 +1842,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1742,6 +1858,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1757,6 +1874,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1772,6 +1890,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1787,6 +1906,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1802,6 +1922,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1817,6 +1938,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1832,6 +1954,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1847,6 +1970,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1862,6 +1986,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1877,6 +2002,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1892,6 +2018,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1907,6 +2034,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1922,6 +2050,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1937,6 +2066,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1952,6 +2082,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1967,6 +2098,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1982,6 +2114,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -1997,6 +2130,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-17T21:37:08.937Z",
       "cliente_id": 1461,
       "cliente": "CEDSA Ingeniería, MRO y EPP",
@@ -2012,6 +2146,7 @@
       "cotizacion_id": 1551
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2027,6 +2162,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2042,6 +2178,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2057,6 +2194,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2072,6 +2210,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2087,6 +2226,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2102,6 +2242,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2117,6 +2258,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2132,6 +2274,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2147,6 +2290,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2162,6 +2306,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2177,6 +2322,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2192,6 +2338,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2207,6 +2354,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2222,6 +2370,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2237,6 +2386,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2252,6 +2402,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2267,6 +2418,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2282,6 +2434,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2297,6 +2450,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-20T16:27:24.953Z",
       "cliente_id": 1352,
       "cliente": "Metalindustria Corp & Innovation",
@@ -2312,6 +2466,7 @@
       "cotizacion_id": 1555
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2327,6 +2482,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2342,6 +2498,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2357,6 +2514,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2372,6 +2530,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2387,6 +2546,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2402,6 +2562,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2417,6 +2578,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2432,6 +2594,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2447,6 +2610,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2462,6 +2626,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2477,6 +2642,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2492,6 +2658,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2507,6 +2674,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2522,6 +2690,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2537,6 +2706,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2552,6 +2722,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-22T20:38:04.429Z",
       "cliente_id": 1472,
       "cliente": "Suministros Integrales de Inmuebles",
@@ -2567,6 +2738,7 @@
       "cotizacion_id": 1562
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2582,6 +2754,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2597,6 +2770,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2612,6 +2786,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2627,6 +2802,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2642,6 +2818,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2657,6 +2834,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2672,6 +2850,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2687,6 +2866,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2702,6 +2882,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2717,6 +2898,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2732,6 +2914,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2747,6 +2930,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2762,6 +2946,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2777,6 +2962,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2792,6 +2978,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2807,6 +2994,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2822,6 +3010,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2837,6 +3026,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2852,6 +3042,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2867,6 +3058,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2882,6 +3074,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2897,6 +3090,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2912,6 +3106,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-27T18:19:34.019Z",
       "cliente_id": 988,
       "cliente": "Servicio Impecable",
@@ -2927,6 +3122,7 @@
       "cotizacion_id": 1574
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -2942,6 +3138,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -2957,6 +3154,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -2972,6 +3170,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -2987,6 +3186,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3002,6 +3202,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3017,6 +3218,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3032,6 +3234,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3047,6 +3250,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3062,6 +3266,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3077,6 +3282,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3092,6 +3298,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3107,6 +3314,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3122,6 +3330,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3137,6 +3346,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3152,6 +3362,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3167,6 +3378,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3182,6 +3394,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3197,6 +3410,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3212,6 +3426,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3227,6 +3442,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3242,6 +3458,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T14:31:29.921Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3257,6 +3474,7 @@
       "cotizacion_id": 1582
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3272,6 +3490,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3287,6 +3506,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3302,6 +3522,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3317,6 +3538,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3332,6 +3554,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3347,6 +3570,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3362,6 +3586,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3377,6 +3602,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3392,6 +3618,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3407,6 +3634,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3422,6 +3650,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3437,6 +3666,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3452,6 +3682,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3467,6 +3698,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3482,6 +3714,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3497,6 +3730,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3512,6 +3746,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3527,6 +3762,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3542,6 +3778,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3557,6 +3794,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3572,6 +3810,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3587,6 +3826,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3602,6 +3842,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T17:19:49.629Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3617,6 +3858,7 @@
       "cotizacion_id": 1583
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3632,6 +3874,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3647,6 +3890,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3662,6 +3906,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3677,6 +3922,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3692,6 +3938,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3707,6 +3954,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3722,6 +3970,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3737,6 +3986,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3752,6 +4002,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3767,6 +4018,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-30T21:44:24.890Z",
       "cliente_id": 1497,
       "cliente": "Carolina de los Angelez Velez Flores",
@@ -3782,6 +4034,7 @@
       "cotizacion_id": 1586
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3797,6 +4050,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3812,6 +4066,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3827,6 +4082,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3842,6 +4098,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3857,6 +4114,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3872,6 +4130,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3887,6 +4146,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:14:41.266Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3902,6 +4162,7 @@
       "cotizacion_id": 1587
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3917,6 +4178,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3932,6 +4194,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3947,6 +4210,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3962,6 +4226,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3977,6 +4242,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -3992,6 +4258,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -4007,6 +4274,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -4022,6 +4290,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-07-31T22:20:02.306Z",
       "cliente_id": 1499,
       "cliente": "CFN Servicios Empresariales",
@@ -4037,6 +4306,7 @@
       "cotizacion_id": 1588
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4052,6 +4322,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4067,6 +4338,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4082,6 +4354,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4097,6 +4370,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4112,6 +4386,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4127,6 +4402,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4142,6 +4418,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4157,6 +4434,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4172,6 +4450,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4187,6 +4466,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4202,6 +4482,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4217,6 +4498,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-03T17:06:45.525Z",
       "cliente_id": 1504,
       "cliente": "Grupo Zorro Abarrotero",
@@ -4232,6 +4514,7 @@
       "cotizacion_id": 1591
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4247,6 +4530,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4262,6 +4546,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4277,6 +4562,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4292,6 +4578,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4307,6 +4594,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4322,6 +4610,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4337,6 +4626,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4352,6 +4642,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4367,6 +4658,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4382,6 +4674,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4397,6 +4690,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4412,6 +4706,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4427,6 +4722,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4442,6 +4738,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4457,6 +4754,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4472,6 +4770,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4487,6 +4786,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4502,6 +4802,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4517,6 +4818,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4532,6 +4834,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-05T22:51:29.852Z",
       "cliente_id": 1508,
       "cliente": "SAC Consulting Mark",
@@ -4547,6 +4850,7 @@
       "cotizacion_id": 1597
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4562,6 +4866,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4577,6 +4882,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4592,6 +4898,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4607,6 +4914,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4622,6 +4930,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4637,6 +4946,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4652,6 +4962,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4667,6 +4978,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4682,6 +4994,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4697,6 +5010,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4712,6 +5026,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4727,6 +5042,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4742,6 +5058,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4757,6 +5074,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4772,6 +5090,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4787,6 +5106,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4802,6 +5122,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-06T19:37:53.301Z",
       "cliente_id": 1512,
       "cliente": "Proservip",
@@ -4817,6 +5138,7 @@
       "cotizacion_id": 1600
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-10T17:24:44.542Z",
       "cliente_id": 682,
       "cliente": "Spar Todopromo",
@@ -4832,6 +5154,7 @@
       "cotizacion_id": 1603
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-10T17:24:44.542Z",
       "cliente_id": 682,
       "cliente": "Spar Todopromo",
@@ -4847,6 +5170,7 @@
       "cotizacion_id": 1603
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-10T17:24:44.542Z",
       "cliente_id": 682,
       "cliente": "Spar Todopromo",
@@ -4862,6 +5186,7 @@
       "cotizacion_id": 1603
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-10T17:24:44.542Z",
       "cliente_id": 682,
       "cliente": "Spar Todopromo",
@@ -4877,6 +5202,7 @@
       "cotizacion_id": 1603
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-10T17:24:44.542Z",
       "cliente_id": 682,
       "cliente": "Spar Todopromo",
@@ -4892,6 +5218,7 @@
       "cotizacion_id": 1603
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4907,6 +5234,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4922,6 +5250,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4937,6 +5266,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4952,6 +5282,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4967,6 +5298,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4982,6 +5314,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -4997,6 +5330,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -5012,6 +5346,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -5027,6 +5362,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -5042,6 +5378,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -5057,6 +5394,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -5072,6 +5410,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-11T22:44:04.200Z",
       "cliente_id": 1515,
       "cliente": "Miguel Gómez",
@@ -5087,6 +5426,7 @@
       "cotizacion_id": 1608
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5102,6 +5442,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5117,6 +5458,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5132,6 +5474,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5147,6 +5490,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5162,6 +5506,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5177,6 +5522,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5192,6 +5538,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5207,6 +5554,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5222,6 +5570,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5237,6 +5586,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5252,6 +5602,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5267,6 +5618,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5282,6 +5634,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5297,6 +5650,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5312,6 +5666,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5327,6 +5682,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5342,6 +5698,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5357,6 +5714,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5372,6 +5730,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5387,6 +5746,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5402,6 +5762,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5417,6 +5778,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5432,6 +5794,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5447,6 +5810,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5462,6 +5826,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5477,6 +5842,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5492,6 +5858,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5507,6 +5874,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5522,6 +5890,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5537,6 +5906,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-12T21:00:09.075Z",
       "cliente_id": 1518,
       "cliente": "Lisset Fleitas Galdo",
@@ -5552,6 +5922,7 @@
       "cotizacion_id": 1610
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5567,6 +5938,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5582,6 +5954,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5597,6 +5970,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5612,6 +5986,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5627,6 +6002,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5642,6 +6018,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5657,6 +6034,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5672,6 +6050,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5687,6 +6066,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5702,6 +6082,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5717,6 +6098,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5732,6 +6114,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5747,6 +6130,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5762,6 +6146,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5777,6 +6162,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-13T22:11:59.157Z",
       "cliente_id": 1522,
       "cliente": "Bevos Holdings",
@@ -5792,6 +6178,7 @@
       "cotizacion_id": 1613
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5807,6 +6194,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5822,6 +6210,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5837,6 +6226,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5852,6 +6242,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5867,6 +6258,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5882,6 +6274,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5897,6 +6290,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5912,6 +6306,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5927,6 +6322,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5942,6 +6338,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5957,6 +6354,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5972,6 +6370,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -5987,6 +6386,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6002,6 +6402,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6017,6 +6418,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6032,6 +6434,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6047,6 +6450,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6062,6 +6466,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6077,6 +6482,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6092,6 +6498,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6107,6 +6514,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6122,6 +6530,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6137,6 +6546,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6152,6 +6562,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6167,6 +6578,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6182,6 +6594,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6197,6 +6610,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6212,6 +6626,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6227,6 +6642,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6242,6 +6658,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6257,6 +6674,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6272,6 +6690,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6287,6 +6706,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6302,6 +6722,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6317,6 +6738,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6332,6 +6754,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6347,6 +6770,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6362,6 +6786,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6377,6 +6802,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6392,6 +6818,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6407,6 +6834,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:26:48.095Z",
       "cliente_id": 1528,
       "cliente": "Grupo M",
@@ -6422,6 +6850,7 @@
       "cotizacion_id": 1615
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6437,6 +6866,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6452,6 +6882,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6467,6 +6898,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6482,6 +6914,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6497,6 +6930,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6512,6 +6946,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6527,6 +6962,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6542,6 +6978,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6557,6 +6994,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6572,6 +7010,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6587,6 +7026,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6602,6 +7042,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6617,6 +7058,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6632,6 +7074,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6647,6 +7090,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6662,6 +7106,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6677,6 +7122,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6692,6 +7138,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6707,6 +7154,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6722,6 +7170,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6737,6 +7186,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6752,6 +7202,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6767,6 +7218,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6782,6 +7234,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6797,6 +7250,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6812,6 +7266,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6827,6 +7282,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6842,6 +7298,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6857,6 +7314,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6872,6 +7330,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6887,6 +7346,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6902,6 +7362,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6917,6 +7378,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6932,6 +7394,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6947,6 +7410,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6962,6 +7426,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-14T19:52:33.983Z",
       "cliente_id": 1530,
       "cliente": "Generadora de Ambientes",
@@ -6977,6 +7442,7 @@
       "cotizacion_id": 1616
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -6992,6 +7458,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7007,6 +7474,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7022,6 +7490,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7037,6 +7506,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7052,6 +7522,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7067,6 +7538,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7082,6 +7554,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7097,6 +7570,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7112,6 +7586,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7127,6 +7602,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7142,6 +7618,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7157,6 +7634,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7172,6 +7650,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7187,6 +7666,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7202,6 +7682,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7217,6 +7698,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7232,6 +7714,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7247,6 +7730,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7262,6 +7746,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7277,6 +7762,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7292,6 +7778,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7307,6 +7794,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7322,6 +7810,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7337,6 +7826,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7352,6 +7842,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7367,6 +7858,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7382,6 +7874,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7397,6 +7890,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7412,6 +7906,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7427,6 +7922,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7442,6 +7938,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7457,6 +7954,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7472,6 +7970,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7487,6 +7986,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7502,6 +8002,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7517,6 +8018,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7532,6 +8034,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7547,6 +8050,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7562,6 +8066,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T17:30:48.006Z",
       "cliente_id": 1537,
       "cliente": "ADT Private",
@@ -7577,6 +8082,7 @@
       "cotizacion_id": 1621
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7592,6 +8098,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7607,6 +8114,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7622,6 +8130,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7637,6 +8146,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7652,6 +8162,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7667,6 +8178,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7682,6 +8194,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7697,6 +8210,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7712,6 +8226,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7727,6 +8242,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-18T23:39:14.930Z",
       "cliente_id": 1541,
       "cliente": "Hospital Moscati de Querétaro, S.A. de C.V.",
@@ -7742,6 +8258,7 @@
       "cotizacion_id": 1625
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7757,6 +8274,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7772,6 +8290,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7787,6 +8306,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7802,6 +8322,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7817,6 +8338,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7832,6 +8354,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7847,6 +8370,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7862,6 +8386,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7877,6 +8402,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7892,6 +8418,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7907,6 +8434,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7922,6 +8450,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7937,6 +8466,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7952,6 +8482,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:12:07.629Z",
       "cliente_id": 1545,
       "cliente": "CIRRO Fullfilment",
@@ -7967,6 +8498,7 @@
       "cotizacion_id": 1628
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -7982,6 +8514,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -7997,6 +8530,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8012,6 +8546,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8027,6 +8562,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8042,6 +8578,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8057,6 +8594,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8072,6 +8610,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8087,6 +8626,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8102,6 +8642,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8117,6 +8658,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8132,6 +8674,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-19T23:41:56.528Z",
       "cliente_id": 1547,
       "cliente": "Grupo San Isidro",
@@ -8147,6 +8690,7 @@
       "cotizacion_id": 1629
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8162,6 +8706,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8177,6 +8722,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8192,6 +8738,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8207,6 +8754,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8222,6 +8770,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8237,6 +8786,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8252,6 +8802,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8267,6 +8818,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8282,6 +8834,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8297,6 +8850,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8312,6 +8866,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8327,6 +8882,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8342,6 +8898,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8357,6 +8914,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8372,6 +8930,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8387,6 +8946,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8402,6 +8962,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-20T19:41:07.975Z",
       "cliente_id": 1279,
       "cliente": "Ingenieros Especializados en Control de Plagas, Jardineria y Limpieza",
@@ -8417,6 +8978,7 @@
       "cotizacion_id": 1630
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8432,6 +8994,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8447,6 +9010,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8462,6 +9026,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8477,6 +9042,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8492,6 +9058,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8507,6 +9074,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8522,6 +9090,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8537,6 +9106,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8552,6 +9122,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8567,6 +9138,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8582,6 +9154,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8597,6 +9170,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8612,6 +9186,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8627,6 +9202,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8642,6 +9218,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8657,6 +9234,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8672,6 +9250,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8687,6 +9266,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8702,6 +9282,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8717,6 +9298,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8732,6 +9314,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8747,6 +9330,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8762,6 +9346,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-21T00:15:30.088Z",
       "cliente_id": 1549,
       "cliente": "Quick & Safe Logistics",
@@ -8777,6 +9362,7 @@
       "cotizacion_id": 1631
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8792,6 +9378,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8807,6 +9394,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8822,6 +9410,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8837,6 +9426,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8852,6 +9442,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8867,6 +9458,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8882,6 +9474,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:04:29.225Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8897,6 +9490,7 @@
       "cotizacion_id": 1633
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:07:08.694Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8912,6 +9506,7 @@
       "cotizacion_id": 1634
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:07:08.694Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8927,6 +9522,7 @@
       "cotizacion_id": 1634
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:07:08.694Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8942,6 +9538,7 @@
       "cotizacion_id": 1634
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:07:08.694Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8957,6 +9554,7 @@
       "cotizacion_id": 1634
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:07:08.694Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8972,6 +9570,7 @@
       "cotizacion_id": 1634
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:07:08.694Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -8987,6 +9586,7 @@
       "cotizacion_id": 1634
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9002,6 +9602,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9017,6 +9618,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9032,6 +9634,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9047,6 +9650,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9062,6 +9666,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9077,6 +9682,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9092,6 +9698,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9107,6 +9714,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9122,6 +9730,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9137,6 +9746,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-24T18:10:19.865Z",
       "cliente_id": 514,
       "cliente": "Diegza",
@@ -9152,6 +9762,7 @@
       "cotizacion_id": 1635
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9167,6 +9778,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9182,6 +9794,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9197,6 +9810,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9212,6 +9826,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9227,6 +9842,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9242,6 +9858,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9257,6 +9874,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9272,6 +9890,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9287,6 +9906,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9302,6 +9922,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9317,6 +9938,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9332,6 +9954,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9347,6 +9970,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9362,6 +9986,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-25T20:10:32.482Z",
       "cliente_id": 1557,
       "cliente": "Grupo Construtech",
@@ -9377,6 +10002,7 @@
       "cotizacion_id": 1644
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9392,6 +10018,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9407,6 +10034,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9422,6 +10050,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9437,6 +10066,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9452,6 +10082,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9467,6 +10098,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9482,6 +10114,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9497,6 +10130,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9512,6 +10146,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9527,6 +10162,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9542,6 +10178,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9557,6 +10194,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9572,6 +10210,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9587,6 +10226,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9602,6 +10242,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9617,6 +10258,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9632,6 +10274,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9647,6 +10290,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9662,6 +10306,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9677,6 +10322,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9692,6 +10338,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-26T21:20:21.639Z",
       "cliente_id": 1564,
       "cliente": "ODA Eventos Sociales",
@@ -9707,6 +10354,7 @@
       "cotizacion_id": 1648
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9722,6 +10370,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9737,6 +10386,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9752,6 +10402,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9767,6 +10418,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9782,6 +10434,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9797,6 +10450,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9812,6 +10466,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9827,6 +10482,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9842,6 +10498,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9857,6 +10514,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9872,6 +10530,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9887,6 +10546,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9902,6 +10562,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9917,6 +10578,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9932,6 +10594,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9947,6 +10610,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9962,6 +10626,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9977,6 +10642,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -9992,6 +10658,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10007,6 +10674,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10022,6 +10690,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10037,6 +10706,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10052,6 +10722,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10067,6 +10738,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10082,6 +10754,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10097,6 +10770,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10112,6 +10786,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10127,6 +10802,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10142,6 +10818,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10157,6 +10834,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T00:22:13.313Z",
       "cliente_id": 1568,
       "cliente": "Hope Mexicana de Negocios",
@@ -10172,6 +10850,7 @@
       "cotizacion_id": 1650
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10187,6 +10866,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10202,6 +10882,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10217,6 +10898,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10232,6 +10914,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10247,6 +10930,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10262,6 +10946,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10277,6 +10962,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10292,6 +10978,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10307,6 +10994,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10322,6 +11010,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10337,6 +11026,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10352,6 +11042,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10367,6 +11058,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T14:41:31.827Z",
       "cliente_id": 1570,
       "cliente": "Corporación Armo",
@@ -10382,6 +11074,7 @@
       "cotizacion_id": 1651
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10397,6 +11090,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10412,6 +11106,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10427,6 +11122,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10442,6 +11138,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10457,6 +11154,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10472,6 +11170,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10487,6 +11186,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10502,6 +11202,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10517,6 +11218,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10532,6 +11234,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10547,6 +11250,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10562,6 +11266,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10577,6 +11282,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10592,6 +11298,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10607,6 +11314,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10622,6 +11330,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10637,6 +11346,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10652,6 +11362,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10667,6 +11378,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10682,6 +11394,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10697,6 +11410,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10712,6 +11426,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10727,6 +11442,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10742,6 +11458,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10757,6 +11474,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10772,6 +11490,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10787,6 +11506,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10802,6 +11522,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10817,6 +11538,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10832,6 +11554,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-27T21:03:52.909Z",
       "cliente_id": 1575,
       "cliente": "Limpia Punch",
@@ -10847,6 +11570,7 @@
       "cotizacion_id": 1655
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10862,6 +11586,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10877,6 +11602,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10892,6 +11618,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10907,6 +11634,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10922,6 +11650,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10937,6 +11666,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10952,6 +11682,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10967,6 +11698,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10982,6 +11714,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -10997,6 +11730,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11012,6 +11746,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11027,6 +11762,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11042,6 +11778,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11057,6 +11794,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11072,6 +11810,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11087,6 +11826,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11102,6 +11842,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11117,6 +11858,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11132,6 +11874,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11147,6 +11890,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11162,6 +11906,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-08-31T22:36:10.739Z",
       "cliente_id": 1580,
       "cliente": "Destination Service",
@@ -11177,6 +11922,7 @@
       "cotizacion_id": 1658
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11192,6 +11938,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11207,6 +11954,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11222,6 +11970,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11237,6 +11986,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11252,6 +12002,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11267,6 +12018,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11282,6 +12034,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11297,6 +12050,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11312,6 +12066,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11327,6 +12082,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11342,6 +12098,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11357,6 +12114,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11372,6 +12130,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11387,6 +12146,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11402,6 +12162,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11417,6 +12178,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11432,6 +12194,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11447,6 +12210,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11462,6 +12226,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11477,6 +12242,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11492,6 +12258,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11507,6 +12274,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11522,6 +12290,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11537,6 +12306,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11552,6 +12322,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11567,6 +12338,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11582,6 +12354,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11597,6 +12370,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11612,6 +12386,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11627,6 +12402,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11642,6 +12418,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11657,6 +12434,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11672,6 +12450,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11687,6 +12466,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11702,6 +12482,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11717,6 +12498,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11732,6 +12514,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11747,6 +12530,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11762,6 +12546,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11777,6 +12562,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11792,6 +12578,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11807,6 +12594,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:50:55.707Z",
       "cliente_id": 1592,
       "cliente": "Eco service",
@@ -11822,6 +12610,7 @@
       "cotizacion_id": 1671
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11837,6 +12626,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11852,6 +12642,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11867,6 +12658,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11882,6 +12674,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11897,6 +12690,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11912,6 +12706,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11927,6 +12722,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11942,6 +12738,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11957,6 +12754,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
@@ -11972,6 +12770,7 @@
       "cotizacion_id": 1672
     },
     {
+      "origen": "cotizador",
       "fecha": "2026-09-03T22:55:42.106Z",
       "cliente_id": 1594,
       "cliente": "Omar Sánchez",
