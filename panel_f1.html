@@ -1242,6 +1242,9 @@ async function f2_cargarReal(){
     f2_tieneDatos = F2_CLIENTES.length > 0;
     f2_activoId = null;
     f2_subActiva = 'caso1';
+    // Contadores de la cabecera y la subpestaña Recurrentes, con el número real.
+    const cont = f2$('#f2-conteo'); if (cont) cont.textContent = F2_CLIENTES.length;
+    const n1 = f2$('#f2-n1'); if (n1) n1.textContent = F2_CLIENTES.length;
     f2_pintarCola();
     f2_pintarVacio();
     refrescarBurbujas();
