@@ -750,6 +750,10 @@ let BACKEND = localStorage.getItem(BACKEND_KEY) || '';
 let CLAVE   = localStorage.getItem(CLAVE_KEY)   || '';
 const RUTA_COLA = '/agente/f1/cola';
 const RUTA_CONTACTADO = '/agente/f1/contactado';
+// Rutas de F2 (Seguimiento):
+const F2_RUTA_COLA = '/agente/f2/cola';
+const F2_RUTA_TOQUE = '/agente/f2/toque';
+const F2_RUTA_COMPUERTA = '/agente/f2/compuerta';
 
 // Si falta configurar la conexión, mostrar el modal (mismo patrón cotizador).
 if (!BACKEND || !CLAVE) {
@@ -900,9 +904,13 @@ let DEMO_F2 = false;
    muestra: en producción los redacta el motor (Capa 2).
    ============================================================ */
 
-// Deriva en qué toque va, de forma ilustrativa, según días de silencio vs cadencia.
-// (Diseño: toque 1 al dispararse ~2x cadencia; toque 2 a +½ ciclo; toque 3 a +1 ciclo.)
-const F2_CLIENTES = [
+// F2_CLIENTES = la FUENTE ACTIVA de la cola. En modo demo se llena con la
+// muestra de abajo; en modo real se llena con lo que entrega /agente/f2/cola.
+// Es 'let' porque la fuente cambia según el modo.
+let F2_CLIENTES = [];
+
+// Muestra (solo para DEMO_F2): las 19 empresas de la corrida del 08-sep.
+const F2_MUESTRA = [
   {id:'C01', empresa:'Jael Cruz Pichardo', compras:4, cadencia:12, silencio:855, umbral:24, ultima:'2024-05-06', viejo:true},
   {id:'C02', empresa:'Transportes TUM', compras:2, cadencia:15, silencio:852, umbral:30, ultima:'2024-05-09', viejo:true},
   {id:'C03', empresa:'City Towers Coyoacán 2', compras:4, cadencia:27, silencio:578, umbral:54, ultima:'2025-02-07', viejo:true},
@@ -1101,64 +1109,167 @@ function f2_pintarDetalleCaso2(){
 
 function f2_editarMsg(id){ f2_estadoCliente[id].borrador = f2$('#f2-msg').value; }
 
-function f2_enviar(id){
+async function f2_enviar(id){
   const st = f2_estadoCliente[id];
-  if (st.toque < 3){
-    st.toque++;
-    st.borrador = null;
-    alert('(Prototipo) Mensaje marcado como enviado. Avanza al toque ' + st.toque + '. En el panel real, el envío abre WhatsApp/correo y registra el contacto.');
-  } else {
-    alert('(Prototipo) Se envió el toque 3, el último de la secuencia. Si el cliente no responde, aquí decides si va a encuesta o se descarta.');
+  const c = F2_CLIENTES.find(x => x.id === id);
+  if (!c) return;
+
+  // En DEMO seguimos simulando (no tocar backend). En REAL, llamamos a /f2/toque.
+  if (DEMO_F2){
+    if (st.toque < 3){ st.toque++; st.borrador = null;
+      alert('(Demostración) Toque marcado. Avanza al toque ' + st.toque + '.');
+    } else { alert('(Demostración) Era el toque 3, el último de la secuencia.'); }
+    f2_pintarCola(); f2_pintarDetalle(); return;
   }
-  f2_pintarCola(); f2_pintarDetalle();
+
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede registrar el toque.'); return; }
+  const borrador = (st.borrador !== null && st.borrador !== undefined)
+    ? st.borrador : f2_mensajeMuestra(c, st.toque);
+  try {
+    const resp = await fetch(BACKEND + F2_RUTA_TOQUE, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({
+        empresaId: c.empresaId,
+        empresaNombre: c.empresa,
+        mensajePropuesto: f2_mensajeMuestra(c, st.toque), // hoy = muestra; con Capa 2 será IA
+        mensajeEnviado: borrador,
+        canal: 'whatsapp',
+        toque: st.toque,
+      }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      alert('No se pudo registrar el toque en Odoo. El cliente sigue pendiente; reintenta.');
+      return;
+    }
+    // Éxito: reflejar el contador que devolvió el backend y abrir WhatsApp.
+    st.toque = data.toquesNuevos;
+    st.borrador = null;
+    if (c.waLink) window.open(c.waLink, '_blank');
+    f2_pintarCola(); f2_pintarDetalle();
+  } catch (_) {
+    alert('Sin conexión al registrar el toque. El cliente sigue pendiente; reintenta.');
+  }
 }
 
 function f2_pedirConfirmar(id, destino){ f2_estadoCliente[id].confirmando = destino; f2_pintarDetalle(); }
 function f2_cancelarConfirmar(id){ f2_estadoCliente[id].confirmando = null; f2_pintarDetalle(); }
 
-function f2_mover(id, destino){
-  f2_estadoCliente[id].movidoA = destino;
-  f2_estadoCliente[id].confirmando = null;
-  f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas();
-}
-function f2_rescatar(id){
-  f2_estadoCliente[id].movidoA = null;
-  f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas();
-}
+// Enrutar por la compuerta. 'encuesta'->en_encuesta, 'descartar'->descartado.
+// El rescate llama a esta misma con 'en_seguimiento' (reversibilidad).
+async function f2_enrutar(id, destinoUI){
+  const c = F2_CLIENTES.find(x => x.id === id);
+  const mapa = { encuesta:'en_encuesta', descartar:'descartado', rescatar:'en_seguimiento' };
+  const destino = mapa[destinoUI] || destinoUI;
 
-// --- Aviso honesto cuando F2 no tiene datos reales (DEMO_F2 apagado) ---
-function f2_pintarSinDatos(){
+  if (DEMO_F2){
+    f2_estadoCliente[id].movidoA = (destinoUI==='rescatar') ? null : destinoUI;
+    f2_estadoCliente[id].confirmando = null;
+    f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas(); return true;
+  }
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede enrutar.'); return false; }
+  try {
+    const resp = await fetch(BACKEND + F2_RUTA_COMPUERTA, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ empresaId: c.empresaId, destino }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){ alert('No se pudo enrutar en Odoo. Reintenta.'); return false; }
+    // Reflejar en pantalla: movido (encuesta/descartar) o rescatado (vuelve).
+    f2_estadoCliente[id].movidoA = (destino==='en_seguimiento') ? null
+      : (destino==='en_encuesta' ? 'encuesta' : 'descartar');
+    f2_estadoCliente[id].confirmando = null;
+    f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas(); return true;
+  } catch (_) { alert('Sin conexión al enrutar. Reintenta.'); return false; }
+}
+// Compatibilidad con los onclick del detalle (mover = enrutar a excepción).
+function f2_mover(id, destino){ f2_enrutar(id, destino); }
+function f2_rescatar(id){ f2_enrutar(id, 'rescatar'); }
+
+// --- Aviso honesto cuando F2 no tiene datos reales ---
+function f2_pintarSinDatos(mensaje){
   const cola = f2$('#f2-cola');
-  if (cola) cola.innerHTML = '<div class="f2-sin-datos">Seguimiento aún no está conectado al motor. '
-    + 'Cuando el reloj de recurrencia alimente esta bandeja, aquí aparecerán los clientes a reactivar. '
-    + 'Por ahora no hay datos que mostrar.</div>';
+  const txt = mensaje || ('Seguimiento aún no está conectado. Cuando el motor de recurrencia '
+    + 'alimente esta bandeja, aquí aparecerán los clientes a reactivar. Por ahora no hay datos.');
+  if (cola) cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(txt) + '</div>';
   const det = f2$('#f2-detalle');
   if (det) det.innerHTML = '<div class="vacio"><div class="ic">◔</div>Sin datos de seguimiento por ahora.</div>';
   const n1 = f2$('#f2-n1'); if (n1) n1.textContent = '—';
   const cont = f2$('#f2-conteo'); if (cont) cont.textContent = '0';
 }
 
-// --- Arranque de F2. Solo puebla si DEMO_F2 está encendido. ---
+// --- Carga REAL de la cola desde el backend (/agente/f2/cola) ---
+async function f2_cargarReal(){
+  if (!BACKEND || !CLAVE){ f2_tieneDatos = false; f2_pintarSinDatos('Sin conexión con Solón. Configúrala para ver Seguimiento.'); refrescarBurbujas(); return; }
+  f2_pintarSinDatos('Conectando con Solón…');
+  try {
+    const resp = await fetch(BACKEND + F2_RUTA_COLA, {
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      // Interruptor apagado u Odoo sin datos: honesto, sin inventar.
+      f2_tieneDatos = false;
+      const msg = (data && data.motivo === 'f2-apagado')
+        ? 'Seguimiento está construido pero aún apagado. Se encenderá cuando el administrador lo active.'
+        : 'Seguimiento no tiene datos por ahora (sin respuesta del motor).';
+      f2_pintarSinDatos(msg);
+      refrescarBurbujas();
+      return;
+    }
+    // Éxito: volcar los clientes reales en la fuente activa y su estado inicial.
+    F2_CLIENTES = (data.clientes || []).map(c => ({
+      id: 'p' + c.empresaId,          // id de UI estable a partir del id de Odoo
+      empresaId: c.empresaId,
+      empresa: c.empresa,
+      compras: c.compras, cadencia: c.cadencia, silencio: c.silencio,
+      umbral: c.umbral, ultima: c.ultima, viejo: c.viejo,
+      // waLink real lo añadirá el motor/Capa 2; por ahora sin link directo.
+    }));
+    Object.keys(f2_estadoCliente).forEach(k => delete f2_estadoCliente[k]);
+    for (const c of data.clientes || []){
+      const uiId = 'p' + c.empresaId;
+      // El toque de la etiqueta arranca la secuencia; movidoA según estado de compuerta.
+      const movido = (c.estadoCompuerta === 'en_encuesta') ? 'encuesta'
+                   : (c.estadoCompuerta === 'descartado') ? 'descartar' : null;
+      f2_estadoCliente[uiId] = {
+        toque: Math.max(1, (c.toques || 0) + 1),  // en qué toque va AHORA
+        movidoA: movido, borrador: null, confirmando: null,
+      };
+    }
+    f2_tieneDatos = F2_CLIENTES.length > 0;
+    f2_activoId = null;
+    f2_subActiva = 'caso1';
+    f2_pintarCola();
+    f2_pintarVacio();
+    refrescarBurbujas();
+  } catch (_) {
+    f2_tieneDatos = false;
+    f2_pintarSinDatos('Sin conexión con Solón — reintenta más tarde.');
+    refrescarBurbujas();
+  }
+}
+
+// --- Arranque de F2. DEMO usa la muestra; en real, carga del backend. ---
 function f2_init(){
   const aviso = f2$('#f2-aviso-demo');
   if (DEMO_F2){
     if (aviso) aviso.hidden = false;
-    // f2_estadoCliente es const: se vacía y repuebla mutándolo, sin reasignar.
+    F2_CLIENTES = F2_MUESTRA.slice();
     Object.keys(f2_estadoCliente).forEach(k => delete f2_estadoCliente[k]);
     F2_CLIENTES.forEach(c => { f2_estadoCliente[c.id] = { toque:1, movidoA:null, borrador:null, confirmando:null }; });
     f2_activoId = null;
     f2_subActiva = 'caso1';
-    f2_tieneDatos = true;   // hay datos confiables (de muestra) que contar
+    f2_tieneDatos = true;
     f2_pintarCola();
     f2_pintarVacio();
-    const cont = f2$('#f2-conteo'); if (cont) cont.textContent = F2_CLIENTES.length;
-    const n1 = f2$('#f2-n1'); if (n1) n1.textContent = F2_CLIENTES.length;
+    refrescarBurbujas();
   } else {
     if (aviso) aviso.hidden = true;
-    f2_tieneDatos = false;  // sin datos confiables -> sin burbuja
-    f2_pintarSinDatos();
+    f2_cargarReal();   // intenta datos reales; honesto si no hay
   }
-  refrescarBurbujas();
 }
 
 
