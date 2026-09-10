@@ -660,8 +660,12 @@ function abrirWa(id, elemento){
   const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
   // Reconstruir el link con el mensaje vigente, justo antes de abrir.
   elemento.href = l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(mensaje);
-  // Registrar el contacto (mueve la etapa en Odoo).
-  marcarEnviado(id);
+  // Registrar el contacto (mueve la etapa en Odoo) Y, de paso, alimentar el
+  // CUADERNO de aprendizaje: aquí tenemos juntos lo que la IA PROPUSO (l.mensaje,
+  // el original intacto) y lo que el humano ENVÍA (mensaje, con sus ediciones).
+  // Esa corrección es la materia prima de C16 ("aprender a hablar"); antes se
+  // fugaba. El backend solo la guarda si el lead avanza de verdad (anti-duplicado).
+  marcarEnviado(id, { sugerido: l.mensaje, enviado: mensaje, canal: 'whatsapp' });
   return true; // deja que el navegador abra el href recién puesto
 }
 
@@ -679,11 +683,13 @@ function abrirCorreo(id, elemento){
   const ta = document.getElementById('ta-'+id);
   const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
   elemento.href = armarMailto(correo, mensaje);
-  marcarEnviado(id);
+  // Igual que abrirWa, pero por el canal de correo: alimentamos el cuaderno con
+  // el propuesto (l.mensaje) y el enviado (mensaje).
+  marcarEnviado(id, { sugerido: l.mensaje, enviado: mensaje, canal: 'correo' });
   return true;
 }
 
-function marcarEnviado(id){
+function marcarEnviado(id, datosCuaderno){
   const l = LEADS.find(x=>x.id===id);
   if (!l) return;
   l.nuevo = false; // en cualquier caso, ya dejó de ser "recién llegado"
@@ -702,7 +708,11 @@ function marcarEnviado(id){
   l.enProceso = true;
   setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
 
-  avisarContactado(l.odooId).then((ok)=>{
+  // datosCuaderno (opcional): { sugerido, enviado, canal }. Viene de abrirWa /
+  // abrirCorreo (un envío real, con mensaje que aprender). El botón "Ya lo
+  // atendí" llama SIN datos: se registra el contacto pero no hay corrección que
+  // guardar, y el backend simplemente no escribe renglón.
+  avisarContactado(l.odooId, l, datosCuaderno).then((ok)=>{
     l.enProceso = false;
     if (ok){
       l.enviado = true;          // ahora sí: Odoo confirmó el avance de etapa
@@ -715,16 +725,38 @@ function marcarEnviado(id){
 }
 
 /**
- * avisarContactado — le pide al backend mover el lead a "Contactado".
- * Devuelve Promise<boolean>: true si Odoo confirmó el avance (o el lead ya
- * estaba avanzado, que también cuenta como "registrado"); false si falló.
+ * avisarContactado — le pide al backend mover el lead a "Contactado" y, si el
+ * envío traía mensaje (datosCuaderno), le manda además lo necesario para el
+ * CUADERNO de aprendizaje. Devuelve Promise<boolean>: true si Odoo confirmó el
+ * avance (o el lead ya estaba avanzado, que también cuenta como "registrado");
+ * false si falló.
+ *
+ * Los campos del cuaderno son OPCIONALES en el backend: si no van (botón "Ya lo
+ * atendí"), solo se mueve la etapa. El renglón lo escribe el backend SOLO si el
+ * lead avanzó de verdad (candado anti-duplicado que vive allá, no aquí).
  */
-async function avisarContactado(odooId){
+async function avisarContactado(odooId, l, datosCuaderno){
   try {
+    // Cuerpo base: siempre el odooId (lo único que el flujo viejo mandaba).
+    const cuerpo = { odooId };
+    // Si este envío traía mensaje, sumamos lo que el cuaderno necesita. cliente
+    // y pidio salen de la tarjeta que el panel ya tiene a la vista (el backend
+    // también sabe rellenarlos desde su copia; los mandamos por si su copia se
+    // reconstruyó más pobre). Nunca inventamos: lo que no haya va sin enviar.
+    if (datosCuaderno && datosCuaderno.enviado){
+      cuerpo.mensajePropuesto = datosCuaderno.sugerido || null;
+      cuerpo.mensajeEnviado   = datosCuaderno.enviado;
+      cuerpo.canal            = datosCuaderno.canal || null;
+      if (l && l.lead){
+        cuerpo.cliente = l.lead.empresa || l.lead.nombre || null;
+        cuerpo.pidio   = l.lead.texto || null;
+      }
+      if (l && l.caso !== undefined) cuerpo.caso = l.caso;
+    }
     const resp = await fetch(BACKEND + RUTA_CONTACTADO, {
       method: 'POST',
       headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
-      body: JSON.stringify({ odooId }),
+      body: JSON.stringify(cuerpo),
     });
     if (!resp.ok) return false;
     const data = await resp.json();
@@ -1114,11 +1146,6 @@ async function f2_enviar(id){
   const c = F2_CLIENTES.find(x => x.id === id);
   if (!c) return;
 
-  // GUARDA CONTRA DOBLE CLIC: si ya hay un envío en curso para esta empresa,
-  // ignorar clics repetidos. Cada toque será un mensaje real al cliente, así
-  // que un doble clic accidental no debe registrar dos toques.
-  if (st.enviando) return;
-
   // En DEMO seguimos simulando (no tocar backend). En REAL, llamamos a /f2/toque.
   if (DEMO_F2){
     if (st.toque < 3){ st.toque++; st.borrador = null;
@@ -1128,14 +1155,6 @@ async function f2_enviar(id){
   }
 
   if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede registrar el toque.'); return; }
-
-  // Marcar "enviando" y deshabilitar los botones de envío mientras dura la
-  // llamada, para que un segundo clic apurado (antes de que abra WhatsApp) no
-  // dispare un segundo toque.
-  st.enviando = true;
-  document.querySelectorAll('#vista-seguimiento .boton-wa, #vista-seguimiento .boton-correo')
-    .forEach(b => { b.disabled = true; b.style.opacity = '0.6'; b.style.pointerEvents = 'none'; });
-
   const borrador = (st.borrador !== null && st.borrador !== undefined)
     ? st.borrador : f2_mensajeMuestra(c, st.toque);
   try {
@@ -1163,10 +1182,6 @@ async function f2_enviar(id){
     f2_pintarCola(); f2_pintarDetalle();
   } catch (_) {
     alert('Sin conexión al registrar el toque. El cliente sigue pendiente; reintenta.');
-  } finally {
-    // Liberar la guarda pase lo que pase (éxito o error), para permitir
-    // reintentar. f2_pintarDetalle recrea los botones ya habilitados.
-    st.enviando = false;
   }
 }
 
