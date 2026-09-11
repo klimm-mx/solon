@@ -12822,6 +12822,24 @@
       "toque": 1,
       "canal": "whatsapp",
       "resultado": null
+    },
+    {
+      "origen": "f1",
+      "fecha": "2026-09-11T14:07:53.309Z",
+      "cliente_id": 316,
+      "cliente": "El aguajito zócalo",
+      "pidio": "<p>Me gustaría una cotización con ustedes y empezar a trabajar a la vez en conjunto</p>",
+      "producto_base": null,
+      "sugerido_id": null,
+      "sugerido": "Buen día, Claudio. Le escribo de la empresa Klimm. Me escribo de la empresa Klimm. Me gustaría conocer qué productos necesita para prepararle una cotización a su medida; si me comparte su listado, le atiendo directamente, o si prefiere explorar primero, aquí está nuestro catálogo: klimm.mx/shop. Con gusto le atiendo y le comparto la información que necesita.",
+      "elegido_id": null,
+      "elegido": "Buen día, Claudio. Le escribo de la empresa Klimm. Me gustaría conocer qué productos necesita para prepararle una cotización a su medida; si me comparte su listado, le atiendo directamente, o si prefiere explorar primero, aquí está nuestro catálogo: klimm.mx/shop. Con gusto le atiendo y le comparto la información que necesita.",
+      "caso": null,
+      "confianza": null,
+      "status_original": null,
+      "cotizacion_id": null,
+      "canal": "whatsapp",
+      "resultado": null
     }
   ]
 }
