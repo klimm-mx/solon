@@ -13144,6 +13144,24 @@
       "confianza": "media",
       "status_original": "matched",
       "cotizacion_id": 1688
+    },
+    {
+      "origen": "f1",
+      "fecha": "2026-09-11T17:05:27.815Z",
+      "cliente_id": 319,
+      "cliente": "marisol peron",
+      "pidio": null,
+      "producto_base": null,
+      "sugerido_id": null,
+      "sugerido": "Buen día, Marisol. Con gusto le atiendo: si me comparte el listado de lo que necesita, le preparamos su cotización; o si prefiere explorar, aquí está nuestro catálogo: klimm.mx/shop.",
+      "elegido_id": null,
+      "elegido": "Buen día, Marisol. La contacto de la empresa Klimm, ya que solicitó información a través de nuestra página web. Con gusto le atiendo: si me comparte el listado de lo que necesita, le preparamos su cotización; o si prefiere explorar, aquí está nuestro catálogo: klimm.mx/shop.",
+      "caso": "info",
+      "confianza": null,
+      "status_original": null,
+      "cotizacion_id": null,
+      "canal": "correo",
+      "resultado": null
     }
   ]
 }
