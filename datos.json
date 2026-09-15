@@ -2220,6 +2220,42 @@
       "accion": "excluida",
       "motivo": "La marca/término \"Vectra\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
       "cotizacion_id": 1671
+    },
+    {
+      "fecha": "2026-09-11T14:19:04.966Z",
+      "cliente_id": 1609,
+      "cliente": "Ace",
+      "pidio": "Jabon Roma 1Kg",
+      "producto_base": "jabon",
+      "cantidad": 14,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "Ningún producto de la línea tiene tamaño capturado en la unidad pedida",
+      "cotizacion_id": 1688
+    },
+    {
+      "fecha": "2026-09-11T14:19:04.966Z",
+      "cliente_id": 1609,
+      "cliente": "Ace",
+      "pidio": "Fibra blanca fibraseo",
+      "producto_base": "fibra",
+      "cantidad": 8,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "La marca/término \"fibraseo\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1688
+    },
+    {
+      "fecha": "2026-09-11T14:19:04.966Z",
+      "cliente_id": 1609,
+      "cliente": "Ace",
+      "pidio": "Fibra scotch brite",
+      "producto_base": "fibra",
+      "cantidad": 7,
+      "unidad_pedido": null,
+      "accion": "nota",
+      "motivo": "La marca/término \"scotch brite\" no existe en el catálogo y el cliente no tiene historial en la categoría — verificar el sustituto sugerido",
+      "cotizacion_id": 1688
     }
   ]
 }
