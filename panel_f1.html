@@ -346,6 +346,16 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
 <!-- ===== fin VISTA Seguimiento ===== -->
 
 <script>
+/* ===== Estado de Carril 2 — declarado al TOPE del script =====
+   Debe existir antes que CUALQUIER otro código, porque el arranque de F1
+   (pintarCola -> refrescarBurbujas -> f2_alertasActivas) las lee de inmediato
+   al cargar la página. Si se declaran más abajo, ese arranque truena con
+   "Cannot access before initialization" y arrastra también a F2. */
+let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al cliente")
+let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
+let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
+let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
+
 /* ============================================================
    La cola arranca VACÍA. El panel NO muestra tarjetas de
    muestra: solo pinta leads reales que el backend (Solón)
@@ -1481,10 +1491,9 @@ function cambiarVista(vista){
    ==================================================================== */
 const C2_RUTA_COLA = '/agente/carril2/cola';
 
-let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al cliente")
-let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
-let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
-let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
+// (Las variables de estado C2_CLIENTE, C2_PENDIENTES, c2_activoId y c2_estado
+//  se declaran ARRIBA, junto al estado de F2, para que existan desde el arranque
+//  y ninguna función de F2 las lea antes de tiempo.)
 
 // Nombre a mostrar: preferimos el de Odoo; si no, el del chat; si no, el teléfono.
 function c2_nombre(t){
