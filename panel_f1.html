@@ -204,6 +204,27 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
   display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}#vista-seguimiento .movido-box .txt{font-size:14px}#vista-seguimiento .movido-box .txt strong{display:block;margin-bottom:2px}#vista-seguimiento .rescatar{background:var(--superficie);border:1px solid var(--agua);color:var(--agua-oscuro);
   padding:9px 15px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}#vista-seguimiento .placeholder2{border:2px dashed var(--borde);border-radius:12px;padding:34px 26px;text-align:center;
   color:var(--tinta-suave)}#vista-seguimiento .placeholder2 h3{color:var(--tinta);font-size:16px;margin:0 0 8px}#vista-seguimiento .placeholder2 p{font-size:13.5px;line-height:1.6;max-width:440px;margin:0 auto}
+/* ===== Carril 2 — añadidos, todos bajo #vista-seguimiento (sin colisiones) ===== */
+/* Origen de la tarjeta: distingue de un vistazo si viene del reloj (F2) o de
+   WhatsApp (Carril 2), sin gritar. Chip discreto reusando la paleta. */
+#vista-seguimiento .chip-origen{background:#EEF1F2;color:var(--tinta-suave);font-weight:600}
+/* Semáforo del Pendiente nuestro: reusa los colores del sistema (verde ok /
+   ámbar revisión / rojo alerta). El borde izquierdo del item lleva el color. */
+#vista-seguimiento .item.sem-normal{border-left-color:var(--ok)}
+#vista-seguimiento .item.sem-atencion{border-left-color:var(--revision)}
+#vista-seguimiento .item.sem-urgente{border-left-color:var(--alerta)}
+#vista-seguimiento .chip-sem{font-weight:700}
+#vista-seguimiento .chip-sem.sem-normal{background:var(--ok-bg);color:var(--ok)}
+#vista-seguimiento .chip-sem.sem-atencion{background:var(--revision-bg);color:var(--revision)}
+#vista-seguimiento .chip-sem.sem-urgente{background:var(--alerta-bg);color:var(--alerta)}
+/* Tarjeta de detalle del Pendiente nuestro: el texto de la deuda, sin botón de
+   enviar (la pelota es nuestra; no hay mensaje al cliente). */
+#vista-seguimiento .deuda-caja{background:var(--revision-bg);border:1px solid #F0DFC0;border-radius:10px;
+  padding:16px 18px;margin:18px 0}
+#vista-seguimiento .deuda-caja .deuda-tit{font-size:12px;color:#6B4E12;font-weight:700;margin-bottom:6px}
+#vista-seguimiento .deuda-caja .deuda-txt{font-size:14.5px;color:var(--tinta);line-height:1.55}
+#vista-seguimiento .nota-sin-envio{font-size:12.5px;color:var(--tinta-suave);margin-top:14px;
+  display:flex;align-items:center;gap:6px}
 </style>
 </head>
 <body>
@@ -300,13 +321,14 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
         <div class="cola-conteo"><strong id="f2-conteo">19</strong> en alerta</div>
       </div>
 
-      <!-- Subpestañas: Caso 1 (recurrente) y Caso 2 (cotizó y no respondió) -->
+      <!-- Subpestañas por el eje CLIENTE-vs-NOSOTROS (agnósticas al origen:
+           se llenan de F2 y de Carril 2 por igual). -->
       <div class="subpestanas">
-        <button class="activa" data-sp="caso1" onclick="f2_cambiarSub('caso1')">
-          Recurrentes<span class="sp-num" id="f2-n1">19</span>
+        <button class="activa" data-sp="cliente" onclick="f2_cambiarSub('cliente')">
+          Seguimiento al cliente<span class="sp-num" id="f2-n1">0</span>
         </button>
-        <button data-sp="caso2" onclick="f2_cambiarSub('caso2')">
-          Seguimiento pendiente<span class="sp-num" id="f2-n2">—</span>
+        <button data-sp="nuestro" onclick="f2_cambiarSub('nuestro')">
+          Pendiente nuestro<span class="sp-num" id="f2-n2">0</span>
         </button>
       </div>
 
@@ -965,7 +987,7 @@ const F2_MUESTRA = [
 ];
 
 // Estado de UI (todo en memoria; no persiste — es prototipo)
-let f2_subActiva = 'caso1';
+let f2_subActiva = 'cliente';   // 'cliente' (seguimiento al cliente) | 'nuestro' (pendiente nuestro)
 let f2_activoId = null;
 const f2_estadoCliente = {};   // id -> {toque, movidoA, borrador, confirmando}
 
@@ -996,11 +1018,12 @@ const f2_iconoWA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 
 const f2_iconoMail = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
 
 function f2_cambiarSub(sp){
-  f2_subActiva = sp;
+  f2_subActiva = sp;   // 'cliente' | 'nuestro'
   document.querySelectorAll('#vista-seguimiento .subpestanas button').forEach(b=>b.classList.toggle('activa', b.dataset.sp===sp));
   f2_activoId = null;
+  c2_activoId = null;
   f2_pintarCola();
-  if (sp === 'caso2') f2_pintarDetalleCaso2(); else f2_pintarVacio();
+  f2_pintarVacio();
 }
 
 function f2_pintarVacio(){
@@ -1009,11 +1032,35 @@ function f2_pintarVacio(){
 
 function f2_pintarCola(){
   const cola = f2$('#f2-cola');
-  if (f2_subActiva === 'caso2'){
-    cola.innerHTML = '<div style="padding:20px;color:var(--tinta-suave);font-size:13.5px;line-height:1.6">Esta bandeja se llenará cuando se construya la Entrada B (conversaciones frías). Hoy no tiene datos: espera el snapshot.</div>';
+
+  // ---- Subpestaña PENDIENTE NUESTRO: solo Carril 2, con semáforo ----
+  if (f2_subActiva === 'nuestro'){
+    if (!C2_PENDIENTES.length){
+      cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('nuestro')) + '</div>';
+      return;
+    }
+    cola.innerHTML = C2_PENDIENTES.map(p=>{
+      const sem = c2_semaforo(p.dias_silencio);
+      const clases = ['item', 'sem-'+sem.clase];
+      if (p._uiId===c2_activoId) clases.push('activo');
+      const nombre = c2_nombre(p);
+      return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${p._uiId}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(nombre)}</div>
+          <div class="it-sil">${p.dias_silencio} d</div>
+        </div>
+        <div class="it-linea">Le debemos algo · lleva ${p.dias_silencio} d sin movimiento</div>
+        <div class="it-chips"><span class="chip chip-sem sem-${sem.clase}">${sem.texto}</span></div>
+      </div>`;
+    }).join('');
     return;
   }
-  cola.innerHTML = F2_CLIENTES.map(c=>{
+
+  // ---- Subpestaña SEGUIMIENTO AL CLIENTE: F2 (recurrentes) + Carril 2 (con mensaje) ----
+  let html = '';
+
+  // 1) Los recurrentes de F2 (tal cual estaban; solo si hay datos F2).
+  html += F2_CLIENTES.map(c=>{
     const st = f2_estadoCliente[c.id];
     const clases = ['item'];
     if (c.id===f2_activoId) clases.push('activo');
@@ -1039,6 +1086,29 @@ function f2_pintarCola(){
       <div class="it-chips">${chips}</div>
     </div>`;
   }).join('');
+
+  // 2) Las de Carril 2 con mensaje (forma propia, chip de origen discreto).
+  html += C2_CLIENTE.map(t=>{
+    const clases = ['item'];
+    if (t._uiId===c2_activoId) clases.push('activo');
+    const nombre = c2_nombre(t);
+    const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+    return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${t._uiId}')">
+      <div class="it-top">
+        <div class="it-nombre">${f2_esc(nombre)}</div>
+        <div class="it-sil">${t.dias_silencio} d</div>
+      </div>
+      <div class="it-linea">${f2_esc(fam)} · del análisis de WhatsApp</div>
+      <div class="it-chips"><span class="chip chip-origen">WhatsApp</span></div>
+    </div>`;
+  }).join('');
+
+  // 3) Si NADA en esta lista (ni F2 ni Carril 2), aviso honesto.
+  if (!F2_CLIENTES.length && !C2_CLIENTE.length){
+    html = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('cliente')) + '</div>';
+  }
+
+  cola.innerHTML = html;
 }
 
 function f2_seleccionar(id){
@@ -1273,10 +1343,10 @@ async function f2_cargarReal(){
     }
     f2_tieneDatos = F2_CLIENTES.length > 0;
     f2_activoId = null;
-    f2_subActiva = 'caso1';
-    // Contadores de la cabecera y la subpestaña Recurrentes, con el número real.
-    const cont = f2$('#f2-conteo'); if (cont) cont.textContent = F2_CLIENTES.length;
-    const n1 = f2$('#f2-n1'); if (n1) n1.textContent = F2_CLIENTES.length;
+    f2_subActiva = 'cliente';
+    // Contadores (esta función latente re-poblaría F2; los contadores unificados
+    // los recalcula f2_actualizarContadores cuando se reactive el motor).
+    if (typeof f2_actualizarContadores === 'function') f2_actualizarContadores();
     f2_pintarCola();
     f2_pintarVacio();
     refrescarBurbujas();
@@ -1287,24 +1357,48 @@ async function f2_cargarReal(){
   }
 }
 
-// --- Arranque de F2. DEMO usa la muestra; en real, carga del backend. ---
+// --- Arranque de la vista Seguimiento. Carga F2 (recurrentes) Y Carril 2
+//     (WhatsApp), y los reparte en las dos subpestañas cliente/nuestro. ---
 function f2_init(){
   const aviso = f2$('#f2-aviso-demo');
+  f2_subActiva = 'cliente';   // siempre arranca en "Seguimiento al cliente"
+  f2_activoId = null;
+  c2_activoId = null;
+
   if (DEMO_F2){
     if (aviso) aviso.hidden = false;
     F2_CLIENTES = F2_MUESTRA.slice();
     Object.keys(f2_estadoCliente).forEach(k => delete f2_estadoCliente[k]);
     F2_CLIENTES.forEach(c => { f2_estadoCliente[c.id] = { toque:1, movidoA:null, borrador:null, confirmando:null }; });
-    f2_activoId = null;
-    f2_subActiva = 'caso1';
     f2_tieneDatos = true;
+  } else {
+    if (aviso) aviso.hidden = true;
+    F2_CLIENTES = [];         // sin demo, F2 aún no aporta datos reales (motor pendiente)
+    f2_tieneDatos = false;
+  }
+
+  // Carril 2 se carga siempre (su propio honesto interno si está apagado/sin datos).
+  c2_cargar().then(() => {
+    f2_actualizarContadores();
     f2_pintarCola();
     f2_pintarVacio();
     refrescarBurbujas();
-  } else {
-    if (aviso) aviso.hidden = true;
-    f2_cargarReal();   // intenta datos reales; honesto si no hay
-  }
+  });
+
+  // Pintado inmediato con lo que ya haya (F2), sin esperar la red de Carril 2.
+  f2_actualizarContadores();
+  f2_pintarCola();
+  f2_pintarVacio();
+  refrescarBurbujas();
+}
+
+// Contadores de las subpestañas: cuántos hay en cada lista (F2 + Carril 2).
+function f2_actualizarContadores(){
+  const nCliente = F2_CLIENTES.length + C2_CLIENTE.length;
+  const nNuestro = C2_PENDIENTES.length;
+  const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
+  const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
+  const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
 }
 
 
@@ -1315,13 +1409,24 @@ function f2_init(){
 // Cuántos clientes de Seguimiento están en alerta y aún sin resolver (ni en
 // encuesta ni descartados). Solo tiene sentido si f2_tieneDatos.
 function f2_alertasActivas(){
-  if (!f2_tieneDatos) return 0;
   let n = 0;
-  for (const c of F2_CLIENTES){
-    const st = f2_estadoCliente[c.id];
-    if (st && !st.movidoA) n++;   // sigue en la operación (no movido a excepción)
+  // F2 (recurrentes), solo si hay datos confiables.
+  if (f2_tieneDatos){
+    for (const c of F2_CLIENTES){
+      const st = f2_estadoCliente[c.id];
+      if (st && !st.movidoA) n++;   // sigue en la operación (no movido a excepción)
+    }
+  }
+  // Carril 2 (WhatsApp), solo si la carga fue exitosa.
+  if (c2_estado === 'ok'){
+    n += C2_CLIENTE.length + C2_PENDIENTES.length;
   }
   return n;
+}
+
+// La burbuja de Seguimiento debe mostrarse si F2 tiene datos O Carril 2 cargó bien.
+function f2_hayDatosSeguimiento(){
+  return f2_tieneDatos || (c2_estado === 'ok');
 }
 
 function pintarBurbuja(id, conteo, mostrar){
@@ -1342,8 +1447,8 @@ function refrescarBurbujas(){
   const pendientes = (typeof listaPendientes === 'function') ? listaPendientes().length : 0;
   pintarBurbuja('burbuja-prospectos', pendientes, backendVivo);
 
-  // Seguimiento: alertas activas, solo si hay datos confiables (demo hoy, motor mañana).
-  pintarBurbuja('burbuja-seguimiento', f2_alertasActivas(), f2_tieneDatos);
+  // Seguimiento: alertas activas de F2 + Carril 2, si hay datos confiables de cualquiera.
+  pintarBurbuja('burbuja-seguimiento', f2_alertasActivas(), f2_hayDatosSeguimiento());
 }
 
 
@@ -1363,6 +1468,137 @@ function cambiarVista(vista){
     f2_iniciado = true;
     f2_init();
   }
+}
+
+
+/* ==================== BLOQUE CARRIL 2 (WhatsApp) ====================
+   Carril 2 NO es una vista aparte: alimenta las MISMAS dos subpestañas de
+   Seguimiento, agnósticas al origen.
+     - Tarjetas CON mensaje  -> "Seguimiento al cliente" (junto a los de F2).
+     - PENDIENTE_NUESTRO     -> "Pendiente nuestro" (semáforo, sin enviar).
+   Consume GET /agente/carril2/cola. Honesto: si el interruptor está apagado
+   o no hay datos, avisa sin inventar. No toca nada de F1 ni de F2.
+   ==================================================================== */
+const C2_RUTA_COLA = '/agente/carril2/cola';
+
+let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al cliente")
+let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
+let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
+let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
+
+// Nombre a mostrar: preferimos el de Odoo; si no, el del chat; si no, el teléfono.
+function c2_nombre(t){
+  return t.empresaNombre || t.chat_name_persona || t.telefono_llave || 'Contacto sin nombre';
+}
+
+// Semáforo por calendario, sobre dias_silencio (el reloj más honesto que
+// tenemos hoy; ver deuda de diseño en el maestro). 0 normal / 1 atención / 2+ urgente.
+function c2_semaforo(dias){
+  const d = (typeof dias === 'number') ? dias : 99;
+  if (d <= 0) return { clase:'normal',   texto:'Al día' };
+  if (d === 1) return { clase:'atencion', texto:'1 día — atención' };
+  return          { clase:'urgente',  texto:`${d} días — urgente` };
+}
+
+// Mensajes honestos de bandeja vacía, según el estado real de la carga.
+function c2_mensajeVacio(cual){
+  if (c2_estado === 'apagado')
+    return 'Carril 2 está construido pero aún apagado. Se encenderá cuando el administrador lo active.';
+  if (c2_estado === 'sin-conexion')
+    return 'Sin conexión con Solón para traer los datos de WhatsApp. Reintenta más tarde.';
+  if (c2_estado === 'sin-datos')
+    return 'El análisis nocturno de WhatsApp aún no ha depositado datos. Aquí aparecerán tras la próxima corrida.';
+  // ok pero esta lista quedó vacía:
+  return (cual === 'nuestro')
+    ? 'No hay pendientes nuestros por ahora. Cuando debamos algo a un cliente (flete, cotización, documento), aparecerá aquí.'
+    : 'No hay seguimientos al cliente por ahora.';
+}
+
+// --- Carga REAL de Carril 2 desde el backend (GET /agente/carril2/cola) ---
+async function c2_cargar(){
+  if (window.__PREVIEW__){ c2_estado = 'sin-datos'; return; } // vista previa: sin red
+  if (!BACKEND || !CLAVE){ c2_estado = 'sin-conexion'; return; }
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_COLA, {
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      c2_estado = (data && data.motivo === 'carril2-apagado') ? 'apagado' : 'sin-datos';
+      C2_CLIENTE = []; C2_PENDIENTES = [];
+      return;
+    }
+    // Éxito: repartir a las dos listas, con id de UI estable.
+    C2_CLIENTE = (data.tarjetas || []).map((t,i) => ({ ...t, _uiId: 'c2c'+i }));
+    C2_PENDIENTES = (data.pendientesNuestros || []).map((p,i) => ({ ...p, _uiId: 'c2p'+i }));
+    c2_estado = 'ok';
+  } catch (_) {
+    c2_estado = 'sin-conexion';
+    C2_CLIENTE = []; C2_PENDIENTES = [];
+  }
+}
+
+function c2_seleccionar(uiId){
+  c2_activoId = uiId;
+  f2_activoId = null;         // soltar la selección de F2 (comparten el panel de detalle)
+  f2_pintarCola();
+  c2_pintarDetalle(uiId);
+}
+
+function c2_pintarDetalle(uiId){
+  // ¿Es un pendiente nuestro o un seguimiento al cliente?
+  const pend = C2_PENDIENTES.find(x=>x._uiId===uiId);
+  if (pend){ c2_pintarDetallePendiente(pend); return; }
+  const cli = C2_CLIENTE.find(x=>x._uiId===uiId);
+  if (cli){ c2_pintarDetalleCliente(cli); return; }
+  f2_pintarVacio();
+}
+
+// Detalle de PENDIENTE NUESTRO: el texto de la deuda + semáforo, SIN botón de enviar.
+function c2_pintarDetallePendiente(p){
+  const sem = c2_semaforo(p.dias_silencio);
+  const nombre = c2_nombre(p);
+  // El texto del pendiente vive en el diagnóstico (motivo/senales); si no, algo honesto.
+  const detalle = (p.diagnostico && (p.diagnostico.motivo || p.diagnostico.pelota))
+    ? (p.diagnostico.motivo || p.diagnostico.pelota)
+    : 'Quedamos de enviar algo a este cliente y aún no lo hemos hecho.';
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">Pendiente nuestro · del análisis de WhatsApp</div>
+    <div class="reloj-datos">
+      <div class="rd"><div class="et">Sin movimiento</div><div class="va">${p.dias_silencio} d</div></div>
+      <div class="rd destacar"><div class="et">Urgencia</div><div class="va">${f2_esc(sem.texto)}</div></div>
+    </div>
+    <div class="deuda-caja">
+      <div class="deuda-tit">Lo que le debemos</div>
+      <div class="deuda-txt">${f2_esc(detalle)}</div>
+    </div>
+    <div class="nota-sin-envio">◇ Sin mensaje que enviar: la acción es nuestra. Resuélvelo por el canal que corresponda (cotización, flete, documento) y quedará al día en la próxima corrida.</div>`;
+}
+
+// Detalle de SEGUIMIENTO AL CLIENTE (Carril 2): mensaje redactado, editable + enviar.
+function c2_pintarDetalleCliente(t){
+  const nombre = c2_nombre(t);
+  const msg = (t.redaccion && t.redaccion.mensaje) ? t.redaccion.mensaje : '';
+  const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+  const provisional = (t.redaccion && t.redaccion.provisional)
+    ? '<div class="editado">◐ Mensaje provisional (la IA lo marcó para revisar con cuidado antes de enviar).</div>'
+    : '';
+  const waLink = t.telefono_llave
+    ? ('https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(msg))
+    : null;
+  const botonWA = waLink
+    ? `<a class="boton boton-wa" href="${waLink}" target="_blank" rel="noopener">${f2_iconoWA} Enviar por WhatsApp</a>`
+    : `<button class="boton boton-wa" disabled title="Sin teléfono para abrir WhatsApp">${f2_iconoWA} Enviar por WhatsApp</button>`;
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">${f2_esc(fam)} · del análisis de WhatsApp</div>
+    <div class="msg-tit">Mensaje sugerido — revísalo y envíalo</div>
+    <textarea class="msg" id="c2-msg">${f2_esc(msg)}</textarea>
+    ${provisional}
+    <div class="acciones">
+      ${botonWA}
+    </div>`;
 }
 
 </script>
