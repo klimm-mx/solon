@@ -1367,35 +1367,41 @@ async function f2_cargarReal(){
   }
 }
 
-// --- Arranque de la vista Seguimiento. Carga F2 (recurrentes) Y Carril 2
-//     (WhatsApp), y los reparte en las dos subpestañas cliente/nuestro. ---
+// --- Arranque de la vista Seguimiento. Carga F2 (recurrentes reales, o muestra
+//     si DEMO_F2) Y Carril 2 (WhatsApp), y los reparte en las dos subpestañas. ---
 function f2_init(){
   const aviso = f2$('#f2-aviso-demo');
   f2_subActiva = 'cliente';   // siempre arranca en "Seguimiento al cliente"
   f2_activoId = null;
   c2_activoId = null;
 
+  // 1) Carga de F2: muestra (demo) o real (backend).
+  let f2Listo;
   if (DEMO_F2){
     if (aviso) aviso.hidden = false;
     F2_CLIENTES = F2_MUESTRA.slice();
     Object.keys(f2_estadoCliente).forEach(k => delete f2_estadoCliente[k]);
     F2_CLIENTES.forEach(c => { f2_estadoCliente[c.id] = { toque:1, movidoA:null, borrador:null, confirmando:null }; });
     f2_tieneDatos = true;
+    f2Listo = Promise.resolve();
   } else {
     if (aviso) aviso.hidden = true;
-    F2_CLIENTES = [];         // sin demo, F2 aún no aporta datos reales (motor pendiente)
-    f2_tieneDatos = false;
+    // f2_cargarReal trae los clientes reales de /agente/f2/cola y arma su estado.
+    // Pinta por su cuenta al terminar; aquí solo esperamos a que acabe.
+    f2Listo = f2_cargarReal();
   }
 
-  // Carril 2 se carga siempre (su propio honesto interno si está apagado/sin datos).
-  c2_cargar().then(() => {
+  // 2) Carga de Carril 2 en paralelo. Cuando AMBOS terminen, repintamos todo
+  //    junto (contadores unificados + la lista de la subpestaña activa).
+  Promise.all([f2Listo, c2_cargar()]).then(() => {
+    f2_subActiva = 'cliente';   // f2_cargarReal pudo tocarla; la fijamos al arranque
     f2_actualizarContadores();
     f2_pintarCola();
     f2_pintarVacio();
     refrescarBurbujas();
   });
 
-  // Pintado inmediato con lo que ya haya (F2), sin esperar la red de Carril 2.
+  // Pintado inmediato con lo que ya haya, sin esperar la red (evita parpadeo vacío).
   f2_actualizarContadores();
   f2_pintarCola();
   f2_pintarVacio();
