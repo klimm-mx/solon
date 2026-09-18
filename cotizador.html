@@ -85,6 +85,8 @@ textarea{min-height:120px;resize:vertical}
 .linea.revision{border-left:4px solid var(--revision);background:var(--revision-bg)}
 .linea.excluida{opacity:.45}
 .linea-encabezado{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.linea-info{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.linea-num{width:26px;height:26px;border-radius:50%;background:var(--agua-claro);color:var(--agua-oscuro);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .linea-cliente{font-size:13px;color:var(--tinta-suave)}
 .linea-cliente strong{color:var(--tinta);font-size:14px}
 .chips{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
@@ -695,7 +697,10 @@ function pintarResultados(){
     return `
     <div class="linea ${esRevision?'revision':''} ${!l.incluir && !esRevision ?'excluida':''}" id="linea${i}">
       <div class="linea-encabezado">
-        <div class="linea-cliente">El cliente pidió:<br><strong>${esc(l.client_line)}</strong>${labelPidio(l)}</div>
+        <div class="linea-info">
+          <div class="linea-num">${i+1}</div>
+          <div class="linea-cliente">El cliente pidió:<br><strong>${esc(l.client_line)}</strong>${labelPidio(l)}</div>
+        </div>
         <div class="chips">
           ${esRevision
             ? '<span class="chip chip-revision">Requiere revisión</span>'
