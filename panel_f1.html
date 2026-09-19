@@ -356,6 +356,7 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
    "Cannot access before initialization" y arrastra también a F2. */
 let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al cliente")
 let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
+let C2_EXCLUIDOS = [];     // tarjetas EXCLUIR (van a "Fuera de operación", solo lectura)
 let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
 let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
 
@@ -1075,12 +1076,15 @@ function f2_pintarCola(){
   //      NOTA: los EXCLUIR de Carril 2 hoy no llegan al panel; cuando el backend
   //      los exponga, se sumarán a esta misma lista sin cambiar la estructura.
   if (f2_subActiva === 'fuera'){
-    const fuera = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return s && s.movidoA; });
-    if (!fuera.length){
-      cola.innerHTML = '<div class="f2-sin-datos">Nada fuera de operación. Aquí llegan los clientes que descartes o envíes a encuesta; podrás rescatarlos cuando quieras.</div>';
+    const fueraF2 = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return s && s.movidoA; });
+    const fueraC2 = C2_EXCLUIDOS;   // EXCLUIR del análisis de WhatsApp (solo lectura)
+    if (!fueraF2.length && !fueraC2.length){
+      cola.innerHTML = '<div class="f2-sin-datos">Nada fuera de operación. Aquí llegan los clientes que descartes o envíes a encuesta, y los que el análisis de WhatsApp excluyó.</div>';
       return;
     }
-    cola.innerHTML = fuera.map(c=>{
+    let h = '';
+    // 1) F2 movidos por ti (descartado / en encuesta) — rescatables.
+    h += fueraF2.map(c=>{
       const st = f2_estadoCliente[c.id];
       const etiqueta = st.movidoA==='descartar' ? 'Descartado' : 'En encuesta';
       const clases = ['item','movido'];
@@ -1094,6 +1098,22 @@ function f2_pintarCola(){
         <div class="it-chips"><span class="chip chip-movido">${etiqueta}</span></div>
       </div>`;
     }).join('');
+    // 2) EXCLUIR de Carril 2 — la IA los dejó fuera de oportunidad (solo lectura).
+    h += fueraC2.map(e=>{
+      const clases = ['item','movido'];
+      if (e._uiId===c2_activoId) clases.push('activo');
+      const nombre = c2_nombre(e);
+      const sil = (typeof e.dias_silencio === 'number') ? e.dias_silencio + ' d' : '';
+      return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${e._uiId}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(nombre)}</div>
+          <div class="it-sil">${sil}</div>
+        </div>
+        <div class="it-linea">Excluida por el análisis · del análisis de WhatsApp</div>
+        <div class="it-chips"><span class="chip chip-movido">Excluida</span></div>
+      </div>`;
+    }).join('');
+    cola.innerHTML = h;
     return;
   }
 
@@ -1446,7 +1466,7 @@ function f2_actualizarContadores(){
   const nNuestro = C2_PENDIENTES.length;
   const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
   const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
-  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera;
+  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera + C2_EXCLUIDOS.length;
   const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
 }
 
@@ -1573,16 +1593,17 @@ async function c2_cargar(){
     const data = await resp.json();
     if (!data || !data.ok){
       c2_estado = (data && data.motivo === 'carril2-apagado') ? 'apagado' : 'sin-datos';
-      C2_CLIENTE = []; C2_PENDIENTES = [];
+      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = [];
       return;
     }
-    // Éxito: repartir a las dos listas, con id de UI estable.
+    // Éxito: repartir a las tres listas, con id de UI estable.
     C2_CLIENTE = (data.tarjetas || []).map((t,i) => ({ ...t, _uiId: 'c2c'+i }));
     C2_PENDIENTES = (data.pendientesNuestros || []).map((p,i) => ({ ...p, _uiId: 'c2p'+i }));
+    C2_EXCLUIDOS = (data.excluidos || []).map((e,i) => ({ ...e, _uiId: 'c2x'+i }));
     c2_estado = 'ok';
   } catch (_) {
     c2_estado = 'sin-conexion';
-    C2_CLIENTE = []; C2_PENDIENTES = [];
+    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = [];
   }
 }
 
@@ -1594,12 +1615,30 @@ function c2_seleccionar(uiId){
 }
 
 function c2_pintarDetalle(uiId){
-  // ¿Es un pendiente nuestro o un seguimiento al cliente?
+  // ¿Es un pendiente nuestro, un seguimiento al cliente, o un excluido?
   const pend = C2_PENDIENTES.find(x=>x._uiId===uiId);
   if (pend){ c2_pintarDetallePendiente(pend); return; }
   const cli = C2_CLIENTE.find(x=>x._uiId===uiId);
   if (cli){ c2_pintarDetalleCliente(cli); return; }
+  const exc = C2_EXCLUIDOS.find(x=>x._uiId===uiId);
+  if (exc){ c2_pintarDetalleExcluida(exc); return; }
   f2_pintarVacio();
+}
+
+// Detalle de EXCLUIR: por qué el análisis lo dejó fuera. Solo lectura: hoy no
+// hay rescate para un EXCLUIR (la corrida nocturna re-diagnostica cada noche;
+// un "rescate" que persista es un mecanismo aparte, aún no construido).
+function c2_pintarDetalleExcluida(e){
+  const nombre = c2_nombre(e);
+  const motivo = (e.diagnostico && (e.diagnostico.motivo || e.diagnostico.senales))
+    ? (e.diagnostico.motivo || e.diagnostico.senales)
+    : 'El análisis no encontró una oportunidad comercial en esta conversación.';
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">Excluida por el análisis · del análisis de WhatsApp</div>
+    <div class="movido-box">
+      <div class="txt"><strong>El análisis la dejó fuera de oportunidad.</strong> ${f2_esc(motivo)}</div>
+    </div>`;
 }
 
 // Detalle de PENDIENTE NUESTRO: el texto de la deuda + semáforo, SIN botón de enviar.
