@@ -330,6 +330,9 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
         <button data-sp="nuestro" onclick="f2_cambiarSub('nuestro')">
           Pendiente nuestro<span class="sp-num" id="f2-n2">0</span>
         </button>
+        <button data-sp="fuera" onclick="f2_cambiarSub('fuera')">
+          Fuera de operación<span class="sp-num" id="f2-n3">0</span>
+        </button>
       </div>
 
       <div class="cola" id="f2-cola"></div>
@@ -1066,26 +1069,49 @@ function f2_pintarCola(){
     return;
   }
 
+  // ---- Subpestaña FUERA DE OPERACIÓN: F2 movidos (descartado / en encuesta) ----
+  //      Se sacan del área de trabajo para no ensuciarla, PERO siguen aquí,
+  //      etiquetados y rescatables (al seleccionarlos, el detalle trae "Rescatar").
+  //      NOTA: los EXCLUIR de Carril 2 hoy no llegan al panel; cuando el backend
+  //      los exponga, se sumarán a esta misma lista sin cambiar la estructura.
+  if (f2_subActiva === 'fuera'){
+    const fuera = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return s && s.movidoA; });
+    if (!fuera.length){
+      cola.innerHTML = '<div class="f2-sin-datos">Nada fuera de operación. Aquí llegan los clientes que descartes o envíes a encuesta; podrás rescatarlos cuando quieras.</div>';
+      return;
+    }
+    cola.innerHTML = fuera.map(c=>{
+      const st = f2_estadoCliente[c.id];
+      const etiqueta = st.movidoA==='descartar' ? 'Descartado' : 'En encuesta';
+      const clases = ['item','movido'];
+      if (c.id===f2_activoId) clases.push('activo');
+      return `<div class="${clases.join(' ')}" onclick="f2_seleccionar('${c.id}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(c.empresa)}</div>
+          <div class="it-sil">${c.silencio} d</div>
+        </div>
+        <div class="it-linea">Compra cada ~${c.cadencia} d · lleva ${c.silencio} d sin pedir</div>
+        <div class="it-chips"><span class="chip chip-movido">${etiqueta}</span></div>
+      </div>`;
+    }).join('');
+    return;
+  }
+
   // ---- Subpestaña SEGUIMIENTO AL CLIENTE: F2 (recurrentes) + Carril 2 (con mensaje) ----
   let html = '';
 
-  // 1) Los recurrentes de F2 (tal cual estaban; solo si hay datos F2).
-  html += F2_CLIENTES.map(c=>{
+  // 1) Los recurrentes de F2 ACTIVOS (los movidos a descartado/encuesta ya NO
+  //    aparecen aquí: viven en la subpestaña "Fuera de operación").
+  const f2Activos = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return !(s && s.movidoA); });
+  html += f2Activos.map(c=>{
     const st = f2_estadoCliente[c.id];
     const clases = ['item'];
     if (c.id===f2_activoId) clases.push('activo');
-    if (st.movidoA) clases.push('movido');
-    else if (c.viejo) clases.push('viejo');
+    if (c.viejo) clases.push('viejo');
     else clases.push('alerta');
 
-    let chips = '';
-    if (st.movidoA){
-      const etiqueta = st.movidoA==='descartar' ? 'Descartado' : 'En encuesta';
-      chips = `<span class="chip chip-movido">${etiqueta}</span>`;
-    } else {
-      chips = `<span class="chip chip-toque">Toque ${st.toque} de 3</span>`;
-      if (c.viejo) chips += `<span class="chip chip-viejo">+1 año sin comprar</span>`;
-    }
+    let chips = `<span class="chip chip-toque">Toque ${st.toque} de 3</span>`;
+    if (c.viejo) chips += `<span class="chip chip-viejo">+1 año sin comprar</span>`;
 
     return `<div class="${clases.join(' ')}" onclick="f2_seleccionar('${c.id}')">
       <div class="it-top">
@@ -1113,8 +1139,8 @@ function f2_pintarCola(){
     </div>`;
   }).join('');
 
-  // 3) Si NADA en esta lista (ni F2 ni Carril 2), aviso honesto.
-  if (!F2_CLIENTES.length && !C2_CLIENTE.length){
+  // 3) Si NADA en esta lista (ni F2 activos ni Carril 2), aviso honesto.
+  if (!f2Activos.length && !C2_CLIENTE.length){
     html = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('cliente')) + '</div>';
   }
 
@@ -1278,6 +1304,7 @@ async function f2_enrutar(id, destinoUI){
   if (DEMO_F2){
     f2_estadoCliente[id].movidoA = (destinoUI==='rescatar') ? null : destinoUI;
     f2_estadoCliente[id].confirmando = null;
+    if (typeof f2_actualizarContadores === 'function') f2_actualizarContadores();
     f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas(); return true;
   }
   if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede enrutar.'); return false; }
@@ -1293,6 +1320,7 @@ async function f2_enrutar(id, destinoUI){
     f2_estadoCliente[id].movidoA = (destino==='en_seguimiento') ? null
       : (destino==='en_encuesta' ? 'encuesta' : 'descartar');
     f2_estadoCliente[id].confirmando = null;
+    if (typeof f2_actualizarContadores === 'function') f2_actualizarContadores();
     f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas(); return true;
   } catch (_) { alert('Sin conexión al enrutar. Reintenta.'); return false; }
 }
@@ -1410,10 +1438,15 @@ function f2_init(){
 
 // Contadores de las subpestañas: cuántos hay en cada lista (F2 + Carril 2).
 function f2_actualizarContadores(){
-  const nCliente = F2_CLIENTES.length + C2_CLIENTE.length;
+  // Los F2 movidos (descartado/encuesta) NO cuentan en el área de trabajo:
+  // se cuentan aparte, en "Fuera de operación".
+  const f2Activos = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return !(s && s.movidoA); }).length;
+  const f2Fuera = F2_CLIENTES.length - f2Activos;
+  const nCliente = f2Activos + C2_CLIENTE.length;
   const nNuestro = C2_PENDIENTES.length;
   const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
   const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
+  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera;
   const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
 }
 
