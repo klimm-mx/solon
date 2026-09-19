@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador — Solón · Klimm</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --fondo:#F5F9FA; --superficie:#FFFFFF; --tinta:#16323B; --tinta-suave:#5A7480;
+  --agua:#0FA3C7; --agua-oscuro:#0B7E9A; --agua-claro:#E3F4F9;
+  --ok:#1B9E63; --ok-bg:#E8F6EF; --media:#C7871B; --media-bg:#FBF3E3;
+  --alerta:#C43D3D; --alerta-bg:#FBECEC; --revision:#B06A00; --revision-bg:#FFF6E8;
+  --borde:#DCE7EB; --radio:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--fondo);color:var(--tinta);font-size:15px;line-height:1.5;padding-bottom:110px}
+.contenedor{max-width:880px;margin:0 auto;padding:0 20px}
+
+/* Encabezado */
+header{background:var(--superficie);border-bottom:1px solid var(--borde);padding:14px 0;margin-bottom:28px}
+header .contenedor{display:flex;align-items:baseline;justify-content:space-between}
+.marca{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.marca span{color:var(--agua)}
+.sistema{font-size:12px;color:var(--tinta-suave);letter-spacing:.8px;text-transform:uppercase}
+
+/* Pasos */
+.paso{background:var(--superficie);border:1px solid var(--borde);border-radius:var(--radio);padding:22px;margin-bottom:18px}
+.paso-titulo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.paso-num{width:26px;height:26px;border-radius:50%;background:var(--agua-claro);color:var(--agua-oscuro);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.paso-titulo h2{font-size:16px;font-weight:600}
+
+label{display:block;font-size:13px;font-weight:600;color:var(--tinta-suave);margin-bottom:6px}
+input[type=text],input[type=password],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--borde);border-radius:8px;font-size:14px;font-family:inherit;background:var(--superficie);color:var(--tinta)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--agua);outline-offset:-1px;border-color:var(--agua)}
+textarea{min-height:120px;resize:vertical}
+
+/* Buscador de cliente */
+.buscador{position:relative}
+.resultados-busqueda{position:absolute;top:100%;left:0;right:0;background:var(--superficie);border:1px solid var(--borde);border-radius:8px;margin-top:4px;max-height:260px;overflow-y:auto;z-index:20;box-shadow:0 8px 24px rgba(22,50,59,.12);display:none}
+.resultados-busqueda.visible{display:block}
+.opcion-cliente{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--borde)}
+.opcion-cliente:last-child{border-bottom:none}
+.opcion-cliente:hover,.opcion-cliente.activa{background:var(--agua-claro)}
+.opcion-cliente .nombre{font-weight:600}
+.opcion-cliente .detalle{font-size:12px;color:var(--tinta-suave)}
+.cliente-elegido{display:flex;align-items:center;justify-content:space-between;background:var(--agua-claro);border:1px solid var(--agua);border-radius:8px;padding:10px 14px}
+.cliente-elegido .nombre{font-weight:700;color:var(--agua-oscuro)}
+.quitar{background:none;border:none;color:var(--tinta-suave);cursor:pointer;font-size:13px;text-decoration:underline}
+
+/* Buscador de LEAD (añadido) — mismo estilo del de cliente, con acento ámbar */
+.separador-o{display:flex;align-items:center;text-align:center;color:var(--tinta-suave);font-size:12.5px;margin:16px 0;gap:10px}
+.separador-o::before,.separador-o::after{content:'';flex:1;height:1px;background:var(--borde)}
+.lead-elegido{border-color:var(--media)!important;background:var(--media-bg)!important}
+.lead-elegido .nombre{color:var(--media)!important}
+
+/* Entrada de pedido */
+.pestanas{display:flex;gap:6px;margin-bottom:12px}
+.pestana{padding:7px 16px;border:1px solid var(--borde);border-radius:20px;background:var(--superficie);font-size:13px;font-weight:600;color:var(--tinta-suave);cursor:pointer}
+.pestana.activa{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.zona-archivo{border:2px dashed var(--borde);border-radius:var(--radio);padding:28px;text-align:center;color:var(--tinta-suave);cursor:pointer}
+.zona-archivo.arrastre{border-color:var(--agua);background:var(--agua-claro)}
+.zona-archivo strong{color:var(--agua-oscuro)}
+.archivo-cargado{display:flex;align-items:center;justify-content:space-between;background:var(--ok-bg);border:1px solid var(--ok);border-radius:8px;padding:10px 14px;color:var(--ok);font-weight:600}
+
+/* Interruptor licitación */
+.fila-opciones{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.interruptor{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.interruptor input{display:none}
+.pista{width:44px;height:24px;border-radius:12px;background:var(--borde);position:relative;transition:background .15s}
+.pista::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s}
+.interruptor input:checked + .pista{background:var(--media)}
+.interruptor input:checked + .pista::after{left:23px}
+.interruptor .texto{font-size:14px;font-weight:600}
+
+/* Botones */
+.boton{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.boton-principal{background:var(--agua);color:#fff}
+.boton-principal:hover{background:var(--agua-oscuro)}
+.boton-principal:disabled{background:var(--borde);color:var(--tinta-suave);cursor:not-allowed}
+.boton-secundario{background:var(--superficie);color:var(--tinta);border:1px solid var(--borde)}
+
+/* Resultados del matching */
+.linea{border:1px solid var(--borde);border-radius:var(--radio);padding:16px;margin-bottom:12px;background:var(--superficie)}
+.linea.revision{border-left:4px solid var(--revision);background:var(--revision-bg)}
+.linea.excluida{opacity:.45}
+.linea-encabezado{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.linea-info{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.linea-num{width:26px;height:26px;border-radius:50%;background:var(--agua-claro);color:var(--agua-oscuro);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.linea-cliente{font-size:13px;color:var(--tinta-suave)}
+.linea-cliente strong{color:var(--tinta);font-size:14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:.3px}
+.chip-caso{background:var(--agua-claro);color:var(--agua-oscuro)}
+.chip-alta{background:var(--ok-bg);color:var(--ok)}
+.chip-media{background:var(--media-bg);color:var(--media)}
+.chip-baja{background:var(--alerta-bg);color:var(--alerta)}
+.chip-revision{background:var(--revision-bg);color:var(--revision);border:1px solid var(--revision)}
+.linea-cuerpo{display:grid;grid-template-columns:1fr 110px;gap:12px;align-items:end}
+.aviso{font-size:12.5px;color:var(--revision);margin-top:8px;padding-left:18px;position:relative}
+.aviso::before{content:'⚠';position:absolute;left:0}
+.motivo{font-size:12.5px;color:var(--tinta-suave);margin-top:8px}
+.pidio{font-size:12px;color:var(--tinta-suave);margin-top:4px;font-weight:400}
+.pidio strong{color:var(--agua-oscuro);font-weight:600}
+.fila-excluir input{margin-right:6px}
+.fila-excluir label{display:block;font-weight:400;font-size:13px;color:var(--tinta);margin-bottom:4px;cursor:pointer}
+
+/* Combobox de producto con buscador sobre el catálogo completo */
+.combo{position:relative}
+.combo-lista{position:absolute;top:100%;left:0;right:0;background:var(--superficie);border:1px solid var(--borde);border-radius:8px;margin-top:4px;max-height:300px;overflow-y:auto;z-index:25;box-shadow:0 8px 24px rgba(22,50,59,.14);display:none}
+.combo-lista.visible{display:block}
+.combo-grupo{font-size:11px;font-weight:700;color:var(--tinta-suave);padding:6px 12px;text-transform:uppercase;letter-spacing:.5px;background:var(--fondo);position:sticky;top:0}
+.combo-item{padding:8px 12px;cursor:pointer;font-size:13.5px;border-bottom:1px solid var(--borde)}
+.combo-item:last-child{border-bottom:none}
+.combo-item:hover{background:var(--agua-claro)}
+.combo-item .precio{color:var(--tinta-suave)}
+.combo-vacio{padding:10px 12px;font-size:13px;color:var(--tinta-suave)}
+
+/* Barra fija inferior */
+.barra-final{position:fixed;bottom:0;left:0;right:0;background:var(--superficie);border-top:1px solid var(--borde);padding:14px 0;box-shadow:0 -4px 20px rgba(22,50,59,.08);display:none;z-index:30}
+.barra-final.visible{display:block}
+.barra-final .contenedor{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.resumen-texto{font-size:14px}
+.resumen-texto strong{font-size:16px}
+
+/* Estados y mensajes */
+.mensaje{padding:14px 16px;border-radius:var(--radio);margin-bottom:16px;font-size:14px}
+.mensaje-error{background:var(--alerta-bg);color:var(--alerta);border:1px solid var(--alerta)}
+.mensaje-exito{background:var(--ok-bg);border:1px solid var(--ok);color:var(--ok)}
+.mensaje-exito a{color:var(--ok);font-weight:700}
+.cargando{display:flex;align-items:center;gap:12px;padding:20px;justify-content:center;color:var(--tinta-suave)}
+.girador{width:22px;height:22px;border:3px solid var(--borde);border-top-color:var(--agua);border-radius:50%;animation:girar .8s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.nota-pie{font-size:12px;color:var(--tinta-suave);text-align:center;margin-top:8px}
+
+/* Modal de configuración */
+.velo{position:fixed;inset:0;background:rgba(22,50,59,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.velo.visible{display:flex}
+.modal{background:var(--superficie);border-radius:var(--radio);padding:26px;max-width:460px;width:100%}
+.modal h3{margin-bottom:6px}
+.modal p{font-size:13px;color:var(--tinta-suave);margin-bottom:16px}
+.modal .campo{margin-bottom:14px}
+@media(max-width:640px){.linea-cuerpo{grid-template-columns:1fr}.barra-final .contenedor{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor">
+    <div class="marca">Klimm <span>· Cotizador</span></div>
+    <div class="sistema">Sistema Solón</div>
+  </div>
+</header>
+
+<div class="contenedor">
+
+  <div id="avisoGlobal"></div>
+
+  <!-- PASO 1: Lead de F1 o Cliente -->
+  <section class="paso">
+    <div class="paso-titulo"><div class="paso-num">1</div><h2>Elige el lead o el cliente</h2></div>
+
+    <!-- Lead de F1 (flujo principal): la cotización queda LIGADA al lead -->
+    <div id="zonaBusquedaLead" class="buscador">
+      <label for="entradaLead">Lead de F1 — busca por nombre, empresa, correo o teléfono</label>
+      <input type="text" id="entradaLead" placeholder="Escribe al menos 3 letras…" autocomplete="off">
+      <div id="listaLeads" class="resultados-busqueda"></div>
+    </div>
+    <div id="leadElegido" style="display:none" class="cliente-elegido lead-elegido">
+      <div><div class="nombre" id="nombreLead"></div><div class="detalle" id="detalleLead"></div></div>
+      <button class="quitar" onclick="quitarLead()">Cambiar</button>
+    </div>
+
+    <div class="separador-o">o cotiza para un cliente existente (sin lead)</div>
+
+    <!-- Cliente existente (flujo original, SIN CAMBIOS) -->
+    <div id="zonaBusqueda" class="buscador">
+      <label for="entradaCliente">Busca por nombre (el cliente debe existir en Odoo)</label>
+      <input type="text" id="entradaCliente" placeholder="Escribe al menos 3 letras…" autocomplete="off">
+      <div id="listaClientes" class="resultados-busqueda"></div>
+    </div>
+    <div id="clienteElegido" style="display:none" class="cliente-elegido">
+      <div><div class="nombre" id="nombreCliente"></div><div class="detalle" id="detalleCliente"></div></div>
+      <button class="quitar" onclick="quitarCliente()">Cambiar</button>
+    </div>
+    <p class="nota-pie" style="text-align:left;margin-top:10px">¿Cliente nuevo? Dalo de alta primero en Odoo (Contactos) y luego búscalo aquí.</p>
+  </section>
+
+  <!-- PASO 2: Pedido -->
+  <section class="paso">
+    <div class="paso-titulo"><div class="paso-num">2</div><h2>Pedido del cliente</h2></div>
+    <div class="pestanas">
+      <button class="pestana activa" id="pestanaArchivo" onclick="cambiarPestana('archivo')">Subir archivo</button>
+      <button class="pestana" id="pestanaTexto" onclick="cambiarPestana('texto')">Pegar texto</button>
+    </div>
+    <div id="panelTexto" style="display:none">
+      <textarea id="textoPedido" placeholder="Pega aquí el pedido tal como lo mandó el cliente (WhatsApp, correo)…"></textarea>
+    </div>
+    <div id="panelArchivo">
+      <div class="zona-archivo" id="zonaArchivo" onclick="document.getElementById('entradaArchivo').click()">
+        <strong>Haz clic para elegir archivos</strong> o arrástralos aquí<br>
+        <span style="font-size:12.5px">PDF, imagen (JPG/PNG), Excel o texto · puedes elegir varios a la vez</span>
+      </div>
+      <input type="file" id="entradaArchivo" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.csv,.txt" style="display:none" multiple>
+      <div id="archivoCargado" style="display:none" class="archivo-cargado">
+        <span id="nombreArchivo"></span>
+        <button class="quitar" onclick="quitarArchivo()">Quitar</button>
+      </div>
+    </div>
+    <div class="fila-opciones">
+      <label class="interruptor">
+        <input type="checkbox" id="modoLicitacion">
+        <span class="pista"></span>
+        <span class="texto">Modo licitación</span>
+      </label>
+      <button class="boton boton-principal" id="botonProcesar" onclick="procesarPedido()">Procesar pedido</button>
+    </div>
+  </section>
+
+  <!-- PASO 3: Revisión -->
+  <section class="paso" id="pasoResultados" style="display:none">
+    <div class="paso-titulo"><div class="paso-num">3</div><h2>Revisa los productos</h2></div>
+    <div id="listaResultados"></div>
+  </section>
+
+  <div id="zonaCargando" style="display:none" class="paso">
+    <div class="cargando"><div class="girador"></div><span id="textoCargando">Procesando…</span></div>
+  </div>
+
+</div>
+
+<!-- Barra de confirmación -->
+<div class="barra-final" id="barraFinal">
+  <div class="contenedor">
+    <div class="resumen-texto" id="resumenFinal"></div>
+    <button class="boton boton-principal" id="botonCrear" onclick="crearCotizacion()">Crear cotización en Odoo</button>
+  </div>
+</div>
+
+<!-- Configuración inicial -->
+<div class="velo" id="veloConfig">
+  <div class="modal">
+    <h3>Conectar con Solón</h3>
+    <p>Configuración de una sola vez en este navegador. Pide estos datos al administrador.</p>
+    <div class="campo">
+      <label for="confUrl">Dirección del backend</label>
+      <input type="text" id="confUrl" value="https://klimm-backend.onrender.com">
+    </div>
+    <div class="campo">
+      <label for="confClave">Clave de acceso</label>
+      <input type="password" id="confClave" placeholder="Clave del backend">
+    </div>
+    <button class="boton boton-principal" style="width:100%" onclick="guardarConfig()">Guardar y empezar</button>
+  </div>
+</div>
+
+<script>
+/* ================= CONFIGURACIÓN ================= */
+let BACKEND = localStorage.getItem('solon_backend') || '';
+let CLAVE = localStorage.getItem('solon_clave') || '';
+
+if (!BACKEND || !CLAVE) {
+  document.getElementById('veloConfig').classList.add('visible');
+}
+
+function guardarConfig(){
+  const url = document.getElementById('confUrl').value.trim().replace(/\/$/,'');
+  const clave = document.getElementById('confClave').value.trim();
+  if(!url || !clave){ alert('Completa los dos campos'); return; }
+  localStorage.setItem('solon_backend', url);
+  localStorage.setItem('solon_clave', clave);
+  BACKEND = url; CLAVE = clave;
+  document.getElementById('veloConfig').classList.remove('visible');
+}
+
+async function llamar(ruta, opciones = {}){
+  const resp = await fetch(BACKEND + ruta, {
+    ...opciones,
+    headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE, ...(opciones.headers||{}) }
+  });
+  const data = await resp.json();
+  if(!resp.ok) throw new Error(data.error || ('Error ' + resp.status));
+  return data;
+}
+
+function avisar(html, tipo){
+  document.getElementById('avisoGlobal').innerHTML =
+    html ? `<div class="mensaje mensaje-${tipo}">${html}</div>` : '';
+  if(html) window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ================= PASO 1: CLIENTE ================= */
+let clienteSeleccionado = null;
+let temporizadorBusqueda = null;
+const entradaCliente = document.getElementById('entradaCliente');
+const listaClientes = document.getElementById('listaClientes');
+
+entradaCliente.addEventListener('input', () => {
+  clearTimeout(temporizadorBusqueda);
+  const q = entradaCliente.value.trim();
+  if(q.length < 3){ listaClientes.classList.remove('visible'); return; }
+  temporizadorBusqueda = setTimeout(() => buscarClientes(q), 350);
+});
+
+async function buscarClientes(q){
+  try{
+    listaClientes.innerHTML = '<div class="opcion-cliente"><span class="detalle">Buscando…</span></div>';
+    listaClientes.classList.add('visible');
+    const d = await llamar('/api/partners?q=' + encodeURIComponent(q));
+    if(!d.partners.length){
+      listaClientes.innerHTML = '<div class="opcion-cliente"><span class="detalle">Sin resultados. Si es cliente nuevo, dalo de alta en Odoo primero.</span></div>';
+      return;
+    }
+    listaClientes.innerHTML = d.partners.map(p =>
+      `<div class="opcion-cliente" onclick='elegirCliente(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
+        <div class="nombre">${p.name}</div>
+        <div class="detalle">${[p.email, p.vat].filter(Boolean).join(' · ') || 'Sin datos adicionales'}</div>
+      </div>`).join('');
+  }catch(e){
+    listaClientes.innerHTML = `<div class="opcion-cliente"><span class="detalle">Error: ${e.message}</span></div>`;
+  }
+}
+
+function elegirCliente(p){
+  clienteSeleccionado = p;
+  quitarLead();                  // exclusión mutua: un lead O un cliente, no ambos
+  document.getElementById('nombreCliente').textContent = p.name;
+  document.getElementById('detalleCliente').textContent = [p.email, p.vat].filter(Boolean).join(' · ');
+  document.getElementById('zonaBusqueda').style.display = 'none';
+  document.getElementById('clienteElegido').style.display = 'flex';
+  listaClientes.classList.remove('visible');
+}
+
+function quitarCliente(){
+  clienteSeleccionado = null;
+  entradaCliente.value = '';
+  document.getElementById('zonaBusqueda').style.display = 'block';
+  document.getElementById('clienteElegido').style.display = 'none';
+}
+
+/* ================= PASO 1 (bis): LEAD DE F1 ================= */
+let leadSeleccionado = null;
+let temporizadorLead = null;
+const entradaLead = document.getElementById('entradaLead');
+const listaLeads = document.getElementById('listaLeads');
+
+entradaLead.addEventListener('input', () => {
+  clearTimeout(temporizadorLead);
+  const q = entradaLead.value.trim();
+  if(q.length < 3){ listaLeads.classList.remove('visible'); return; }
+  temporizadorLead = setTimeout(() => buscarLeads(q), 350);
+});
+
+async function buscarLeads(q){
+  try{
+    listaLeads.innerHTML = '<div class="opcion-cliente"><span class="detalle">Buscando…</span></div>';
+    listaLeads.classList.add('visible');
+    const d = await llamar('/api/leads?q=' + encodeURIComponent(q));
+    if(!d.leads.length){
+      listaLeads.innerHTML = '<div class="opcion-cliente"><span class="detalle">Sin leads abiertos con ese nombre. (Ganados y perdidos no aparecen.)</span></div>';
+      return;
+    }
+    listaLeads.innerHTML = d.leads.map(l =>
+      `<div class="opcion-cliente" onclick='elegirLead(${JSON.stringify(l).replace(/'/g,"&#39;")})'>
+        <div class="nombre">${l.name || l.partner_name || l.contact_name || 'Lead'}</div>
+        <div class="detalle">${[l.contact_name, l.email, l.phone, l.etapa ? '· '+l.etapa : ''].filter(Boolean).join(' · ') || 'Sin datos adicionales'}</div>
+      </div>`).join('');
+  }catch(e){
+    listaLeads.innerHTML = `<div class="opcion-cliente"><span class="detalle">Error: ${e.message}</span></div>`;
+  }
+}
+
+function elegirLead(l){
+  leadSeleccionado = l;
+  quitarCliente();               // exclusión mutua: un lead O un cliente, no ambos
+  const titulo = l.name || l.partner_name || l.contact_name || 'Lead';
+  document.getElementById('nombreLead').textContent = 'Lead F1: ' + titulo;
+  document.getElementById('detalleLead').textContent =
+    [l.contact_name, l.email, l.phone, l.etapa ? 'Etapa: ' + l.etapa : ''].filter(Boolean).join(' · ');
+  document.getElementById('zonaBusquedaLead').style.display = 'none';
+  document.getElementById('leadElegido').style.display = 'flex';
+  listaLeads.classList.remove('visible');
+}
+
+function quitarLead(){
+  leadSeleccionado = null;
+  entradaLead.value = '';
+  document.getElementById('zonaBusquedaLead').style.display = 'block';
+  document.getElementById('leadElegido').style.display = 'none';
+}
+
+/* Objetivo de la cotización: el lead tiene prioridad; si no, el cliente.
+   Devuelve { tipo:'lead'|'cliente', id, nombre } o null si no hay nada elegido. */
+function objetivoSeleccionado(){
+  if(leadSeleccionado) return { tipo:'lead', id: leadSeleccionado.id, nombre: leadSeleccionado.name || leadSeleccionado.partner_name || leadSeleccionado.contact_name || null };
+  if(clienteSeleccionado) return { tipo:'cliente', id: clienteSeleccionado.id, nombre: clienteSeleccionado.name || null };
+  return null;
+}
+
+/* ================= PASO 2: PEDIDO ================= */
+let archivoBase64 = null, archivoTipo = null, archivoTextoExtraido = null;
+
+function cambiarPestana(cual){
+  document.getElementById('pestanaTexto').classList.toggle('activa', cual==='texto');
+  document.getElementById('pestanaArchivo').classList.toggle('activa', cual==='archivo');
+  document.getElementById('panelTexto').style.display = cual==='texto' ? 'block' : 'none';
+  document.getElementById('panelArchivo').style.display = cual==='archivo' ? 'block' : 'none';
+}
+
+const entradaArchivo = document.getElementById('entradaArchivo');
+const zonaArchivo = document.getElementById('zonaArchivo');
+entradaArchivo.addEventListener('change', e => {
+  if(e.target.files.length) cargarArchivos(Array.from(e.target.files));
+});
+zonaArchivo.addEventListener('dragover', e => { e.preventDefault(); zonaArchivo.classList.add('arrastre'); });
+zonaArchivo.addEventListener('dragleave', () => zonaArchivo.classList.remove('arrastre'));
+zonaArchivo.addEventListener('drop', e => {
+  e.preventDefault(); zonaArchivo.classList.remove('arrastre');
+  if(e.dataTransfer.files.length) cargarArchivos(Array.from(e.dataTransfer.files));
+});
+
+// Estado de archivos cargados (puede ser varios)
+let archivosTexto = [];    // { nombre, texto } para Excel/CSV/TXT
+let archivosBase64 = [];   // { nombre, base64, tipo } para imágenes/PDF
+
+async function leerArchivoUno(archivo){
+  const ext = archivo.name.split('.').pop().toLowerCase();
+  if(['xlsx','xls'].includes(ext)){
+    const buf = await archivo.arrayBuffer();
+    const libro = XLSX.read(buf);
+    const hoja = libro.Sheets[libro.SheetNames[0]];
+    const filas = XLSX.utils.sheet_to_json(hoja, { header: 1, defval: '' });
+    // Detectar fila de encabezado
+    let inicio = 0;
+    for(let i = 0; i < Math.min(5, filas.length); i++){
+      const vals = filas[i].map(v => String(v||'').trim());
+      const tieneNumero = vals.some(v => /^\d+$/.test(v));
+      if(!tieneNumero){ inicio = i + 1; } else { break; }
+    }
+    // Detectar columnas por encabezado o heurística
+    const enc = inicio > 0 ? filas[inicio-1].map(v => String(v||'').toLowerCase().trim()) : [];
+    const idxDesc = enc.findIndex(h => /concepto|descrip|product|nombre|articulo/.test(h));
+    const idxUnid = enc.findIndex(h => /unidad|um|u\.m|unid/.test(h));
+    const idxCant = enc.findIndex(h => /cantidad|cant|pzas|piezas|qty/.test(h));
+    const nCols = (filas[inicio] || []).length || 4;
+    const iDesc = idxDesc >= 0 ? idxDesc : 1;
+    const iUnid = idxUnid >= 0 ? idxUnid : nCols - 2;
+    const iCant = idxCant >= 0 ? idxCant : nCols - 1;
+    // Formato estructurado: Claude ve claramente qué es descripción, unidad y cantidad
+    const lineas = filas.slice(inicio)
+      .filter(r => r.some(v => String(v||'').trim()))
+      .map(r => {
+        const desc = String(r[iDesc]||'').trim();
+        const unid = String(r[iUnid]||'').trim();
+        const cant = String(r[iCant]||'').trim();
+        if(!desc) return null;
+        return `${desc} |UNIDAD:${unid} |CANTIDAD:${cant}`;
+      })
+      .filter(Boolean);
+    return { tipo: 'texto', nombre: archivo.name, dato: lineas.join('\n') };
+  } else if(['csv','txt'].includes(ext)){
+    return { tipo: 'texto', nombre: archivo.name, dato: await archivo.text() };
+  } else if(ext === 'pdf' || ['png','jpg','jpeg','webp'].includes(ext)){
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('No se pudo leer'));
+      r.readAsDataURL(archivo);
+    });
+    const tipo = ext === 'pdf' ? 'application/pdf' : (ext === 'jpg' ? 'image/jpeg' : 'image/' + ext);
+    return { tipo: 'base64', nombre: archivo.name, dato: base64, mediaType: tipo };
+  } else {
+    throw new Error('Tipo no compatible: ' + archivo.name);
+  }
+}
+
+async function cargarArchivos(archivos){
+  archivosTexto = []; archivosBase64 = [];
+  archivoBase64 = archivoTipo = archivoTextoExtraido = null; // compatibilidad legada
+  try{
+    const resultados = await Promise.all(archivos.map(leerArchivoUno));
+    for(const r of resultados){
+      if(r.tipo === 'texto') archivosTexto.push({ nombre: r.nombre, texto: r.dato });
+      else archivosBase64.push({ nombre: r.nombre, base64: r.dato, tipo: r.mediaType });
+    }
+    const nombres = archivos.map(a => a.name);
+    document.getElementById('nombreArchivo').textContent =
+      archivos.length === 1
+        ? '✓ ' + nombres[0]
+        : `✓ ${archivos.length} archivos: ${nombres.slice(0,3).join(', ')}${archivos.length>3?'…':''}`;
+    document.getElementById('archivoCargado').style.display = 'flex';
+    zonaArchivo.style.display = 'none';
+  }catch(e){
+    avisar('No se pudo leer el archivo: ' + e.message, 'error');
+  }
+}
+
+function quitarArchivo(){
+  archivosTexto = []; archivosBase64 = [];
+  archivoBase64 = archivoTipo = archivoTextoExtraido = null;
+  entradaArchivo.value = '';
+  document.getElementById('archivoCargado').style.display = 'none';
+  zonaArchivo.style.display = 'block';
+}
+
+/* ================= PASO 3: PROCESAR Y REVISAR ================= */
+let lineasResultado = [];
+let catalogoCompleto = [];
+
+function esc(s){
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+const sinAcentos = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+async function cargarCatalogo(){
+  if(catalogoCompleto.length) return;
+  try{
+    const d = await llamar('/api/catalog');
+    catalogoCompleto = d.products || [];
+  }catch(e){
+    console.warn('No se pudo cargar el catálogo completo para el buscador:', e.message);
+  }
+}
+
+async function procesarPedido(){
+  avisar('');
+  const objetivo = objetivoSeleccionado();
+  if(!objetivo){ avisar('Selecciona primero un lead o un cliente (Paso 1).', 'error'); return; }
+  const texto = document.getElementById('textoPedido').value.trim();
+  const cuerpo = {
+    modoLicitacion: document.getElementById('modoLicitacion').checked,
+  };
+  if(objetivo.tipo === 'lead') cuerpo.opportunityId = objetivo.id;
+  else cuerpo.partnerId = objetivo.id;
+
+  const hayTextos = archivosTexto.length > 0;
+  const hayBase64 = archivosBase64.length > 0;
+  const hayTextoManual = !!texto;
+
+  if(!hayTextos && !hayBase64 && !hayTextoManual){
+    avisar('Pega el pedido o sube un archivo (Paso 2).', 'error'); return;
+  }
+
+  // Texto manual o Excel/CSV/TXT: se concatenan y van como clientText
+  if(hayTextoManual) cuerpo.clientText = texto;
+  if(hayTextos){
+    const todos = archivosTexto.map(a => a.texto).join('\n');
+    cuerpo.clientText = cuerpo.clientText ? cuerpo.clientText + '\n' + todos : todos;
+  }
+  // Imágenes/PDF: van como array; el backend los procesa en paralelo
+  if(hayBase64){
+    cuerpo.files = archivosBase64.map(a => ({ base64: a.base64, mediaType: a.tipo }));
+  }
+
+  document.getElementById('botonProcesar').disabled = true;
+  document.getElementById('pasoResultados').style.display = 'none';
+  document.getElementById('barraFinal').classList.remove('visible');
+  document.getElementById('zonaCargando').style.display = 'block';
+  document.getElementById('textoCargando').textContent =
+    'Leyendo el pedido y buscando en el catálogo… (si el sistema estaba dormido puede tardar hasta 1 minuto)';
+
+  try{
+    const [d] = await Promise.all([
+      llamar('/api/match', { method:'POST', body: JSON.stringify(cuerpo) }),
+      cargarCatalogo(),
+    ]);
+    lineasResultado = d.lines.map(l => ({
+      ...l,
+      incluir: l.status === 'matched',
+      accion: l.status === 'revision' ? 'nota' : null,
+      productoElegido: l.producto ? l.producto.id : (l.candidatos[0]?.id || null),
+      cantidadElegida: l.quantity,
+      tamano_valor: l.tamano_valor || null,
+      tamano_unidad: l.tamano_unidad || null,
+      unidad_pedido: l.unidad_pedido || null,
+      producto_base: l.producto_base || null,
+    }));
+    pintarResultados();
+  }catch(e){
+    avisar('No se pudo procesar el pedido: ' + e.message, 'error');
+  }finally{
+    document.getElementById('botonProcesar').disabled = false;
+    document.getElementById('zonaCargando').style.display = 'none';
+  }
+}
+
+const NOMBRE_CASO = {1:'Historial del cliente',2:'Coincidencia de texto',3:'Producto estándar',4:'Licitación','bastón':'Bastón automático'};
+
+/* ---- Combobox de producto con buscador sobre el catálogo completo ---- */
+function buscarProductoPorId(l, id){
+  return [l.producto, ...(l.candidatos||[]), ...catalogoCompleto].find(p => p && p.id === id) || null;
+}
+function etiquetaProducto(p){
+  return `${p.name} — $${(p.list_price||0).toFixed(2)}`;
+}
+function renderCombo(i){
+  const l = lineasResultado[i];
+  const sel = l.productoElegido ? buscarProductoPorId(l, l.productoElegido) : null;
+  return `<div class="combo"><label>Producto de Klimm</label>
+    <input type="text" class="combo-entrada" id="comboEntrada${i}" autocomplete="off"
+      value="${esc(sel ? etiquetaProducto(sel) : '')}"
+      placeholder="Escribe para buscar en todo el catálogo…"
+      onfocus="abrirCombo(${i})" oninput="filtrarCombo(${i})">
+    <div class="combo-lista" id="comboLista${i}"></div>
+  </div>`;
+}
+function abrirCombo(i){
+  const inp = document.getElementById('comboEntrada'+i);
+  inp.select();
+  filtrarCombo(i, true);
+}
+function filtrarCombo(i, inicial){
+  const l = lineasResultado[i];
+  const inp = document.getElementById('comboEntrada'+i);
+  const lista = document.getElementById('comboLista'+i);
+  const q = inicial ? '' : sinAcentos(inp.value.trim());
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const coincide = p => tokens.every(t => sinAcentos(p.name).includes(t));
+
+  const sugeridos = [l.producto, ...(l.candidatos||[])].filter(Boolean)
+    .filter((p, ix, arr) => arr.findIndex(x => x.id === p.id) === ix)
+    .filter(coincide);
+  const idsSugeridos = new Set(sugeridos.map(p => p.id));
+  const resto = catalogoCompleto.filter(p => !idsSugeridos.has(p.id) && coincide(p)).slice(0, 50);
+
+  let html = '';
+  if(sugeridos.length){
+    html += `<div class="combo-grupo">Sugeridos</div>` + sugeridos.map(p => itemCombo(i, p)).join('');
+  }
+  if(resto.length){
+    html += `<div class="combo-grupo">Catálogo completo</div>` + resto.map(p => itemCombo(i, p)).join('');
+  }
+  if(!html) html = '<div class="combo-vacio">Sin coincidencias en el catálogo</div>';
+  lista.innerHTML = html;
+  lista.classList.add('visible');
+}
+function itemCombo(i, p){
+  return `<div class="combo-item" onmousedown="elegirProducto(${i}, ${p.id})">${esc(p.name)} <span class="precio">— $${(p.list_price||0).toFixed(2)}</span></div>`;
+}
+function elegirProducto(i, id){
+  const l = lineasResultado[i];
+  l.productoElegido = id;
+  const p = buscarProductoPorId(l, id);
+  document.getElementById('comboEntrada'+i).value = p ? etiquetaProducto(p) : '';
+  document.getElementById('comboLista'+i).classList.remove('visible');
+  actualizarResumen();
+}
+document.addEventListener('click', e => {
+  if(!e.target.closest('.combo')) document.querySelectorAll('.combo-lista').forEach(x => x.classList.remove('visible'));
+});
+
+function setAccion(i, accion){
+  const l = lineasResultado[i];
+  l.accion = accion;
+  l.incluir = accion === 'incluir';
+  document.getElementById('linea'+i).classList.toggle('excluida', accion === 'excluir');
+  actualizarResumen();
+}
+
+function labelPidio(l){
+  // Muestra "Pidió: …" solo con datos VERIFICABLES:
+  // - unidad_pedido es copia literal de la unidad del cliente (litro, kilo, caja…)
+  // - el tamaño solo se muestra si su número aparece textual en la línea del cliente
+  // Si un dato fue inferido y no es verificable, no se muestra (mejor nada que un invento).
+  if(l.caso === 'bastón') return '';
+  const qty = l.quantity;
+  const tv = l.tamano_valor;
+  const tu = l.tamano_unidad;
+  const UNIDADES_DISPLAY = { l:'l', ml:'ml', kg:'kg', gr:'g', pza:'pzas', rollo:'rollos' };
+  // ¿El tamaño extraído aparece textualmente en la línea del cliente?
+  const tamanoVerificable = tv && tu &&
+    new RegExp('(^|[^0-9.,])' + String(tv).replace('.','\\.') + '([^0-9]|$)').test(l.client_line || '');
+
+  let u = String(l.unidad_pedido || '').toLowerCase().trim();
+  if(['pieza','piezas','pza','pzas','pz','unidad','unidades','pieza(s)'].includes(u)) u = '';
+
+  let texto = '';
+  if(u){
+    // El cliente cuenta en una unidad distinta a piezas (litros, kilos, cajas, bultos…)
+    const plural = (qty !== 1 && !u.endsWith('s')) ? u + 's' : u;
+    texto = `${qty} ${plural}`;
+  } else if(qty > 1 && tamanoVerificable){
+    texto = `${qty} pzas de ${tv} ${UNIDADES_DISPLAY[tu] || tu}`;
+  } else if(qty > 1){
+    texto = `${qty} pzas`;
+  } else if(tamanoVerificable){
+    texto = `${tv} ${UNIDADES_DISPLAY[tu] || tu}`;
+  }
+  if(!texto) return '';
+  return `<div class="pidio">Pidió: <strong>${esc(texto)}</strong></div>`;
+}
+
+function pintarResultados(){
+  const cont = document.getElementById('listaResultados');
+  cont.innerHTML = lineasResultado.map((l, i) => {
+    const esRevision = l.status === 'revision';
+    return `
+    <div class="linea ${esRevision?'revision':''} ${!l.incluir && !esRevision ?'excluida':''}" id="linea${i}">
+      <div class="linea-encabezado">
+        <div class="linea-info">
+          <div class="linea-num">${i+1}</div>
+          <div class="linea-cliente">El cliente pidió:<br><strong>${esc(l.client_line)}</strong>${labelPidio(l)}</div>
+        </div>
+        <div class="chips">
+          ${esRevision
+            ? '<span class="chip chip-revision">Requiere revisión</span>'
+            : `<span class="chip chip-caso">${NOMBRE_CASO[l.caso]||'Caso '+l.caso}</span>
+               <span class="chip chip-${l.confianza}">${(l.confianza||'').toUpperCase()}</span>`}
+        </div>
+      </div>
+      <div class="linea-cuerpo">
+        ${renderCombo(i)}
+        <div><label>Cantidad</label>
+        <input type="text" inputmode="numeric" value="${l.cantidadElegida}"
+          onchange="lineasResultado[${i}].cantidadElegida = Math.max(1, parseInt(this.value)||1); this.value = lineasResultado[${i}].cantidadElegida"></div>
+      </div>
+      ${l.motivo ? `<div class="motivo">${esc(l.motivo)}</div>` : ''}
+      ${(l.avisos||[]).map(a => `<div class="aviso">${esc(a)}</div>`).join('')}
+      <div class="fila-excluir">
+        ${esRevision
+          ? `<label><input type="radio" name="accion${i}" ${l.accion==='incluir'?'checked':''} onchange="setAccion(${i},'incluir')"> Ya lo revisé — incluir el producto seleccionado</label>
+             <label><input type="radio" name="accion${i}" ${l.accion==='nota'?'checked':''} onchange="setAccion(${i},'nota')"> Enviar como nota ⚠ de revisión en la cotización (resolver en Odoo)</label>
+             <label><input type="radio" name="accion${i}" ${l.accion==='excluir'?'checked':''} onchange="setAccion(${i},'excluir')"> Excluir por completo — no lo manejamos ni hay sustituto</label>`
+          : `<label><input type="checkbox" checked onchange="lineasResultado[${i}].incluir = this.checked; document.getElementById('linea${i}').classList.toggle('excluida', !this.checked); actualizarResumen()"> Incluir en la cotización</label>`}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pasoResultados').style.display = 'block';
+  document.getElementById('barraFinal').classList.add('visible');
+  actualizarResumen();
+  document.getElementById('pasoResultados').scrollIntoView({behavior:'smooth'});
+}
+
+function actualizarResumen(){
+  const incluidas = lineasResultado.filter(l =>
+    l.status==='revision' ? l.accion==='incluir' : l.incluir).length;
+  const notas = lineasResultado.filter(l => l.status==='revision' && l.accion==='nota').length;
+  const excluidas = lineasResultado.filter(l =>
+    l.status==='revision' ? l.accion==='excluir' : !l.incluir).length;
+  const obj = objetivoSeleccionado();
+  document.getElementById('resumenFinal').innerHTML =
+    `<strong>${incluidas}</strong> producto(s) a cotizar` +
+    (notas ? ` · <strong>${notas}</strong> nota(s) de revisión` : '') +
+    (excluidas ? ` · ${excluidas} excluida(s)` : '') +
+    ` · ${obj && obj.tipo==='lead' ? 'Lead' : 'Cliente'}: <strong>${obj?.nombre||''}</strong>`;
+  document.getElementById('botonCrear').disabled = incluidas + notas === 0;
+}
+
+/* ================= PASO 4: CREAR EN ODOO ================= */
+async function crearCotizacion(){
+  const sinProducto = lineasResultado.filter(l =>
+    l.status==='revision' && l.accion==='incluir' && !l.productoElegido);
+  if(sinProducto.length){
+    avisar(`Hay ${sinProducto.length} línea(s) marcada(s) para incluir sin producto seleccionado. Elige el producto en el buscador o cambia la acción a nota/excluir.`, 'error');
+    return;
+  }
+  const lines = lineasResultado
+    .filter(l => (l.status==='revision' ? l.accion==='incluir' : l.incluir) && l.productoElegido)
+    .map(l => ({ templateId: l.productoElegido, quantity: l.cantidadElegida }));
+  const lineasRevision = lineasResultado
+    .filter(l => l.status==='revision' && l.accion==='nota')
+    .map(l => `${l.client_line} (cantidad: ${l.cantidadElegida}) — ${l.motivo||'sin match'}`);
+
+  // Registro de demanda sin catálogo: lo excluido y lo que quedó en nota
+  const lineasSinCatalogo = lineasResultado
+    .filter(l => l.status==='revision' && (l.accion==='excluir' || l.accion==='nota'))
+    .map(l => ({
+      client_line: l.client_line,
+      producto_base: l.producto_base || null,
+      cantidad: l.cantidadElegida,
+      unidad_pedido: l.unidad_pedido || null,
+      accion: l.accion==='excluir' ? 'excluida' : 'nota',
+      motivo: l.motivo || null,
+    }));
+
+  // Captura para autoaprendizaje: líneas donde el vendedor cambió la sugerencia.
+  // La sugerencia original fue l.producto (o el primer candidato en revisión).
+  const correcciones = lineasResultado
+    .filter(l => l.caso !== 'bastón')
+    .filter(l => (l.status!=='revision' ? l.incluir : l.accion==='incluir'))
+    .map(l => {
+      const sugeridoId = l.producto ? l.producto.id : (l.candidatos[0]?.id || null);
+      if(!l.productoElegido || !sugeridoId || l.productoElegido === sugeridoId) return null;
+      const sugerido = buscarProductoPorId(l, sugeridoId);
+      const elegido = buscarProductoPorId(l, l.productoElegido);
+      return {
+        client_line: l.client_line,
+        producto_base: l.producto_base || null,
+        sugerido_id: sugeridoId,
+        sugerido_nombre: sugerido ? sugerido.name : null,
+        elegido_id: l.productoElegido,
+        elegido_nombre: elegido ? elegido.name : null,
+        caso: l.caso ?? null,
+        confianza: l.confianza || null,
+        status: l.status,
+      };
+    })
+    .filter(Boolean);
+
+  const boton = document.getElementById('botonCrear');
+  boton.disabled = true; boton.textContent = 'Creando…';
+  try{
+    const objetivo = objetivoSeleccionado();
+    if(!objetivo){ avisar('Selecciona un lead o un cliente antes de crear la cotización (Paso 1).', 'error'); return; }
+    const idPayload = objetivo.tipo === 'lead' ? { opportunityId: objetivo.id } : { partnerId: objetivo.id };
+    const d = await llamar('/api/quote', {
+      method:'POST',
+      body: JSON.stringify({
+        ...idPayload,
+        clienteNombre: objetivo.nombre || null,
+        lines, lineasRevision, lineasSinCatalogo, correcciones,
+      })
+    });
+    avisar(`✓ Cotización en borrador creada en Odoo. <a href="${d.url}" target="_blank">Abrir cotización #${d.orderId}</a> para revisarla y enviarla.`, 'exito');
+    document.getElementById('pasoResultados').style.display = 'none';
+    document.getElementById('barraFinal').classList.remove('visible');
+    document.getElementById('textoPedido').value = '';
+    quitarArchivo();
+  }catch(e){
+    avisar('No se pudo crear la cotización: ' + e.message, 'error');
+  }finally{
+    boton.disabled = false; boton.textContent = 'Crear cotización en Odoo';
+  }
+}
+</script>
+</body>
+</html>

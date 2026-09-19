@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agente — Solón · Klimm</title>
+<style>
+:root{
+  --fondo:#F5F9FA; --superficie:#FFFFFF; --tinta:#16323B; --tinta-suave:#5A7480;
+  --agua:#0FA3C7; --agua-oscuro:#0B7E9A; --agua-claro:#E3F4F9;
+  --ok:#1B9E63; --ok-bg:#E8F6EF; --media:#C7871B; --media-bg:#FBF3E3;
+  --alerta:#C43D3D; --alerta-bg:#FBECEC; --revision:#B06A00; --revision-bg:#FFF6E8;
+  /* nuevas, propias de F2 */
+  --viejo:#8A5A00; --viejo-bg:#FBF1DD; --excepcion:#9B4DCA; --excepcion-bg:#F4EBFB;
+  --borde:#DCE7EB; --radio:10px;
+  --wa:#25D366; --wa-oscuro:#1DA851;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--fondo);color:var(--tinta);font-size:15px;line-height:1.5}
+.contenedor{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* Encabezado — mismo patrón que Cotizador y Costos */
+header{background:var(--superficie);border-bottom:1px solid var(--borde);padding:14px 0;position:sticky;top:0;z-index:40}
+header .contenedor{display:flex;align-items:baseline;justify-content:space-between}
+.marca{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.marca span{color:var(--agua)}
+.sistema{font-size:12px;color:var(--tinta-suave);letter-spacing:.8px;text-transform:uppercase}
+
+/* Distribución de dos columnas: cola + detalle */
+.tablero{display:grid;grid-template-columns:340px 1fr;gap:20px;padding:24px 0 60px}
+
+/* Columna de la cola */
+.cola-cabecera{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cola-cabecera h2{font-size:15px;font-weight:600}
+.cola-conteo{font-size:12px;color:var(--tinta-suave)}
+.cola-conteo strong{color:var(--agua-oscuro);font-size:14px}
+.aviso-conexion{background:var(--revision-bg);color:var(--revision);border:1px solid #F0DFC0;
+  border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.4;margin-bottom:10px}
+.cola{display:flex;flex-direction:column;gap:8px}
+
+.lead-item{background:var(--superficie);border:1px solid var(--borde);border-radius:var(--radio);padding:12px 14px;cursor:pointer;position:relative;transition:border-color .12s,box-shadow .12s}
+.lead-item:hover{border-color:var(--agua)}
+.lead-item.activo{border-color:var(--agua);box-shadow:0 0 0 1px var(--agua)}
+.lead-item.enviado{opacity:.55}
+.lead-item.bloqueado{border-left:4px solid var(--alerta)}
+.lead-item .li-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lead-item .li-nombre{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lead-item .li-hora{font-size:11px;color:var(--tinta-suave);flex-shrink:0}
+.lead-item .li-pedido{font-size:12.5px;color:var(--tinta-suave);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lead-item .li-estado{margin-top:7px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* Punto de "nuevo" con pulso — única motion no disparada por el usuario */
+.pulso{width:8px;height:8px;border-radius:50%;background:var(--agua);flex-shrink:0;position:relative}
+.lead-item.nuevo .pulso::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--agua);animation:latir 1.6s ease-out infinite}
+@keyframes latir{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.lead-item.nuevo .pulso::after{animation:none;opacity:.5}}
+
+/* Chips — reusados del cotizador */
+.chip{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:12px;letter-spacing:.3px;display:inline-block}
+.chip-nuevo{background:var(--agua-claro);color:var(--agua-oscuro)}
+.chip-ia{background:var(--ok-bg);color:var(--ok)}
+.chip-base{background:var(--fondo);color:var(--tinta-suave);border:1px solid var(--borde)}
+.chip-rojo{background:var(--alerta-bg);color:var(--alerta)}
+.chip-enviado{background:var(--ok-bg);color:var(--ok)}
+
+/* Columna de detalle */
+.detalle{background:var(--superficie);border:1px solid var(--borde);border-radius:var(--radio);padding:0;overflow:hidden;align-self:start;position:sticky;top:84px}
+.detalle.rojo{border-color:var(--alerta)}
+.det-cabecera{padding:20px 22px 16px;border-bottom:1px solid var(--borde)}
+.det-cabecera.rojo{background:var(--alerta-bg);border-bottom-color:#F0C9C9}
+.det-nombre{font-size:20px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:10px}
+.det-sub{font-size:13px;color:var(--tinta-suave);margin-top:2px}
+.det-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+.det-meta .campo .et{font-size:11px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.det-meta .campo .va{font-size:14px;font-weight:600;margin-top:1px}
+
+.det-cuerpo{padding:20px 22px}
+.bloque{margin-bottom:18px}
+.bloque-et{font-size:11px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-bottom:6px}
+.pidio-texto{background:var(--fondo);border:1px solid var(--borde);border-radius:8px;padding:11px 13px;font-size:14px;color:var(--tinta);font-style:italic}
+.pidio-vacio{color:var(--tinta-suave);font-style:italic}
+
+/* Mensaje editable — el corazón operativo */
+.mensaje-caja{position:relative}
+textarea.mensaje{width:100%;min-height:120px;padding:13px 14px;border:1px solid var(--borde);border-radius:8px;font-size:14.5px;font-family:inherit;line-height:1.55;background:var(--superficie);color:var(--tinta);resize:vertical}
+textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-color:var(--agua)}
+.mensaje-pie{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.mensaje-nota{font-size:12px;color:var(--tinta-suave)}
+.restaurar{background:none;border:none;color:var(--agua-oscuro);cursor:pointer;font-size:12.5px;font-weight:600;text-decoration:underline;font-family:inherit}
+
+/* Avisos del parser — reusa el patrón del cotizador */
+.aviso{font-size:12.5px;color:var(--revision);margin-top:8px;padding-left:20px;position:relative}
+.aviso::before{content:'⚠';position:absolute;left:0}
+.bloqueo{background:var(--alerta-bg);border:1px solid #F0C9C9;border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--alerta);margin-bottom:16px}
+.bloqueo strong{display:block;margin-bottom:2px}
+
+/* Acciones */
+.det-acciones{padding:16px 22px 22px;border-top:1px solid var(--borde);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 20px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
+.boton-wa{background:var(--wa);color:#fff;flex:1 1 200px}
+.boton-wa:hover{background:var(--wa-oscuro)}
+.boton-correo{background:var(--agua);color:#fff;flex:1 1 200px}
+.boton-correo:hover{background:var(--agua-oscuro)}
+.boton-hecho{background:var(--superficie);color:var(--tinta);border:1px solid var(--borde);flex:0 0 auto}
+.boton-hecho:hover{background:var(--fondo)}
+.boton svg{width:18px;height:18px;flex-shrink:0}
+
+/* Etiqueta "Atendido" en la fila de acciones. El SVG necesita tamaño explícito
+   porque no está dentro de un .boton (regla de arriba) y si no se le limita,
+   se estira al tamaño del contenedor. */
+.estado-atendido{font-size:13px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px}
+.estado-atendido.ancho{font-size:12.5px;width:100%;margin-bottom:2px}
+.estado-atendido svg{width:16px;height:16px;flex-shrink:0}
+
+.vacio-detalle{padding:80px 22px;text-align:center;color:var(--tinta-suave)}
+.vacio-detalle .icono{font-size:32px;opacity:.4;margin-bottom:10px}
+
+/* Aviso de "listo para enviar" */
+.reloj{font-size:12px;color:var(--tinta-suave);display:flex;align-items:center;gap:5px}
+.reloj.urgente{color:var(--alerta);font-weight:600}
+
+@media(max-width:820px){
+  .tablero{grid-template-columns:1fr;gap:14px}
+  .detalle{position:static}
+  .cola{max-height:none}
+}
+
+/* Pestañas Pendientes/Atendidos (usa la paleta 'agua' existente) */
+.pestanas{display:flex;gap:4px;margin-bottom:12px;border-bottom:1px solid var(--borde)}
+.pestana{background:none;border:none;padding:8px 14px;font-family:inherit;font-size:13.5px;
+  font-weight:600;color:var(--tinta-suave);cursor:pointer;border-bottom:2px solid transparent;
+  margin-bottom:-1px;display:flex;align-items:center;gap:7px;transition:color .12s,border-color .12s}
+.pestana:hover{color:var(--agua-oscuro)}
+.pestana.activa{color:var(--agua-oscuro);border-bottom-color:var(--agua)}
+.pestana-num{background:var(--fondo);color:var(--tinta-suave);font-size:11px;font-weight:700;
+  min-width:18px;height:18px;border-radius:9px;display:inline-flex;align-items:center;
+  justify-content:center;padding:0 5px;border:1px solid var(--borde)}
+.pestana.activa .pestana-num{background:var(--agua-claro);color:var(--agua-oscuro);border-color:var(--agua-claro)}
+.cola-vacia{text-align:center;color:var(--tinta-suave);font-size:13.5px;padding:32px 16px;font-style:italic}
+
+/* Modal de configuración (mismo patrón que el cotizador) */
+.velo{position:fixed;inset:0;background:rgba(22,50,59,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.velo.visible{display:flex}
+.modal{background:var(--superficie);border-radius:var(--radio);padding:26px;max-width:460px;width:100%}
+.modal h3{margin-bottom:6px}
+.modal p{font-size:13px;color:var(--tinta-suave);margin-bottom:16px}
+.modal .campo{margin-bottom:14px}
+.modal label{display:block;font-size:12px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-bottom:5px}
+.modal input{width:100%;padding:11px 13px;border:1px solid var(--borde);border-radius:8px;font-size:14px;font-family:inherit}
+.modal input:focus{outline:2px solid var(--agua);outline-offset:-1px;border-color:var(--agua)}
+.modal .boton-guardar{width:100%;background:var(--agua);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.modal .boton-guardar:hover{background:var(--agua-oscuro)}
+
+/* ===== Pestañas de nivel superior (Prospectos / Seguimiento) — Opción B ===== */
+.nav-superior{background:var(--superficie);border-bottom:1px solid var(--borde)}
+.nav-superior .contenedor{display:flex;gap:4px}
+.nav-superior button{background:none;border:none;padding:14px 18px;font-size:14.5px;
+  font-weight:600;color:var(--tinta-suave);cursor:pointer;border-bottom:3px solid transparent;
+  font-family:inherit}
+.nav-superior button.activa{color:var(--agua-oscuro);border-bottom-color:var(--agua)}
+.nav-superior button:hover:not(.activa){color:var(--tinta)}
+/* Burbuja contadora de pendientes en las pestañas superiores. Oculta por
+   defecto (sin datos = sin burbuja); se muestra solo con conteo > 0. */
+.nav-superior button .burbuja{display:none;min-width:19px;height:19px;padding:0 6px;
+  margin-left:7px;border-radius:19px;background:var(--alerta);color:#fff;font-size:11.5px;
+  font-weight:700;line-height:19px;text-align:center;vertical-align:middle}
+.nav-superior button .burbuja.visible{display:inline-block}
+.vista{display:none}
+.vista.activa{display:block}
+/* Aviso de datos de muestra (Camino 1) y aviso de F2 sin datos */
+#f2-aviso-demo{max-width:1180px;margin:12px auto 0;padding:0 20px}
+#f2-aviso-demo .cinta{font-size:12.5px;color:var(--revision);background:var(--revision-bg);
+  border:1px solid #F0DFC0;border-radius:8px;padding:8px 12px}
+#vista-seguimiento .f2-sin-datos{border:2px dashed var(--borde);border-radius:12px;
+  padding:28px 24px;text-align:center;color:var(--tinta-suave);font-size:13.5px;line-height:1.6}
+
+/* ===== Estilos de F2 (encapsulados bajo #vista-seguimiento) ===== */
+#vista-seguimiento *{box-sizing:border-box}#vista-seguimiento{margin:0;background:var(--fondo);color:var(--tinta);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.5}#vista-seguimiento .wrap{max-width:1180px;margin:0 auto;padding:0 20px}#vista-seguimiento .top{background:var(--superficie);border-bottom:1px solid var(--borde);padding:16px 0}#vista-seguimiento .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}#vista-seguimiento .marca{display:flex;align-items:center;gap:12px}#vista-seguimiento .marca h1{font-size:18px;margin:0;font-weight:700;letter-spacing:-.01em}#vista-seguimiento .marca .sub{font-size:13px;color:var(--tinta-suave)}#vista-seguimiento .aviso-proto{font-size:12.5px;color:var(--revision);background:var(--revision-bg);
+  border:1px solid #F0DFC0;border-radius:8px;padding:6px 11px}#vista-seguimiento .nav-top{background:var(--superficie);border-bottom:1px solid var(--borde)}#vista-seguimiento .nav-top .wrap{display:flex;gap:4px}#vista-seguimiento .nav-top button{background:none;border:none;padding:14px 18px;font-size:14.5px;
+  font-weight:600;color:var(--tinta-suave);cursor:pointer;border-bottom:3px solid transparent;
+  font-family:inherit}#vista-seguimiento .nav-top button.activa{color:var(--agua-oscuro);border-bottom-color:var(--agua)}#vista-seguimiento .nav-top button:hover:not(.activa){color:var(--tinta)}#vista-seguimiento .tablero{display:grid;grid-template-columns:360px 1fr;gap:20px;padding:22px 0 60px}
+@media(max-width:820px){#vista-seguimiento .tablero{grid-template-columns:1fr;gap:14px}}#vista-seguimiento .cola-cabecera{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}#vista-seguimiento .cola-cabecera h2{font-size:16px;margin:0;font-weight:700}#vista-seguimiento .cola-conteo{font-size:13px;color:var(--tinta-suave)}#vista-seguimiento .subpestanas{display:flex;gap:4px;margin:10px 0 14px;background:var(--agua-claro);
+  padding:4px;border-radius:9px}#vista-seguimiento .subpestanas button{flex:1;background:none;border:none;padding:8px 10px;border-radius:7px;
+  font-size:13px;font-weight:600;color:var(--tinta-suave);cursor:pointer;font-family:inherit}#vista-seguimiento .subpestanas button.activa{background:var(--superficie);color:var(--agua-oscuro);
+  box-shadow:0 1px 2px rgba(0,0,0,.06)}#vista-seguimiento .subpestanas .sp-num{display:inline-block;min-width:18px;padding:0 5px;margin-left:5px;
+  border-radius:9px;background:var(--agua);color:#fff;font-size:11.5px;line-height:17px;font-weight:700}#vista-seguimiento .cola{display:flex;flex-direction:column;gap:8px;max-height:70vh;overflow:auto;padding-right:2px}#vista-seguimiento .item{background:var(--superficie);border:1px solid var(--borde);border-left:4px solid var(--borde);
+  border-radius:var(--radio);padding:12px 13px;cursor:pointer;transition:border-color .12s,box-shadow .12s}#vista-seguimiento .item:hover{border-color:var(--agua)}#vista-seguimiento .item.activo{border-color:var(--agua);border-left-color:var(--agua);box-shadow:0 2px 10px rgba(15,163,199,.14)}#vista-seguimiento .item.alerta{border-left-color:var(--alerta)}#vista-seguimiento .item.viejo{border-left-color:var(--viejo)}#vista-seguimiento .item.movido{opacity:.55}#vista-seguimiento .it-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}#vista-seguimiento .it-nombre{font-weight:700;font-size:14.5px;letter-spacing:-.01em}#vista-seguimiento .it-sil{font-size:12px;color:var(--tinta-suave);white-space:nowrap}#vista-seguimiento .it-linea{font-size:12.5px;color:var(--tinta-suave);margin-top:3px}#vista-seguimiento .it-chips{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}#vista-seguimiento .chip{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap}#vista-seguimiento .chip-alerta{background:var(--alerta-bg);color:var(--alerta)}#vista-seguimiento .chip-viejo{background:var(--viejo-bg);color:var(--viejo)}#vista-seguimiento .chip-toque{background:var(--agua-claro);color:var(--agua-oscuro)}#vista-seguimiento .chip-movido{background:#EEF1F2;color:var(--tinta-suave)}#vista-seguimiento .detalle{background:var(--superficie);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:22px 24px;min-height:420px}#vista-seguimiento .vacio{color:var(--tinta-suave);text-align:center;padding:80px 20px}#vista-seguimiento .vacio .ic{font-size:34px;opacity:.4;margin-bottom:8px}#vista-seguimiento .d-nombre{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0}#vista-seguimiento .d-sub{color:var(--tinta-suave);font-size:13.5px;margin-top:2px}#vista-seguimiento .reloj-datos{display:flex;gap:0;margin:18px 0;border:1px solid var(--borde);
+  border-radius:10px;overflow:hidden}#vista-seguimiento .rd{flex:1;padding:11px 13px;border-right:1px solid var(--borde)}#vista-seguimiento .rd:last-child{border-right:none}#vista-seguimiento .rd .et{font-size:11px;color:var(--tinta-suave);font-weight:600;margin-bottom:3px}#vista-seguimiento .rd .va{font-size:17px;font-weight:800;letter-spacing:-.01em}#vista-seguimiento .rd.destacar .va{color:var(--alerta)}#vista-seguimiento .toques{background:var(--agua-claro);border-radius:10px;padding:14px 16px;margin:16px 0}#vista-seguimiento .toques-tit{font-size:13px;font-weight:700;color:var(--agua-oscuro);margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:center}#vista-seguimiento .toques-fila{display:flex;gap:8px}#vista-seguimiento .paso{flex:1;text-align:center;padding:9px 6px;border-radius:8px;background:var(--superficie);
+  border:1px solid var(--borde);font-size:12px}#vista-seguimiento .paso .n{font-weight:800;font-size:13px}#vista-seguimiento .paso.hecho{background:var(--ok-bg);border-color:#C3E7D5;color:var(--ok)}#vista-seguimiento .paso.actual{background:#fff;border-color:var(--agua);box-shadow:0 0 0 2px rgba(15,163,199,.15)}#vista-seguimiento .paso.actual .n{color:var(--agua-oscuro)}#vista-seguimiento .paso.futuro{opacity:.6}#vista-seguimiento .paso .cuando{display:block;color:var(--tinta-suave);font-size:11px;margin-top:2px}#vista-seguimiento .paso.hecho .cuando{color:var(--ok)}#vista-seguimiento .msg-tit{font-size:13px;font-weight:700;margin:20px 0 8px}#vista-seguimiento textarea.msg{width:100%;min-height:118px;border:1px solid var(--borde);border-radius:10px;
+  padding:13px 14px;font-family:inherit;font-size:14.5px;line-height:1.55;resize:vertical;
+  color:var(--tinta);background:#FCFEFE}#vista-seguimiento textarea.msg:focus{outline:none;border-color:var(--agua);box-shadow:0 0 0 3px rgba(15,163,199,.12)}#vista-seguimiento .editado{font-size:12px;color:var(--revision);margin-top:5px}#vista-seguimiento .acciones{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}#vista-seguimiento .boton{flex:1;min-width:180px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 16px;border-radius:10px;font-size:14.5px;font-weight:700;cursor:pointer;
+  border:none;font-family:inherit;text-decoration:none}#vista-seguimiento .boton-wa{background:var(--wa);color:#fff}#vista-seguimiento .boton-wa:hover{background:var(--wa-oscuro)}#vista-seguimiento .boton-correo{background:var(--agua-claro);color:var(--agua-oscuro);border:1px solid #BFE6F1}#vista-seguimiento .boton-correo:hover{background:#D2ECF4}#vista-seguimiento .boton svg{width:18px;height:18px}#vista-seguimiento .excepcion{margin-top:22px;border-top:1px dashed var(--borde);padding-top:14px}#vista-seguimiento .excepcion-tit{font-size:12px;color:var(--tinta-suave);font-weight:600;margin-bottom:9px;
+  display:flex;align-items:center;gap:6px}#vista-seguimiento .excepcion-botones{display:flex;gap:9px;flex-wrap:wrap}#vista-seguimiento .btn-exc{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:8px;
+  font-size:13px;font-weight:600;cursor:pointer;background:none;font-family:inherit;
+  border:1px solid var(--borde);color:var(--tinta-suave)}#vista-seguimiento .btn-exc:hover{border-color:var(--excepcion);color:var(--excepcion);background:var(--excepcion-bg)}#vista-seguimiento .btn-exc.descartar:hover{border-color:var(--alerta);color:var(--alerta);background:var(--alerta-bg)}#vista-seguimiento .confirmar{margin-top:12px;background:var(--revision-bg);border:1px solid #F0DFC0;
+  border-radius:10px;padding:14px 16px}#vista-seguimiento .confirmar p{margin:0 0 11px;font-size:13.5px;color:#6B4E12;line-height:1.5}#vista-seguimiento .confirmar .fila{display:flex;gap:9px}#vista-seguimiento .confirmar .si{background:var(--excepcion);color:#fff;border:none;padding:9px 15px;border-radius:8px;
+  font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}#vista-seguimiento .confirmar .si.rojo{background:var(--alerta)}#vista-seguimiento .confirmar .no{background:none;border:1px solid var(--borde);color:var(--tinta-suave);
+  padding:9px 15px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}#vista-seguimiento .movido-box{background:#EEF1F2;border-radius:10px;padding:16px 18px;margin-top:16px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}#vista-seguimiento .movido-box .txt{font-size:14px}#vista-seguimiento .movido-box .txt strong{display:block;margin-bottom:2px}#vista-seguimiento .rescatar{background:var(--superficie);border:1px solid var(--agua);color:var(--agua-oscuro);
+  padding:9px 15px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}#vista-seguimiento .placeholder2{border:2px dashed var(--borde);border-radius:12px;padding:34px 26px;text-align:center;
+  color:var(--tinta-suave)}#vista-seguimiento .placeholder2 h3{color:var(--tinta);font-size:16px;margin:0 0 8px}#vista-seguimiento .placeholder2 p{font-size:13.5px;line-height:1.6;max-width:440px;margin:0 auto}
+/* ===== Carril 2 — añadidos, todos bajo #vista-seguimiento (sin colisiones) ===== */
+/* Origen de la tarjeta: distingue de un vistazo si viene del reloj (F2) o de
+   WhatsApp (Carril 2), sin gritar. Chip discreto reusando la paleta. */
+#vista-seguimiento .chip-origen{background:#EEF1F2;color:var(--tinta-suave);font-weight:600}
+/* Semáforo del Pendiente nuestro: reusa los colores del sistema (verde ok /
+   ámbar revisión / rojo alerta). El borde izquierdo del item lleva el color. */
+#vista-seguimiento .item.sem-normal{border-left-color:var(--ok)}
+#vista-seguimiento .item.sem-atencion{border-left-color:var(--revision)}
+#vista-seguimiento .item.sem-urgente{border-left-color:var(--alerta)}
+#vista-seguimiento .chip-sem{font-weight:700}
+#vista-seguimiento .chip-sem.sem-normal{background:var(--ok-bg);color:var(--ok)}
+#vista-seguimiento .chip-sem.sem-atencion{background:var(--revision-bg);color:var(--revision)}
+#vista-seguimiento .chip-sem.sem-urgente{background:var(--alerta-bg);color:var(--alerta)}
+/* Tarjeta de detalle del Pendiente nuestro: el texto de la deuda, sin botón de
+   enviar (la pelota es nuestra; no hay mensaje al cliente). */
+#vista-seguimiento .deuda-caja{background:var(--revision-bg);border:1px solid #F0DFC0;border-radius:10px;
+  padding:16px 18px;margin:18px 0}
+#vista-seguimiento .deuda-caja .deuda-tit{font-size:12px;color:#6B4E12;font-weight:700;margin-bottom:6px}
+#vista-seguimiento .deuda-caja .deuda-txt{font-size:14.5px;color:var(--tinta);line-height:1.55}
+#vista-seguimiento .nota-sin-envio{font-size:12.5px;color:var(--tinta-suave);margin-top:14px;
+  display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+
+<!-- Configuración de conexión (una sola vez por navegador; mismo patrón que
+     el cotizador). Aparece si falta backend o clave. -->
+<div class="velo" id="veloConfig">
+  <div class="modal">
+    <h3>Conectar con Solón</h3>
+    <p>Configuración de una sola vez en este navegador. Pide estos datos al administrador.</p>
+    <div class="campo">
+      <label for="confUrl">Dirección del backend</label>
+      <input type="text" id="confUrl" value="https://klimm-backend.onrender.com">
+    </div>
+    <div class="campo">
+      <label for="confClave">Clave de acceso</label>
+      <input type="password" id="confClave" placeholder="Clave del backend">
+    </div>
+    <button class="boton-guardar" onclick="guardarConfig()">Guardar y empezar</button>
+  </div>
+</div>
+
+<header>
+  <div class="contenedor">
+    <div class="marca">Klimm <span>· Agente</span></div>
+    <div class="sistema">Sistema Solón</div>
+  </div>
+</header>
+
+<!-- ===== Pestañas de nivel superior (Opción B) ===== -->
+<nav class="nav-superior">
+  <div class="contenedor">
+    <button class="activa" data-vista="prospectos" onclick="cambiarVista('prospectos')">Prospectos nuevos<span class="burbuja" id="burbuja-prospectos"></span></button>
+    <button data-vista="seguimiento" onclick="cambiarVista('seguimiento')">Seguimiento<span class="burbuja" id="burbuja-seguimiento"></span></button>
+  </div>
+</nav>
+
+<!-- ===== VISTA: Prospectos nuevos (F1, todo lo existente) ===== -->
+<div class="vista activa" id="vista-prospectos">
+<div class="contenedor">
+  <div class="tablero">
+
+    <!-- Columna izquierda: la cola de leads que van llegando -->
+    <div>
+      <div class="cola-cabecera">
+        <h2>Leads por atender</h2>
+        <div class="cola-conteo"><strong id="conteoPendientes">0</strong> pendientes</div>
+      </div>
+
+      <!-- Pestañas. Hoy: Pendientes / Atendidos (F1). El contenedor deja
+           lugar para sumar mañana "Seguimiento" (F2) como una pestaña más,
+           sin rehacer la estructura. -->
+      <div class="pestanas" id="pestanas">
+        <button class="pestana activa" data-tab="pendientes" onclick="cambiarTab('pendientes')">
+          Pendientes <span class="pestana-num" id="numPendientes">0</span>
+        </button>
+        <button class="pestana" data-tab="atendidos" onclick="cambiarTab('atendidos')">
+          Atendidos <span class="pestana-num" id="numAtendidos">0</span>
+        </button>
+        <!-- Futuro F2: <button class="pestana" data-tab="seguimiento">Seguimiento</button> -->
+      </div>
+
+      <div class="aviso-conexion" id="avisoConexion" hidden>
+        Sin conexión con Solón. Mostrando la última información recibida; puede no estar al día.
+      </div>
+      <div class="cola" id="cola"></div>
+    </div>
+
+    <!-- Columna derecha: el lead seleccionado -->
+    <div class="detalle" id="detalle">
+      <div class="vacio-detalle">
+        <div class="icono">◔</div>
+        Elige un lead de la lista para ver el mensaje y enviarlo.
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<!-- ===== fin VISTA Prospectos ===== -->
+
+<!-- ===== VISTA: Seguimiento (F2) — encapsulada bajo #vista-seguimiento ===== -->
+<div class="vista" id="vista-seguimiento">
+  <div id="f2-aviso-demo" hidden>
+    <div class="cinta">Prototipo · datos de muestra · no envía nada. Este letrero solo aparece con el modo demostración encendido.</div>
+  </div>
+  <div class="contenedor">
+    <div class="tablero">
+
+    <!-- IZQUIERDA: cola -->
+    <div>
+      <div class="cola-cabecera">
+        <h2>Clientes a revisar</h2>
+        <div class="cola-conteo"><strong id="f2-conteo">19</strong> en alerta</div>
+      </div>
+
+      <!-- Subpestañas por el eje CLIENTE-vs-NOSOTROS (agnósticas al origen:
+           se llenan de F2 y de Carril 2 por igual). -->
+      <div class="subpestanas">
+        <button class="activa" data-sp="cliente" onclick="f2_cambiarSub('cliente')">
+          Seguimiento al cliente<span class="sp-num" id="f2-n1">0</span>
+        </button>
+        <button data-sp="nuestro" onclick="f2_cambiarSub('nuestro')">
+          Pendiente nuestro<span class="sp-num" id="f2-n2">0</span>
+        </button>
+      </div>
+
+      <div class="cola" id="f2-cola"></div>
+    </div>
+
+    <!-- DERECHA: detalle -->
+    <div class="detalle" id="f2-detalle">
+      <div class="vacio"><div class="ic">◔</div>Elige un cliente de la lista para ver su seguimiento.</div>
+    </div>
+
+  </div>
+  </div>
+</div>
+<!-- ===== fin VISTA Seguimiento ===== -->
+
+<script>
+/* ===== Estado de Carril 2 — declarado al TOPE del script =====
+   Debe existir antes que CUALQUIER otro código, porque el arranque de F1
+   (pintarCola -> refrescarBurbujas -> f2_alertasActivas) las lee de inmediato
+   al cargar la página. Si se declaran más abajo, ese arranque truena con
+   "Cannot access before initialization" y arrastra también a F2. */
+let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al cliente")
+let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
+let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
+let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
+
+/* ============================================================
+   La cola arranca VACÍA. El panel NO muestra tarjetas de
+   muestra: solo pinta leads reales que el backend (Solón)
+   confirme. Sin conexión o sin datos reales => aviso honesto
+   en la cola, nunca datos inventados.
+   ============================================================ */
+let LEADS = [];
+
+let activoId = null;   // sin selección hasta que haya leads reales
+const borradores = {}; // ediciones locales del operador
+
+// Estado de conexión (declarado temprano: pintarCola y el arranque lo usan).
+let backendVivo = false;      // ¿el backend ya respondió con datos reales alguna vez?
+let intentosFallidos = 0;     // reintentos seguidos sin respuesta útil del backend
+const FALLIDOS_PARA_AVISO = 2; // tras 2 fallos seguidos: "Conectando…" -> "Sin conexión"
+let f2_iniciado = false;      // ¿ya se inicializó la vista Seguimiento (F2)?
+let f2_tieneDatos = false;    // ¿F2 tiene datos confiables que contar? (demo o, futuro, motor)
+
+// --- Estado de pestañas -------------------------------------------------
+// El panel maneja dos listas derivadas del array LEADS según la bandera
+// 'enviado'/'atendido'. LEADS se llena solo con lo que entrega el backend
+// (puede venir ya separado en pendientes/atendidos, o unificado en leads).
+let tabActiva = 'pendientes';
+
+function listaPendientes(){
+  return LEADS.filter(l => !(l.atendido || l.enviado));
+}
+function listaAtendidos(){
+  return LEADS.filter(l => (l.atendido || l.enviado));
+}
+function listaActiva(){
+  return tabActiva === 'atendidos' ? listaAtendidos() : listaPendientes();
+}
+
+function cambiarTab(tab){
+  tabActiva = tab;
+  // Al cambiar de pestaña, seleccionar el primero de esa lista (si hay).
+  const lista = listaActiva();
+  activoId = lista.length ? lista[0].id : null;
+  document.querySelectorAll('.pestana').forEach(b => {
+    b.classList.toggle('activa', b.dataset.tab === tab);
+  });
+  pintarCola();
+  pintarDetalle();
+}
+
+const $ = (s, el=document) => el.querySelector(s);
+const esc = (s) => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/**
+ * correoDe — devuelve el correo del lead venga donde venga. El watcher aún no
+ * está encendido, así que no sabemos con certeza si lo dejará en l.lead.correo
+ * o en l.correo. Leemos de ambos (primero el anidado) para no depender de eso
+ * y de paso quitar el bug latente que apuntaba a 'mailto:undefined'.
+ * Devuelve null si no hay correo utilizable.
+ */
+function correoDe(l){
+  const c = (l && l.lead && l.lead.correo) || (l && l.correo) || '';
+  return c && c.includes('@') ? c : null;
+}
+
+/**
+ * armarMailto — construye el enlace mailto con el mensaje vigente. Por ahora el
+ * cuerpo es el mismo texto que se ve en pantalla (editable por el operador).
+ * La versión-correo redactada por la IA es una pieza aparte (backend), aún no
+ * integrada; cuando llegue, solo cambia lo que se pasa como 'cuerpo' aquí.
+ */
+function armarMailto(correo, cuerpo){
+  return 'mailto:' + correo
+    + '?subject=' + encodeURIComponent('Klimm — su solicitud')
+    + '&body=' + encodeURIComponent(cuerpo || '');
+}
+
+const iconoWA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C9.6 8.5 9 7 8.7 6.4c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.2 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.5-.3M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2m0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2"/></svg>';
+const iconoMail = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+const iconoCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>';
+
+function pintarCola(){
+  const cola = $('#cola');
+  const pend = listaPendientes();
+  const aten = listaAtendidos();
+
+  // Contadores (cabecera y pestañas)
+  $('#conteoPendientes').textContent = pend.length;
+  const nP = $('#numPendientes'), nA = $('#numAtendidos');
+  if (nP) nP.textContent = pend.length;
+  if (nA) nA.textContent = aten.length;
+  refrescarBurbujas(); // mantener las burbujas superiores en sincronía
+
+  const lista = listaActiva();
+
+  if (!lista.length){
+    // Sin tarjetas que mostrar. Hay que distinguir POR QUÉ, para no decir
+    // "todo al día" cuando en realidad no hay conexión (ese era el bug).
+    let msg;
+    if (backendVivo){
+      // El backend respondió de verdad; la cola está vacía porque sí.
+      msg = tabActiva === 'atendidos'
+        ? 'Aún no hay leads atendidos hoy.'
+        : 'No hay leads pendientes. Todo al día.';
+    } else if (!BACKEND || !CLAVE){
+      msg = 'Sin conexión configurada. Abre la configuración para conectar con Solón.';
+    } else if (intentosFallidos >= FALLIDOS_PARA_AVISO){
+      msg = 'Sin conexión con Solón — reintentando…';
+    } else {
+      msg = 'Conectando con Solón…';
+    }
+    cola.innerHTML = `<div class="cola-vacia">${msg}</div>`;
+    return;
+  }
+
+  cola.innerHTML = lista.map(l => {
+    const esAtendido = (l.atendido || l.enviado);
+    const clases = ['lead-item'];
+    if (l.id === activoId) clases.push('activo');
+    if (esAtendido) clases.push('enviado');
+    if (l.bloqueoEnvio) clases.push('bloqueado');
+    if (l.nuevo && !esAtendido) clases.push('nuevo');
+
+    let estado = '';
+    if (esAtendido){
+      estado = '<span class="chip chip-enviado">Atendido</span>';
+    } else if (l.bloqueoEnvio){
+      estado = '<span class="chip chip-rojo">Sin WhatsApp</span>';
+    } else {
+      estado = l.personalizado
+        ? '<span class="chip chip-ia">Personalizado</span>'
+        : '<span class="chip chip-base">Pregunta base</span>';
+    }
+
+    const pedido = l.lead.texto ? esc(l.lead.texto) : 'Sin mensaje';
+
+    return `<div class="${clases.join(' ')}" onclick="seleccionar('${l.id}')">
+      <div class="li-top">
+        <div class="li-nombre">${(l.nuevo && !esAtendido) ? '<span class="pulso"></span> ' : ''}${esc(l.lead.nombre && l.lead.nombre.length>1 ? l.lead.nombre : (l.lead.empresa || 'Lead sin nombre'))}</div>
+        <div class="li-hora">${esc(l.hora)}</div>
+      </div>
+      <div class="li-pedido">${pedido}</div>
+      <div class="li-estado">${estado}</div>
+    </div>`;
+  }).join('');
+}
+
+function seleccionar(id){
+  activoId = id;
+  const l = LEADS.find(x => x.id === id);
+  if (l) l.nuevo = false; // al abrirlo deja de ser "nuevo"
+  pintarCola();
+  pintarDetalle();
+}
+
+function pintarDetalle(){
+  const l = LEADS.find(x => x.id === activoId);
+  const det = $('#detalle');
+  if (!l){ det.innerHTML = ''; return; }
+
+  const bloqueado = !!l.bloqueoEnvio;
+  det.className = 'detalle' + (bloqueado ? ' rojo' : '');
+
+  const nombreVisible = (l.lead.nombre && l.lead.nombre.length > 1) ? l.lead.nombre : (l.lead.empresa || 'Lead sin nombre');
+  const mensajeActual = (borradores[l.id] !== undefined) ? borradores[l.id] : l.mensaje;
+  const editado = borradores[l.id] !== undefined && borradores[l.id] !== l.mensaje;
+
+  // Meta (empresa / ubicación / teléfono)
+  const meta = [];
+  if (l.lead.empresa) meta.push(`<div class="campo"><div class="et">Empresa</div><div class="va">${esc(l.lead.empresa)}</div></div>`);
+  if (l.lead.ubicacion) meta.push(`<div class="campo"><div class="et">Ubicación</div><div class="va">${esc(l.lead.ubicacion)}</div></div>`);
+  meta.push(`<div class="campo"><div class="et">Teléfono</div><div class="va">${esc(l.lead.telefono || '—')}</div></div>`);
+
+  // Reloj de R1
+  const urgente = l.minutos >= 15;
+  const reloj = l.enviado ? '' :
+    `<div class="reloj ${urgente?'urgente':''}">${urgente?'⏱':'○'} llegó ${esc(l.hora)}</div>`;
+
+  // Bloque de bloqueo (rojo)
+  const bloqueoHTML = bloqueado
+    ? `<div class="bloqueo"><strong>No se puede enviar por WhatsApp</strong>${esc(l.bloqueoEnvio)}</div>`
+    : '';
+
+  // Avisos del parser
+  const avisosHTML = (l.avisos && l.avisos.length)
+    ? l.avisos.map(a => `<div class="aviso">${esc(a)}</div>`).join('')
+    : '';
+
+  // Pedido del lead
+  const pidioHTML = l.lead.texto
+    ? `<div class="pidio-texto">"${esc(l.lead.texto)}"</div>`
+    : `<div class="pidio-texto pidio-vacio">El lead no escribió nada. El mensaje usa la pregunta de Klimm.</div>`;
+
+  const esAtendido = (l.atendido || l.enviado);
+
+  // ¿Qué canales tiene este lead a la mano?
+  const hayWa = !!l.waLink;                 // WhatsApp posible (teléfono usable)
+  const hayCorreo = !!correoDe(l);          // correo disponible (venga de donde venga)
+
+  // Botones individuales, para poder combinarlos según el estado.
+  // El link de WhatsApp/correo se calcula EN EL CLIC (abrirWa/abrirCorreo)
+  // leyendo el textarea, para que SIEMPRE use lo que el operador ve en pantalla.
+  const btnWa = hayWa
+    ? `<a class="boton boton-wa" href="${l.waLink}" target="_blank" onclick="return abrirWa('${l.id}', this)">${iconoWA} ${esAtendido ? 'Reintentar WhatsApp' : 'Abrir WhatsApp y enviar'}</a>`
+    : '';
+  const btnCorreo = hayCorreo
+    ? `<a class="boton boton-correo" href="${armarMailto(correoDe(l), mensajeActual)}" onclick="return abrirCorreo('${l.id}', this)">${iconoMail} ${esAtendido ? 'Enviar por correo' : 'Abrir correo con el mensaje'}</a>`
+    : '';
+
+  // Acciones según estado
+  let accionesHTML = '';
+  if (l.enProceso){
+    // Opción A: el clic ya abrió el canal; esperamos a que Odoo confirme el
+    // avance de etapa antes de marcar Atendido. Feedback para el operador.
+    accionesHTML = `<span style="font-size:13px;color:var(--tinta-suave);font-weight:600;display:flex;align-items:center;gap:6px">○ Registrando el contacto…</span>`;
+  } else if (esAtendido){
+    // Atendido ya NO es solo-lectura muerta. Sigue sin ser reenvío ciego: es
+    // COMPLETAR un contacto que quizá rebotó (el número no tenía WhatsApp, o el
+    // envío no salió). Se ofrecen los mismos canales del lead para rematar por
+    // la vía que sí funcione. El texto es editable (abajo).
+    const canales = [btnWa, btnCorreo].filter(Boolean).join('\n      ');
+    accionesHTML = canales
+      ? `<span class="estado-atendido ancho">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>
+      ${canales}`
+      : `<span class="estado-atendido">${iconoCheck} Atendido${l.hora?' · '+esc(l.hora):''}</span>`;
+  } else if (bloqueado){
+    // Teléfono roto: WhatsApp no es opción; queda el correo (si lo hay).
+    accionesHTML = (btnCorreo || `<span style="font-size:13px;color:var(--alerta)">Sin correo para responder — revisar el teléfono en Odoo.</span>`)
+      + `\n      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+  } else {
+    // Caso normal: WhatsApp como canal principal + correo al lado si existe
+    // (para el número que resulta NO tener WhatsApp y rebota). Los dos visibles;
+    // el operador elige. Ninguno es "el correcto" a ciegas.
+    accionesHTML = [btnWa, btnCorreo].filter(Boolean).join('\n      ')
+      + `\n      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+  }
+
+  // El textarea es editable siempre que se pueda actuar sobre el lead. En
+  // Atendidos también, porque se puede rematar por otro canal (con edición).
+  // Solo queda en modo consulta si NO hay ningún canal para completar.
+  const puedeEditar = !l.enProceso && (hayWa || hayCorreo);
+  const textareaHTML = !puedeEditar
+    ? `<div class="pidio-texto" style="font-style:normal">${esc(mensajeActual)}</div>`
+    : `<div class="mensaje-caja">
+          <textarea class="mensaje" id="ta-${l.id}" oninput="editar('${l.id}', this.value)">${esc(mensajeActual)}</textarea>
+          <div class="mensaje-pie">
+            <span class="mensaje-nota">${editado ? 'Editado — el botón usa tu versión.' : 'Puede ajustarlo antes de enviar.'}</span>
+            ${editado ? `<button class="restaurar" onclick="restaurar('${l.id}')">Restaurar original</button>` : ''}
+          </div>
+        </div>`;
+
+  // Aviso si el registro en Odoo falló (Opción A): el chat se abrió, pero la
+  // etapa no avanzó. El lead sigue en Pendientes; se puede reintentar.
+  const errorHTML = l.errorContacto
+    ? `<div class="bloqueo"><strong>El mensaje se abrió, pero no se registró en Odoo</strong>El lead sigue en Pendientes. Vuelve a dar clic para reintentar el registro.</div>`
+    : '';
+
+  det.innerHTML = `
+    <div class="det-cabecera ${bloqueado?'rojo':''}">
+      <div class="det-nombre">${esc(nombreVisible)}</div>
+      <div class="det-sub">${reloj}</div>
+      <div class="det-meta">${meta.join('')}</div>
+    </div>
+    <div class="det-cuerpo">
+      ${errorHTML}
+      ${bloqueoHTML}
+      <div class="bloque">
+        <div class="bloque-et">Lo que pidió</div>
+        ${pidioHTML}
+      </div>
+      <div class="bloque">
+        <div class="bloque-et">${esAtendido ? 'Mensaje enviado' : ('Mensaje a enviar'+(l.personalizado?' · personalizado por IA':' · pregunta base de Klimm'))}</div>
+        ${textareaHTML}
+        ${avisosHTML}
+      </div>
+    </div>
+    <div class="det-acciones">${accionesHTML}</div>
+  `;
+}
+
+function editar(id, val){
+  borradores[id] = val;
+  const l = LEADS.find(x=>x.id===id);
+  if (!l) return; // blindaje: si por lo que sea no se halla el lead, no tronar
+                  // (un throw aquí rompería el flujo del clic de envío).
+  // Solo actualizar el texto del pie (el link ya NO se toca aquí: abrirWa lo
+  // calcula al hacer clic, leyendo el textarea. Así nada pisa las ediciones).
+  const pie = $('.mensaje-nota');
+  if (pie) pie.textContent = (val !== l.mensaje) ? 'Editado — el botón usa tu versión.' : 'Puede ajustarlo antes de enviar.';
+  // Mostrar el botón "restaurar" si empezó a editar y aún no existe.
+  if ((val !== l.mensaje) && !$('.restaurar')){ pintarDetalleSuave(id); }
+}
+function pintarDetalleSuave(id){
+  // repinta pie conservando el valor editado y el foco
+  const ta = document.getElementById('ta-'+id);
+  const pos = ta ? ta.selectionStart : null;
+  pintarDetalle();
+  const ta2 = document.getElementById('ta-'+id);
+  if (ta2 && pos!=null){ ta2.focus(); ta2.setSelectionRange(pos,pos); }
+}
+
+function restaurar(id){
+  delete borradores[id];
+  pintarDetalle();
+}
+
+/**
+ * marcarEnviado — se dispara con el clic humano (botón WhatsApp o correo).
+ * -----------------------------------------------------------------------
+ * PASO 3 · OPCIÓN A (decisión sesión 4): el lead pasa a "Atendido" SOLO
+ * cuando Odoo confirma que se movió a "Contactado". Así el panel nunca
+ * miente: si dice Atendido, Odoo de verdad lo registró.
+ *
+ * Orden de lo que pasa al hacer clic:
+ *   1. El navegador abre el chat de WhatsApp (o el correo) por su cuenta:
+ *      es el href del <a>. Este onclick corre EN PARALELO, no lo estorba.
+ *   2. Le pedimos al backend mover la etapa (avisarContactado).
+ *   3. Si el backend responde ok -> marcamos el lead Atendido y repintamos.
+ *      Si falla -> lo dejamos en Pendientes y avisamos discretamente, para
+ *      que alguien reintente. NUNCA lo marcamos atendido "a ciegas".
+ *
+ * Lead sin odooId: si por lo que sea un lead no trae odooId (no se puede
+ * avisar a Odoo a quién marcar contactado), se marca atendido localmente en
+ * el panel en vez de fallar. Caso de borde, no la vía normal.
+ */
+/**
+ * abrirWa — se ejecuta AL HACER CLIC en "Abrir WhatsApp y enviar".
+ * Lee el mensaje ACTUAL del textarea (con las ediciones del operador) en este
+ * instante, arma el link wa.me fresco, lo pone en el botón, y dispara el
+ * registro Nuevo→Contactado. Devuelve true para que el navegador siga el link.
+ * Así el mensaje enviado SIEMPRE es el que el operador ve, nunca el original.
+ */
+function abrirWa(id, elemento){
+  const l = LEADS.find(x=>x.id===id);
+  if (!l || !l.waLink) return false;
+  // El mensaje vigente: lo que haya en el textarea; si no, el borrador; si no, el original.
+  const ta = document.getElementById('ta-'+id);
+  const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
+  // Reconstruir el link con el mensaje vigente, justo antes de abrir.
+  elemento.href = l.waLink.split('?text=')[0] + '?text=' + encodeURIComponent(mensaje);
+  // Registrar el contacto (mueve la etapa en Odoo) Y, de paso, alimentar el
+  // CUADERNO de aprendizaje: aquí tenemos juntos lo que la IA PROPUSO (l.mensaje,
+  // el original intacto) y lo que el humano ENVÍA (mensaje, con sus ediciones).
+  // Esa corrección es la materia prima de C16 ("aprender a hablar"); antes se
+  // fugaba. El backend solo la guarda si el lead avanza de verdad (anti-duplicado).
+  marcarEnviado(id, { sugerido: l.mensaje, enviado: mensaje, canal: 'whatsapp' });
+  return true; // deja que el navegador abra el href recién puesto
+}
+
+/**
+ * abrirCorreo — gemelo de abrirWa para el canal de correo. Sirve en dos
+ * momentos: cuando no hay WhatsApp posible (teléfono roto) y cuando SÍ lo había
+ * pero rebotó (número sin cuenta) y se remata por correo desde Atendidos.
+ * Nota: por ahora el cuerpo es el mismo texto que se ve en pantalla (editable).
+ * La versión-correo redactada por la IA es pieza aparte (backend), aún no aquí.
+ */
+function abrirCorreo(id, elemento){
+  const l = LEADS.find(x=>x.id===id);
+  const correo = correoDe(l);
+  if (!l || !correo) return false;
+  const ta = document.getElementById('ta-'+id);
+  const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
+  elemento.href = armarMailto(correo, mensaje);
+  // Igual que abrirWa, pero por el canal de correo: alimentamos el cuaderno con
+  // el propuesto (l.mensaje) y el enviado (mensaje).
+  marcarEnviado(id, { sugerido: l.mensaje, enviado: mensaje, canal: 'correo' });
+  return true;
+}
+
+function marcarEnviado(id, datosCuaderno){
+  const l = LEADS.find(x=>x.id===id);
+  if (!l) return;
+  l.nuevo = false; // en cualquier caso, ya dejó de ser "recién llegado"
+  l.errorContacto = false; // si es un reintento, limpiar el aviso anterior
+
+  // Lead sin odooId, o panel sin backend configurado: no hay a quién avisar
+  // en Odoo, así que se marca atendido solo localmente.
+  if (l.odooId === undefined || l.odooId === null || !BACKEND || !CLAVE){
+    l.enviado = true;
+    setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
+    return;
+  }
+
+  // Opción A: esperar a Odoo. Marcamos "en proceso" para que el operador
+  // vea que algo está pasando, sin afirmar todavía que quedó atendido.
+  l.enProceso = true;
+  setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
+
+  // datosCuaderno (opcional): { sugerido, enviado, canal }. Viene de abrirWa /
+  // abrirCorreo (un envío real, con mensaje que aprender). El botón "Ya lo
+  // atendí" llama SIN datos: se registra el contacto pero no hay corrección que
+  // guardar, y el backend simplemente no escribe renglón.
+  avisarContactado(l.odooId, l, datosCuaderno).then((ok)=>{
+    l.enProceso = false;
+    if (ok){
+      l.enviado = true;          // ahora sí: Odoo confirmó el avance de etapa
+    } else {
+      // No se pudo registrar: dejarlo pendiente y avisar para reintentar.
+      l.errorContacto = true;
+    }
+    pintarCola(); pintarDetalle();
+  });
+}
+
+/**
+ * avisarContactado — le pide al backend mover el lead a "Contactado" y, si el
+ * envío traía mensaje (datosCuaderno), le manda además lo necesario para el
+ * CUADERNO de aprendizaje. Devuelve Promise<boolean>: true si Odoo confirmó el
+ * avance (o el lead ya estaba avanzado, que también cuenta como "registrado");
+ * false si falló.
+ *
+ * Los campos del cuaderno son OPCIONALES en el backend: si no van (botón "Ya lo
+ * atendí"), solo se mueve la etapa. El renglón lo escribe el backend SOLO si el
+ * lead avanzó de verdad (candado anti-duplicado que vive allá, no aquí).
+ */
+async function avisarContactado(odooId, l, datosCuaderno){
+  try {
+    // Cuerpo base: siempre el odooId (lo único que el flujo viejo mandaba).
+    const cuerpo = { odooId };
+    // Si este envío traía mensaje, sumamos lo que el cuaderno necesita. cliente
+    // y pidio salen de la tarjeta que el panel ya tiene a la vista (el backend
+    // también sabe rellenarlos desde su copia; los mandamos por si su copia se
+    // reconstruyó más pobre). Nunca inventamos: lo que no haya va sin enviar.
+    if (datosCuaderno && datosCuaderno.enviado){
+      cuerpo.mensajePropuesto = datosCuaderno.sugerido || null;
+      cuerpo.mensajeEnviado   = datosCuaderno.enviado;
+      cuerpo.canal            = datosCuaderno.canal || null;
+      if (l && l.lead){
+        cuerpo.cliente = l.lead.empresa || l.lead.nombre || null;
+        cuerpo.pidio   = l.lead.texto || null;
+      }
+      if (l && l.caso !== undefined) cuerpo.caso = l.caso;
+    }
+    const resp = await fetch(BACKEND + RUTA_CONTACTADO, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify(cuerpo),
+    });
+    if (!resp.ok) return false;
+    const data = await resp.json();
+    // ok:true cubre 'movido' y 'ya-avanzado' (ambos = quedó registrado).
+    return !!(data && data.ok);
+  } catch (_) {
+    return false; // sin red / backend caído: no confirmamos
+  }
+}
+function deshacer(id){
+  const l = LEADS.find(x=>x.id===id);
+  if (l) l.enviado = false;
+  pintarCola(); pintarDetalle();
+}
+
+/* ================= CONEXIÓN AL BACKEND (Solón) =================
+   Mismo patrón que cotizador.html: guarda backend + clave en este navegador
+   y llama con la cabecera x-backend-key. Mientras el backend no entregue
+   leads reales, la cola muestra un aviso honesto (Conectando… / Sin conexión),
+   NUNCA datos de muestra. Cuando el endpoint responde, pinta los leads reales. */
+const BACKEND_KEY = 'solon_backend', CLAVE_KEY = 'solon_clave';
+let BACKEND = localStorage.getItem(BACKEND_KEY) || '';
+let CLAVE   = localStorage.getItem(CLAVE_KEY)   || '';
+const RUTA_COLA = '/agente/f1/cola';
+const RUTA_CONTACTADO = '/agente/f1/contactado';
+// Rutas de F2 (Seguimiento):
+const F2_RUTA_COLA = '/agente/f2/cola';
+const F2_RUTA_TOQUE = '/agente/f2/toque';
+const F2_RUTA_COMPUERTA = '/agente/f2/compuerta';
+
+// Si falta configurar la conexión, mostrar el modal (mismo patrón cotizador).
+if (!BACKEND || !CLAVE) {
+  document.getElementById('veloConfig').classList.add('visible');
+}
+
+function guardarConfig(){
+  const url = document.getElementById('confUrl').value.trim().replace(/\/$/,'');
+  const clave = document.getElementById('confClave').value.trim();
+  if (!url || !clave){ alert('Completa los dos campos'); return; }
+  localStorage.setItem(BACKEND_KEY, url);
+  localStorage.setItem(CLAVE_KEY, clave);
+  BACKEND = url; CLAVE = clave;
+  document.getElementById('veloConfig').classList.remove('visible');
+  // Empezar a leer leads reales de inmediato con la config recién puesta.
+  cargarLeadsReales();
+}
+
+// Cada cuánto el panel vuelve a pedir la cola (decisión: 5s).
+const REFRESCO_PANEL_MS = 5000;
+
+// Muestra la franja de "sin conexión" SOLO si perdimos el backend teniendo
+// datos en pantalla. Con cola vacía no hace falta: el propio mensaje de la
+// cola ya dice "Sin conexión". Con backend vivo, se oculta.
+function refrescarAvisoConexion(){
+  const franja = $('#avisoConexion');
+  if (!franja) return;
+  const hayDatos = LEADS.length > 0;
+  const conexionCaida = intentosFallidos >= FALLIDOS_PARA_AVISO;
+  franja.hidden = !(hayDatos && conexionCaida);
+}
+
+// Marca un intento sin datos reales: sube el contador y refresca el aviso de
+// la cola (Conectando… -> Sin conexión) sin inventar tarjetas. NO toca LEADS,
+// así que si ya había leads reales en pantalla, se conservan.
+function falloDeCarga(){
+  intentosFallidos++;
+  pintarCola();
+  refrescarAvisoConexion();
+}
+
+async function cargarLeadsReales(){
+  if (!BACKEND || !CLAVE){ pintarCola(); return; } // sin config -> aviso, sin datos
+  try {
+    const resp = await fetch(BACKEND + RUTA_COLA, {
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE }
+    });
+    if (!resp.ok){ falloDeCarga(); return; }        // 404/401 -> aviso, sin datos falsos
+    const data = await resp.json();
+    if (!data || data.ok === false){ falloDeCarga(); return; } // backend sin datos útiles
+
+    // El puente entrega { pendientes:[], atendidos:[], leads:[] }. Unificamos
+    // en LEADS (con su bandera 'atendido'); las funciones derivan las listas.
+    let nuevos = null;
+    if (Array.isArray(data.leads)) {
+      nuevos = data.leads;
+    } else if (Array.isArray(data.pendientes) || Array.isArray(data.atendidos)) {
+      nuevos = [...(data.pendientes||[]), ...(data.atendidos||[])];
+    }
+    if (!nuevos){ falloDeCarga(); return; }
+
+    // Respuesta real y útil: el backend está vivo y el contador se reinicia.
+    backendVivo = true;
+    intentosFallidos = 0;
+    refrescarAvisoConexion(); // vuelve la conexión -> ocultar la franja
+
+    // --- Refresco SIN perder el trabajo en curso ---
+    // Conservar el lead abierto y cualquier borrador que se esté editando.
+    const idAbierto = activoId;
+
+    // Preservar estados TRANSITORIOS de un clic en curso (Opción A): si un
+    // lead está "registrando" o quedó con error de registro, el refresco de
+    // la cola NO debe borrar ese estado (la ventana es ~1s, pero real). Los
+    // reponemos por odooId sobre los objetos nuevos.
+    const transitorios = new Map();
+    for (const viejo of LEADS){
+      if (viejo && viejo.odooId != null && (viejo.enProceso || viejo.errorContacto)){
+        transitorios.set(viejo.odooId, {
+          enProceso: viejo.enProceso, errorContacto: viejo.errorContacto,
+        });
+      }
+    }
+    if (transitorios.size){
+      for (const nuevo of nuevos){
+        const t = nuevo && nuevo.odooId != null ? transitorios.get(nuevo.odooId) : null;
+        if (t){ nuevo.enProceso = t.enProceso; nuevo.errorContacto = t.errorContacto; }
+      }
+    }
+
+    LEADS = nuevos;
+
+    // Si el lead que estaba abierto sigue existiendo, mantener la selección;
+    // si desapareció (p.ej. pasó a atendido y estás en pendientes), elegir
+    // el primero de la pestaña activa.
+    const sigueVisible = LEADS.some(l => l.id === idAbierto);
+    if (!sigueVisible) {
+      const lista = listaActiva();
+      activoId = lista.length ? lista[0].id : null;
+    }
+
+    pintarCola();
+    // No repintar el detalle si el usuario está editando un borrador de ese
+    // lead (para no interrumpir su escritura). Si no, repintar normal.
+    const editandoAbierto = borradores[activoId] !== undefined
+      && document.activeElement
+      && document.activeElement.id === ('ta-' + activoId);
+    if (!editandoAbierto) pintarDetalle();
+  } catch (_) {
+    // Backend dormido / sin red. NO caemos a datos de muestra: contamos el
+    // fallo y mostramos el aviso honesto. Si ya había leads reales cargados,
+    // se conservan (falloDeCarga no toca LEADS).
+    falloDeCarga();
+  }
+}
+
+// Arranque: primero pintamos el estado inicial honesto (cola "Conectando…"),
+// luego lanzamos la conexión y su refresco periódico. Este orden garantiza que
+// pintarCola ya tenga declaradas todas las variables que usa (BACKEND, backendVivo…).
+pintarCola();
+pintarDetalle();
+
+// Arranque de la conexión + refresco periódico.
+cargarLeadsReales();
+setInterval(cargarLeadsReales, REFRESCO_PANEL_MS);
+
+
+/* ==================== BLOQUE F2 (Seguimiento) ==================== */
+/* ============================================================
+   F2 · Seguimiento — integrado en el panel real.
+   INTERRUPTOR DE DEMOSTRACIÓN: DEMO_F2.
+     false (por defecto, como va a producción) -> NO se muestran
+            datos; la pestaña enseña un aviso honesto de "aún no
+            conectado". Cero clientes inventados.
+     true  -> se cargan los 19 de MUESTRA (abajo) solo para revisar
+            el diseño, con un letrero naranja bien visible.
+   Para revisar el diseño: abre la consola del navegador y escribe
+   DEMO_F2 = true; f2_init();  (o cambia el valor aquí y recarga).
+   Cuando el motor real alimente F2, esto se reemplaza por la
+   lectura de leerEtiqueta/registrarToque/enrutarCompuerta.
+   ============================================================ */
+let DEMO_F2 = false;
+
+/* ============================================================
+   DATOS DE EJEMPLO — las 19 empresas en alerta de la corrida
+   en vivo del 08-sep (relojRecurrente sobre Odoo). Aquí van
+   precargados solo para VER el flujo; el panel real los leería
+   del motor. Los "toques" y borradores de mensaje son de
+   muestra: en producción los redacta el motor (Capa 2).
+   ============================================================ */
+
+// F2_CLIENTES = la FUENTE ACTIVA de la cola. En modo demo se llena con la
+// muestra de abajo; en modo real se llena con lo que entrega /agente/f2/cola.
+// Es 'let' porque la fuente cambia según el modo.
+let F2_CLIENTES = [];
+
+// Muestra (solo para DEMO_F2): las 19 empresas de la corrida del 08-sep.
+const F2_MUESTRA = [
+  {id:'C01', empresa:'Jael Cruz Pichardo', compras:4, cadencia:12, silencio:855, umbral:24, ultima:'2024-05-06', viejo:true},
+  {id:'C02', empresa:'Transportes TUM', compras:2, cadencia:15, silencio:852, umbral:30, ultima:'2024-05-09', viejo:true},
+  {id:'C03', empresa:'City Towers Coyoacán 2', compras:4, cadencia:27, silencio:578, umbral:54, ultima:'2025-02-07', viejo:true},
+  {id:'C04', empresa:'Bufete Jurídico Barrera Badillo', compras:6, cadencia:37, silencio:584, umbral:74, ultima:'2025-02-01', viejo:true},
+  {id:'C05', empresa:'Condominio Xelha', compras:2, cadencia:113, silencio:734, umbral:226, ultima:'2024-09-04', viejo:true},
+  {id:'C06', empresa:'Isatel División Laboratorios', compras:2, cadencia:33, silencio:490, umbral:66, ultima:'2025-05-06', viejo:true},
+  {id:'C07', empresa:'Polímero y Materias Primas Internacional', compras:6, cadencia:49, silencio:516, umbral:98, ultima:'2025-04-10', viejo:true},
+  {id:'C08', empresa:'Comercializadora Superkarne', compras:3, cadencia:39, silencio:432, umbral:78, ultima:'2025-07-03', viejo:true},
+  {id:'C09', empresa:'Tagers In Da City', compras:10, cadencia:7, silencio:328, umbral:14, ultima:'2025-10-15', viejo:false},
+  {id:'C10', empresa:'Green Facility Limpieza Integral', compras:26, cadencia:14, silencio:259, umbral:28, ultima:'2025-12-23', viejo:false},
+  {id:'C11', empresa:'Grupo Tatán', compras:12, cadencia:26, silencio:272, umbral:52, ultima:'2025-12-10', viejo:false},
+  {id:'C12', empresa:'Juan Carlos Villaseñor Barragán', compras:4, cadencia:44, silencio:279, umbral:88, ultima:'2025-12-03', viejo:false},
+  {id:'C13', empresa:'Aída López Girón', compras:4, cadencia:45, silencio:244, umbral:90, ultima:'2026-01-07', viejo:false},
+  {id:'C14', empresa:'Operadora London 195', compras:7, cadencia:7, silencio:154, umbral:14, ultima:'2026-04-07', viejo:false},
+  {id:'C15', empresa:'Condominio Residencial Av. Tamaulipas', compras:5, cadencia:42, silencio:195, umbral:84, ultima:'2026-02-25', viejo:false},
+  {id:'C16', empresa:'Grupo de Negocios Kennedy de América', compras:4, cadencia:7, silencio:91, umbral:14, ultima:'2026-06-09', viejo:false},
+  {id:'C17', empresa:'Sayabes III BR', compras:4, cadencia:54, silencio:153, umbral:108, ultima:'2026-04-08', viejo:false},
+  {id:'C18', empresa:'Operadora Línea 7', compras:5, cadencia:21, silencio:66, umbral:42, ultima:'2026-07-04', viejo:false},
+  {id:'C19', empresa:'Sysime Mx', compras:13, cadencia:35, silencio:74, umbral:70, ultima:'2026-06-26', viejo:false},
+];
+
+// Estado de UI (todo en memoria; no persiste — es prototipo)
+let f2_subActiva = 'cliente';   // 'cliente' (seguimiento al cliente) | 'nuestro' (pendiente nuestro)
+let f2_activoId = null;
+const f2_estadoCliente = {};   // id -> {toque, movidoA, borrador, confirmando}
+
+// (la inicialización de estado se hace en f2_init, solo si DEMO_F2)
+
+// Mensaje de muestra según el toque (en producción lo redacta el motor).
+function f2_mensajeMuestra(c, toque){
+  const nombre = c.empresa.split(' ')[0];
+  if (toque === 1) return `Hola, les saluda Klimm. Notamos que ha pasado un tiempo desde su último pedido y queríamos saber cómo van. ¿Podemos apoyarles con su próximo surtido de productos de limpieza?`;
+  if (toque === 2) return `Buen día. Seguimos a sus órdenes en Klimm para lo que necesiten. Si gustan, les preparo una cotización con sus productos habituales para agilizar su pedido.`;
+  return `Hola, un último mensaje de nuestra parte por ahora. Valoramos mucho haberles surtido antes; si en algún momento requieren producto, aquí estamos. ¿Les gustaría que les contactemos más adelante?`;
+}
+
+// ¿Cuándo tocaría cada toque? (relativo al ritmo — ilustrativo)
+function f2_calendarioToques(c){
+  const medio = Math.round(c.cadencia * 0.5);
+  return [
+    {n:1, cuando:'al detectar'},
+    {n:2, cuando:`+${medio} d`},
+    {n:3, cuando:`+${c.cadencia} d`},
+  ];
+}
+
+const f2$ = s => document.querySelector('#vista-seguimiento ' + s);
+const f2_esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+const f2_iconoWA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.9 1.2 2.9.8 3.4.8.5 0 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/></svg>';
+const f2_iconoMail = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+
+function f2_cambiarSub(sp){
+  f2_subActiva = sp;   // 'cliente' | 'nuestro'
+  document.querySelectorAll('#vista-seguimiento .subpestanas button').forEach(b=>b.classList.toggle('activa', b.dataset.sp===sp));
+  f2_activoId = null;
+  c2_activoId = null;
+  f2_pintarCola();
+  f2_pintarVacio();
+}
+
+function f2_pintarVacio(){
+  f2$('#f2-detalle').innerHTML = '<div class="vacio"><div class="ic">◔</div>Elige un cliente de la lista para ver su seguimiento.</div>';
+}
+
+function f2_pintarCola(){
+  const cola = f2$('#f2-cola');
+
+  // ---- Subpestaña PENDIENTE NUESTRO: solo Carril 2, con semáforo ----
+  if (f2_subActiva === 'nuestro'){
+    if (!C2_PENDIENTES.length){
+      cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('nuestro')) + '</div>';
+      return;
+    }
+    cola.innerHTML = C2_PENDIENTES.map(p=>{
+      const sem = c2_semaforo(p.dias_silencio);
+      const clases = ['item', 'sem-'+sem.clase];
+      if (p._uiId===c2_activoId) clases.push('activo');
+      const nombre = c2_nombre(p);
+      return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${p._uiId}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(nombre)}</div>
+          <div class="it-sil">${p.dias_silencio} d</div>
+        </div>
+        <div class="it-linea">Le debemos algo · lleva ${p.dias_silencio} d sin movimiento</div>
+        <div class="it-chips"><span class="chip chip-sem sem-${sem.clase}">${sem.texto}</span></div>
+      </div>`;
+    }).join('');
+    return;
+  }
+
+  // ---- Subpestaña SEGUIMIENTO AL CLIENTE: F2 (recurrentes) + Carril 2 (con mensaje) ----
+  let html = '';
+
+  // 1) Los recurrentes de F2 (tal cual estaban; solo si hay datos F2).
+  html += F2_CLIENTES.map(c=>{
+    const st = f2_estadoCliente[c.id];
+    const clases = ['item'];
+    if (c.id===f2_activoId) clases.push('activo');
+    if (st.movidoA) clases.push('movido');
+    else if (c.viejo) clases.push('viejo');
+    else clases.push('alerta');
+
+    let chips = '';
+    if (st.movidoA){
+      const etiqueta = st.movidoA==='descartar' ? 'Descartado' : 'En encuesta';
+      chips = `<span class="chip chip-movido">${etiqueta}</span>`;
+    } else {
+      chips = `<span class="chip chip-toque">Toque ${st.toque} de 3</span>`;
+      if (c.viejo) chips += `<span class="chip chip-viejo">+1 año sin comprar</span>`;
+    }
+
+    return `<div class="${clases.join(' ')}" onclick="f2_seleccionar('${c.id}')">
+      <div class="it-top">
+        <div class="it-nombre">${f2_esc(c.empresa)}</div>
+        <div class="it-sil">${c.silencio} d</div>
+      </div>
+      <div class="it-linea">Compra cada ~${c.cadencia} d · lleva ${c.silencio} d sin pedir</div>
+      <div class="it-chips">${chips}</div>
+    </div>`;
+  }).join('');
+
+  // 2) Las de Carril 2 con mensaje (forma propia, chip de origen discreto).
+  html += C2_CLIENTE.map(t=>{
+    const clases = ['item'];
+    if (t._uiId===c2_activoId) clases.push('activo');
+    const nombre = c2_nombre(t);
+    const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+    return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${t._uiId}')">
+      <div class="it-top">
+        <div class="it-nombre">${f2_esc(nombre)}</div>
+        <div class="it-sil">${t.dias_silencio} d</div>
+      </div>
+      <div class="it-linea">${f2_esc(fam)} · del análisis de WhatsApp</div>
+      <div class="it-chips"><span class="chip chip-origen">WhatsApp</span></div>
+    </div>`;
+  }).join('');
+
+  // 3) Si NADA en esta lista (ni F2 ni Carril 2), aviso honesto.
+  if (!F2_CLIENTES.length && !C2_CLIENTE.length){
+    html = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('cliente')) + '</div>';
+  }
+
+  cola.innerHTML = html;
+}
+
+function f2_seleccionar(id){
+  f2_activoId = id;
+  f2_estadoCliente[id].confirmando = null;
+  f2_pintarCola();
+  f2_pintarDetalle();
+}
+
+function f2_pintarDetalle(){
+  const c = F2_CLIENTES.find(x=>x.id===f2_activoId);
+  if(!c){ f2_pintarVacio(); return; }
+  const st = f2_estadoCliente[c.id];
+
+  // Si ya fue movido a excepción -> vista de "movido" con rescate.
+  if (st.movidoA){
+    const etiqueta = st.movidoA==='descartar' ? 'descartado' : 'enviado a encuesta';
+    f2$('#f2-detalle').innerHTML = `
+      <h2 class="d-nombre">${f2_esc(c.empresa)}</h2>
+      <div class="d-sub">Compra cada ~${c.cadencia} d · última compra ${f2_esc(c.ultima)}</div>
+      <div class="movido-box">
+        <div class="txt"><strong>Este cliente fue ${etiqueta}.</strong>Ya no aparece en la operación diaria. Puedes traerlo de vuelta si fue un error.</div>
+        <button class="f2_rescatar" onclick="f2_rescatar('${c.id}')">Rescatar a Seguimiento</button>
+      </div>`;
+    return;
+  }
+
+  const cal = f2_calendarioToques(c);
+  const pasosHTML = cal.map(p=>{
+    let clase = 'futuro';
+    if (p.n < st.toque) clase = 'hecho';
+    else if (p.n === st.toque) clase = 'actual';
+    return `<div class="paso ${clase}"><span class="n">Toque ${p.n}</span><span class="cuando">${p.cuando}</span></div>`;
+  }).join('');
+
+  const borrador = st.borrador!==null ? st.borrador : f2_mensajeMuestra(c, st.toque);
+  const toquesRestantes = 3 - st.toque;
+
+  const viejoNota = c.viejo
+    ? `<div class="rd destacar"><div class="et">Antigüedad</div><div class="va">+1 año</div></div>`
+    : '';
+
+  // Bloque de confirmación de excepción (si el operador la abrió)
+  let confirmarHTML = '';
+  if (st.confirmando){
+    const esDescarte = st.confirmando==='descartar';
+    const restanteTxt = toquesRestantes>0
+      ? `A este cliente aún le quedan <strong>${toquesRestantes} toque(s)</strong> por dar.`
+      : `Este cliente ya recibió sus 3 toques.`;
+    confirmarHTML = `<div class="confirmar">
+      <p>${restanteTxt} ${esDescarte
+          ? '¿Seguro que quieres <strong>descartarlo</strong>? Dejará de aparecer en la operación (podrás rescatarlo después).'
+          : '¿Seguro que quieres <strong>enviarlo a encuesta</strong>? Pasará a Carril 3 para estudiar por qué se fue.'}</p>
+      <div class="fila">
+        <button class="si ${esDescarte?'rojo':''}" onclick="f2_mover('${c.id}','${st.confirmando}')">Sí, ${esDescarte?'descartar':'f2_enviar a encuesta'}</button>
+        <button class="no" onclick="f2_cancelarConfirmar('${c.id}')">Cancelar</button>
+      </div>
+    </div>`;
+  }
+
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(c.empresa)}</h2>
+    <div class="d-sub">${c.compras} compras registradas · última el ${f2_esc(c.ultima)}</div>
+
+    <div class="reloj-datos">
+      <div class="rd"><div class="et">Su ritmo</div><div class="va">~${c.cadencia} d</div></div>
+      <div class="rd destacar"><div class="et">Sin comprar</div><div class="va">${c.silencio} d</div></div>
+      <div class="rd"><div class="et">Umbral de alerta</div><div class="va">${c.umbral} d</div></div>
+      ${viejoNota}
+    </div>
+
+    <div class="toques">
+      <div class="toques-tit"><span>Secuencia de toques (a su ritmo)</span><span>Vas en el ${st.toque} de 3</span></div>
+      <div class="toques-fila">${pasosHTML}</div>
+    </div>
+
+    <div class="msg-tit">Mensaje del toque ${st.toque} — revísalo y envíalo</div>
+    <textarea class="msg" id="f2-msg" oninput="f2_editarMsg('${c.id}')">${f2_esc(borrador)}</textarea>
+    <div class="acciones">
+      <button class="boton boton-wa" onclick="f2_enviar('${c.id}')">${f2_iconoWA} Enviar por WhatsApp</button>
+      <button class="boton boton-correo" onclick="f2_enviar('${c.id}')">${f2_iconoMail} Enviar por correo</button>
+    </div>
+
+    <div class="excepcion">
+      <div class="excepcion-tit">◇ Casos excepcionales — solo si este cliente ya no va por seguimiento normal</div>
+      <div class="excepcion-botones">
+        <button class="btn-exc" onclick="f2_pedirConfirmar('${c.id}','encuesta')">Enviar a encuesta</button>
+        <button class="btn-exc descartar" onclick="f2_pedirConfirmar('${c.id}','descartar')">Descartar cliente</button>
+      </div>
+      ${confirmarHTML}
+    </div>`;
+}
+
+function f2_pintarDetalleCaso2(){
+  f2$('#f2-detalle').innerHTML = `<div class="placeholder2">
+    <h3>Seguimiento pendiente</h3>
+    <p>Aquí vivirán los clientes que recibieron una cotización y no contestaron, o que quedaron esperando autorización. A diferencia de los recurrentes, cada caso sigue un camino propio, así que el mensaje y los pasos los sugerirá la IA (Capa 2) según la conversación. Esta bandeja se construye cuando llegue el snapshot; hoy queda su lugar listo, sin datos inventados.</p>
+  </div>`;
+}
+
+function f2_editarMsg(id){ f2_estadoCliente[id].borrador = f2$('#f2-msg').value; }
+
+async function f2_enviar(id){
+  const st = f2_estadoCliente[id];
+  const c = F2_CLIENTES.find(x => x.id === id);
+  if (!c) return;
+
+  // En DEMO seguimos simulando (no tocar backend). En REAL, llamamos a /f2/toque.
+  if (DEMO_F2){
+    if (st.toque < 3){ st.toque++; st.borrador = null;
+      alert('(Demostración) Toque marcado. Avanza al toque ' + st.toque + '.');
+    } else { alert('(Demostración) Era el toque 3, el último de la secuencia.'); }
+    f2_pintarCola(); f2_pintarDetalle(); return;
+  }
+
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede registrar el toque.'); return; }
+  const borrador = (st.borrador !== null && st.borrador !== undefined)
+    ? st.borrador : f2_mensajeMuestra(c, st.toque);
+  try {
+    const resp = await fetch(BACKEND + F2_RUTA_TOQUE, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({
+        empresaId: c.empresaId,
+        empresaNombre: c.empresa,
+        mensajePropuesto: f2_mensajeMuestra(c, st.toque), // hoy = muestra; con Capa 2 será IA
+        mensajeEnviado: borrador,
+        canal: 'whatsapp',
+        toque: st.toque,
+      }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      alert('No se pudo registrar el toque en Odoo. El cliente sigue pendiente; reintenta.');
+      return;
+    }
+    // Éxito: reflejar el contador que devolvió el backend y abrir WhatsApp.
+    st.toque = data.toquesNuevos;
+    st.borrador = null;
+    if (c.waLink) window.open(c.waLink, '_blank');
+    f2_pintarCola(); f2_pintarDetalle();
+  } catch (_) {
+    alert('Sin conexión al registrar el toque. El cliente sigue pendiente; reintenta.');
+  }
+}
+
+function f2_pedirConfirmar(id, destino){ f2_estadoCliente[id].confirmando = destino; f2_pintarDetalle(); }
+function f2_cancelarConfirmar(id){ f2_estadoCliente[id].confirmando = null; f2_pintarDetalle(); }
+
+// Enrutar por la compuerta. 'encuesta'->en_encuesta, 'descartar'->descartado.
+// El rescate llama a esta misma con 'en_seguimiento' (reversibilidad).
+async function f2_enrutar(id, destinoUI){
+  const c = F2_CLIENTES.find(x => x.id === id);
+  const mapa = { encuesta:'en_encuesta', descartar:'descartado', rescatar:'en_seguimiento' };
+  const destino = mapa[destinoUI] || destinoUI;
+
+  if (DEMO_F2){
+    f2_estadoCliente[id].movidoA = (destinoUI==='rescatar') ? null : destinoUI;
+    f2_estadoCliente[id].confirmando = null;
+    f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas(); return true;
+  }
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede enrutar.'); return false; }
+  try {
+    const resp = await fetch(BACKEND + F2_RUTA_COMPUERTA, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ empresaId: c.empresaId, destino }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){ alert('No se pudo enrutar en Odoo. Reintenta.'); return false; }
+    // Reflejar en pantalla: movido (encuesta/descartar) o rescatado (vuelve).
+    f2_estadoCliente[id].movidoA = (destino==='en_seguimiento') ? null
+      : (destino==='en_encuesta' ? 'encuesta' : 'descartar');
+    f2_estadoCliente[id].confirmando = null;
+    f2_pintarCola(); f2_pintarDetalle(); refrescarBurbujas(); return true;
+  } catch (_) { alert('Sin conexión al enrutar. Reintenta.'); return false; }
+}
+// Compatibilidad con los onclick del detalle (mover = enrutar a excepción).
+function f2_mover(id, destino){ f2_enrutar(id, destino); }
+function f2_rescatar(id){ f2_enrutar(id, 'rescatar'); }
+
+// --- Aviso honesto cuando F2 no tiene datos reales ---
+function f2_pintarSinDatos(mensaje){
+  const cola = f2$('#f2-cola');
+  const txt = mensaje || ('Seguimiento aún no está conectado. Cuando el motor de recurrencia '
+    + 'alimente esta bandeja, aquí aparecerán los clientes a reactivar. Por ahora no hay datos.');
+  if (cola) cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(txt) + '</div>';
+  const det = f2$('#f2-detalle');
+  if (det) det.innerHTML = '<div class="vacio"><div class="ic">◔</div>Sin datos de seguimiento por ahora.</div>';
+  const n1 = f2$('#f2-n1'); if (n1) n1.textContent = '—';
+  const cont = f2$('#f2-conteo'); if (cont) cont.textContent = '0';
+}
+
+// --- Carga REAL de la cola desde el backend (/agente/f2/cola) ---
+async function f2_cargarReal(){
+  if (!BACKEND || !CLAVE){ f2_tieneDatos = false; f2_pintarSinDatos('Sin conexión con Solón. Configúrala para ver Seguimiento.'); refrescarBurbujas(); return; }
+  f2_pintarSinDatos('Conectando con Solón…');
+  try {
+    const resp = await fetch(BACKEND + F2_RUTA_COLA, {
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      // Interruptor apagado u Odoo sin datos: honesto, sin inventar.
+      f2_tieneDatos = false;
+      const msg = (data && data.motivo === 'f2-apagado')
+        ? 'Seguimiento está construido pero aún apagado. Se encenderá cuando el administrador lo active.'
+        : 'Seguimiento no tiene datos por ahora (sin respuesta del motor).';
+      f2_pintarSinDatos(msg);
+      refrescarBurbujas();
+      return;
+    }
+    // Éxito: volcar los clientes reales en la fuente activa y su estado inicial.
+    F2_CLIENTES = (data.clientes || []).map(c => ({
+      id: 'p' + c.empresaId,          // id de UI estable a partir del id de Odoo
+      empresaId: c.empresaId,
+      empresa: c.empresa,
+      compras: c.compras, cadencia: c.cadencia, silencio: c.silencio,
+      umbral: c.umbral, ultima: c.ultima, viejo: c.viejo,
+      // waLink real lo añadirá el motor/Capa 2; por ahora sin link directo.
+    }));
+    Object.keys(f2_estadoCliente).forEach(k => delete f2_estadoCliente[k]);
+    for (const c of data.clientes || []){
+      const uiId = 'p' + c.empresaId;
+      // El toque de la etiqueta arranca la secuencia; movidoA según estado de compuerta.
+      const movido = (c.estadoCompuerta === 'en_encuesta') ? 'encuesta'
+                   : (c.estadoCompuerta === 'descartado') ? 'descartar' : null;
+      f2_estadoCliente[uiId] = {
+        toque: Math.max(1, (c.toques || 0) + 1),  // en qué toque va AHORA
+        movidoA: movido, borrador: null, confirmando: null,
+      };
+    }
+    f2_tieneDatos = F2_CLIENTES.length > 0;
+    f2_activoId = null;
+    f2_subActiva = 'cliente';
+    // Contadores (esta función latente re-poblaría F2; los contadores unificados
+    // los recalcula f2_actualizarContadores cuando se reactive el motor).
+    if (typeof f2_actualizarContadores === 'function') f2_actualizarContadores();
+    f2_pintarCola();
+    f2_pintarVacio();
+    refrescarBurbujas();
+  } catch (_) {
+    f2_tieneDatos = false;
+    f2_pintarSinDatos('Sin conexión con Solón — reintenta más tarde.');
+    refrescarBurbujas();
+  }
+}
+
+// --- Arranque de la vista Seguimiento. Carga F2 (recurrentes reales, o muestra
+//     si DEMO_F2) Y Carril 2 (WhatsApp), y los reparte en las dos subpestañas. ---
+function f2_init(){
+  const aviso = f2$('#f2-aviso-demo');
+  f2_subActiva = 'cliente';   // siempre arranca en "Seguimiento al cliente"
+  f2_activoId = null;
+  c2_activoId = null;
+
+  // 1) Carga de F2: muestra (demo) o real (backend).
+  let f2Listo;
+  if (DEMO_F2){
+    if (aviso) aviso.hidden = false;
+    F2_CLIENTES = F2_MUESTRA.slice();
+    Object.keys(f2_estadoCliente).forEach(k => delete f2_estadoCliente[k]);
+    F2_CLIENTES.forEach(c => { f2_estadoCliente[c.id] = { toque:1, movidoA:null, borrador:null, confirmando:null }; });
+    f2_tieneDatos = true;
+    f2Listo = Promise.resolve();
+  } else {
+    if (aviso) aviso.hidden = true;
+    // f2_cargarReal trae los clientes reales de /agente/f2/cola y arma su estado.
+    // Pinta por su cuenta al terminar; aquí solo esperamos a que acabe.
+    f2Listo = f2_cargarReal();
+  }
+
+  // 2) Carga de Carril 2 en paralelo. Cuando AMBOS terminen, repintamos todo
+  //    junto (contadores unificados + la lista de la subpestaña activa).
+  Promise.all([f2Listo, c2_cargar()]).then(() => {
+    f2_subActiva = 'cliente';   // f2_cargarReal pudo tocarla; la fijamos al arranque
+    f2_actualizarContadores();
+    f2_pintarCola();
+    f2_pintarVacio();
+    refrescarBurbujas();
+  });
+
+  // Pintado inmediato con lo que ya haya, sin esperar la red (evita parpadeo vacío).
+  f2_actualizarContadores();
+  f2_pintarCola();
+  f2_pintarVacio();
+  refrescarBurbujas();
+}
+
+// Contadores de las subpestañas: cuántos hay en cada lista (F2 + Carril 2).
+function f2_actualizarContadores(){
+  const nCliente = F2_CLIENTES.length + C2_CLIENTE.length;
+  const nNuestro = C2_PENDIENTES.length;
+  const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
+  const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
+  const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
+}
+
+
+/* ================= Burbujas de pendientes en pestañas superiores =================
+   Reglas (acordadas): número real de pendientes; ocultas si el conteo es 0 o si
+   no hay datos confiables/conexión. Nunca una burbuja "inventada" sin datos. */
+
+// Cuántos clientes de Seguimiento están en alerta y aún sin resolver (ni en
+// encuesta ni descartados). Solo tiene sentido si f2_tieneDatos.
+function f2_alertasActivas(){
+  let n = 0;
+  // F2 (recurrentes), solo si hay datos confiables.
+  if (f2_tieneDatos){
+    for (const c of F2_CLIENTES){
+      const st = f2_estadoCliente[c.id];
+      if (st && !st.movidoA) n++;   // sigue en la operación (no movido a excepción)
+    }
+  }
+  // Carril 2 (WhatsApp), solo si la carga fue exitosa.
+  if (c2_estado === 'ok'){
+    n += C2_CLIENTE.length + C2_PENDIENTES.length;
+  }
+  return n;
+}
+
+// La burbuja de Seguimiento debe mostrarse si F2 tiene datos O Carril 2 cargó bien.
+function f2_hayDatosSeguimiento(){
+  return f2_tieneDatos || (c2_estado === 'ok');
+}
+
+function pintarBurbuja(id, conteo, mostrar){
+  const b = document.getElementById(id);
+  if (!b) return;
+  if (mostrar && conteo > 0){
+    b.textContent = conteo;
+    b.classList.add('visible');
+  } else {
+    b.classList.remove('visible');
+    b.textContent = '';
+  }
+}
+
+function refrescarBurbujas(){
+  // Prospectos: pendientes de F1, SOLO si el backend confirmó datos reales.
+  // Sin conexión confirmada -> sin burbuja (no inventamos alertas).
+  const pendientes = (typeof listaPendientes === 'function') ? listaPendientes().length : 0;
+  pintarBurbuja('burbuja-prospectos', pendientes, backendVivo);
+
+  // Seguimiento: alertas activas de F2 + Carril 2, si hay datos confiables de cualquiera.
+  pintarBurbuja('burbuja-seguimiento', f2_alertasActivas(), f2_hayDatosSeguimiento());
+}
+
+
+/* ================= Navegación de vistas superiores (Opción B) =================
+   Cambiar entre "Prospectos nuevos" (F1) y "Seguimiento" (F2) solo muestra u
+   oculta contenedores. NO reinicia la carga de leads de F1, que sigue corriendo
+   por detrás con su setInterval. La primera vez que se entra a Seguimiento, se
+   inicializa F2 (respeta DEMO_F2). ================================================ */
+function cambiarVista(vista){
+  document.querySelectorAll('.nav-superior button').forEach(b =>
+    b.classList.toggle('activa', b.dataset.vista === vista));
+  const vp = document.getElementById('vista-prospectos');
+  const vs = document.getElementById('vista-seguimiento');
+  vp.classList.toggle('activa', vista === 'prospectos');
+  vs.classList.toggle('activa', vista === 'seguimiento');
+  if (vista === 'seguimiento' && !f2_iniciado){
+    f2_iniciado = true;
+    f2_init();
+  }
+}
+
+
+/* ==================== BLOQUE CARRIL 2 (WhatsApp) ====================
+   Carril 2 NO es una vista aparte: alimenta las MISMAS dos subpestañas de
+   Seguimiento, agnósticas al origen.
+     - Tarjetas CON mensaje  -> "Seguimiento al cliente" (junto a los de F2).
+     - PENDIENTE_NUESTRO     -> "Pendiente nuestro" (semáforo, sin enviar).
+   Consume GET /agente/carril2/cola. Honesto: si el interruptor está apagado
+   o no hay datos, avisa sin inventar. No toca nada de F1 ni de F2.
+   ==================================================================== */
+const C2_RUTA_COLA = '/agente/carril2/cola';
+
+// (Las variables de estado C2_CLIENTE, C2_PENDIENTES, c2_activoId y c2_estado
+//  se declaran ARRIBA, junto al estado de F2, para que existan desde el arranque
+//  y ninguna función de F2 las lea antes de tiempo.)
+
+// Nombre a mostrar: preferimos el de Odoo; si no, el del chat; si no, el teléfono.
+function c2_nombre(t){
+  return t.empresaNombre || t.chat_name_persona || t.telefono_llave || 'Contacto sin nombre';
+}
+
+// Semáforo por calendario, sobre dias_silencio (el reloj más honesto que
+// tenemos hoy; ver deuda de diseño en el maestro). 0 normal / 1 atención / 2+ urgente.
+function c2_semaforo(dias){
+  const d = (typeof dias === 'number') ? dias : 99;
+  if (d <= 0) return { clase:'normal',   texto:'Al día' };
+  if (d === 1) return { clase:'atencion', texto:'1 día — atención' };
+  return          { clase:'urgente',  texto:`${d} días — urgente` };
+}
+
+// Mensajes honestos de bandeja vacía, según el estado real de la carga.
+function c2_mensajeVacio(cual){
+  if (c2_estado === 'apagado')
+    return 'Carril 2 está construido pero aún apagado. Se encenderá cuando el administrador lo active.';
+  if (c2_estado === 'sin-conexion')
+    return 'Sin conexión con Solón para traer los datos de WhatsApp. Reintenta más tarde.';
+  if (c2_estado === 'sin-datos')
+    return 'El análisis nocturno de WhatsApp aún no ha depositado datos. Aquí aparecerán tras la próxima corrida.';
+  // ok pero esta lista quedó vacía:
+  return (cual === 'nuestro')
+    ? 'No hay pendientes nuestros por ahora. Cuando debamos algo a un cliente (flete, cotización, documento), aparecerá aquí.'
+    : 'No hay seguimientos al cliente por ahora.';
+}
+
+// --- Carga REAL de Carril 2 desde el backend (GET /agente/carril2/cola) ---
+async function c2_cargar(){
+  if (window.__PREVIEW__){ c2_estado = 'sin-datos'; return; } // vista previa: sin red
+  if (!BACKEND || !CLAVE){ c2_estado = 'sin-conexion'; return; }
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_COLA, {
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      c2_estado = (data && data.motivo === 'carril2-apagado') ? 'apagado' : 'sin-datos';
+      C2_CLIENTE = []; C2_PENDIENTES = [];
+      return;
+    }
+    // Éxito: repartir a las dos listas, con id de UI estable.
+    C2_CLIENTE = (data.tarjetas || []).map((t,i) => ({ ...t, _uiId: 'c2c'+i }));
+    C2_PENDIENTES = (data.pendientesNuestros || []).map((p,i) => ({ ...p, _uiId: 'c2p'+i }));
+    c2_estado = 'ok';
+  } catch (_) {
+    c2_estado = 'sin-conexion';
+    C2_CLIENTE = []; C2_PENDIENTES = [];
+  }
+}
+
+function c2_seleccionar(uiId){
+  c2_activoId = uiId;
+  f2_activoId = null;         // soltar la selección de F2 (comparten el panel de detalle)
+  f2_pintarCola();
+  c2_pintarDetalle(uiId);
+}
+
+function c2_pintarDetalle(uiId){
+  // ¿Es un pendiente nuestro o un seguimiento al cliente?
+  const pend = C2_PENDIENTES.find(x=>x._uiId===uiId);
+  if (pend){ c2_pintarDetallePendiente(pend); return; }
+  const cli = C2_CLIENTE.find(x=>x._uiId===uiId);
+  if (cli){ c2_pintarDetalleCliente(cli); return; }
+  f2_pintarVacio();
+}
+
+// Detalle de PENDIENTE NUESTRO: el texto de la deuda + semáforo, SIN botón de enviar.
+function c2_pintarDetallePendiente(p){
+  const sem = c2_semaforo(p.dias_silencio);
+  const nombre = c2_nombre(p);
+  // El texto del pendiente vive en el diagnóstico (motivo/senales); si no, algo honesto.
+  const detalle = (p.diagnostico && (p.diagnostico.motivo || p.diagnostico.pelota))
+    ? (p.diagnostico.motivo || p.diagnostico.pelota)
+    : 'Quedamos de enviar algo a este cliente y aún no lo hemos hecho.';
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">Pendiente nuestro · del análisis de WhatsApp</div>
+    <div class="reloj-datos">
+      <div class="rd"><div class="et">Sin movimiento</div><div class="va">${p.dias_silencio} d</div></div>
+      <div class="rd destacar"><div class="et">Urgencia</div><div class="va">${f2_esc(sem.texto)}</div></div>
+    </div>
+    <div class="deuda-caja">
+      <div class="deuda-tit">Lo que le debemos</div>
+      <div class="deuda-txt">${f2_esc(detalle)}</div>
+    </div>
+    <div class="nota-sin-envio">◇ Sin mensaje que enviar: la acción es nuestra. Resuélvelo por el canal que corresponda (cotización, flete, documento) y quedará al día en la próxima corrida.</div>`;
+}
+
+// Detalle de SEGUIMIENTO AL CLIENTE (Carril 2): mensaje redactado, editable + enviar.
+function c2_pintarDetalleCliente(t){
+  const nombre = c2_nombre(t);
+  const msg = (t.redaccion && t.redaccion.mensaje) ? t.redaccion.mensaje : '';
+  const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+  const provisional = (t.redaccion && t.redaccion.provisional)
+    ? '<div class="editado">◐ Mensaje provisional (la IA lo marcó para revisar con cuidado antes de enviar).</div>'
+    : '';
+  const waLink = t.telefono_llave
+    ? ('https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(msg))
+    : null;
+  const botonWA = waLink
+    ? `<a class="boton boton-wa" href="${waLink}" target="_blank" rel="noopener">${f2_iconoWA} Enviar por WhatsApp</a>`
+    : `<button class="boton boton-wa" disabled title="Sin teléfono para abrir WhatsApp">${f2_iconoWA} Enviar por WhatsApp</button>`;
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">${f2_esc(fam)} · del análisis de WhatsApp</div>
+    <div class="msg-tit">Mensaje sugerido — revísalo y envíalo</div>
+    <textarea class="msg" id="c2-msg">${f2_esc(msg)}</textarea>
+    ${provisional}
+    <div class="acciones">
+      ${botonWA}
+    </div>`;
+}
+
+</script>
+</body>
+</html>
