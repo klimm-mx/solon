@@ -50,9 +50,23 @@ tr:hover td{background:var(--agua-claro)}
 <body>
 <header>
   <h1>Klimm · <span>Demanda sin catálogo</span></h1>
-  <div class="sistema">SISTEMA SOLÓN</div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="sistema">SISTEMA SOLÓN</div>
+    <button onclick="abrirConfig()" style="background:var(--agua-claro);color:var(--agua-oscuro);border:1px solid var(--borde);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;font-family:inherit">Conexión</button>
+  </div>
 </header>
 <main>
+  <!-- [ETAPA 3] Configuración de conexión al backend privado. Aparece si falta
+       la dirección o la clave. Mismo mecanismo que el panel de pricing: se guarda
+       en el navegador (localStorage) y nunca en el repo. -->
+  <div class="panel" id="panelConfig" style="display:none">
+    <p class="intro"><strong>Conéctate al backend privado.</strong> Estos datos ya no son públicos: para verlos necesitas la dirección del backend y la clave de acceso (la misma de los demás paneles de Luca).</p>
+    <div class="filtros">
+      <div style="flex:1;min-width:220px"><label>Dirección del backend</label><input type="text" id="confBackend" placeholder="https://klimm-backend.onrender.com" style="width:100%;padding:8px 10px;border:1px solid var(--borde);border-radius:8px;font-size:14px;font-family:inherit"></div>
+      <div style="flex:1;min-width:180px"><label>Clave de acceso</label><input type="password" id="confClave" style="width:100%;padding:8px 10px;border:1px solid var(--borde);border-radius:8px;font-size:14px;font-family:inherit"></div>
+      <button onclick="guardarConfig()">Guardar y conectar</button>
+    </div>
+  </div>
   <div class="panel">
     <p class="intro">Productos que los clientes han pedido y que <strong>no se cotizaron</strong> por no existir en el catálogo (excluidos o dejados como nota de revisión en el cotizador). Ordenados por frecuencia, sirven para decidir ampliaciones de catálogo con demanda real.</p>
     <div class="filtros">
@@ -87,14 +101,37 @@ tr:hover td{background:var(--agua-claro)}
       <tbody id="cuerpoTabla"></tbody>
     </table>
     <div class="vacio" id="zonaVacio">Cargando datos…</div>
-    <p class="nota-pie">Los datos se registran automáticamente cada vez que en el cotizador se crea una cotización con líneas excluidas o en nota de revisión. Fuente: <code>datos.json</code> de este mismo repositorio.</p>
+    <p class="nota-pie">Los datos se registran automáticamente cada vez que en el cotizador se crea una cotización con líneas excluidas o en nota de revisión. Fuente: backend privado de Klimm (protegido con clave).</p>
   </div>
 </main>
 
 <script>
-const URL_DATOS = 'https://raw.githubusercontent.com/klimm-mx/solon/main/datos.json';
+// [ETAPA 3] Los datos ya NO se bajan del GitHub público. Se piden al backend
+// privado con la clave. La dirección del backend y la clave se guardan en el
+// navegador (localStorage), igual que en los demás paneles de Luca — nunca en el repo.
+let BACKEND = localStorage.getItem('luca_backend') || '';
+let CLAVE = localStorage.getItem('luca_clave') || '';
 let registros = [];
 let orden = { campo: 'veces', dir: -1 };
+
+function abrirConfig(){
+  document.getElementById('confBackend').value = BACKEND;
+  document.getElementById('confClave').value = CLAVE;
+  document.getElementById('panelConfig').style.display = 'block';
+}
+function guardarConfig(){
+  BACKEND = document.getElementById('confBackend').value.trim().replace(/\/$/,'');
+  CLAVE = document.getElementById('confClave').value.trim();
+  localStorage.setItem('luca_backend', BACKEND);
+  localStorage.setItem('luca_clave', CLAVE);
+  if(!BACKEND || !CLAVE){
+    document.getElementById('zonaError').innerHTML = '<div class="error">Faltan la dirección del backend o la clave.</div>';
+    return;
+  }
+  document.getElementById('panelConfig').style.display = 'none';
+  document.getElementById('zonaError').innerHTML = '';
+  cargar();
+}
 
 const sinAcentos = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -178,18 +215,27 @@ function pintar(){
 
 async function cargar(){
   try{
-    const r = await fetch(URL_DATOS + '?t=' + Date.now());
+    const r = await fetch(BACKEND + '/luca/insights/datos', {
+      headers: { 'x-backend-key': CLAVE }
+    });
+    if(r.status === 401 || r.status === 403){
+      document.getElementById('zonaError').innerHTML = '<div class="error">La clave no fue aceptada por el backend. Revisa la conexión.</div>';
+      abrirConfig();
+      document.getElementById('zonaVacio').textContent = 'Sin datos.';
+      return;
+    }
     if(!r.ok) throw new Error('HTTP ' + r.status);
     const d = await r.json();
     registros = Array.isArray(d.registros) ? d.registros : [];
+    document.getElementById('zonaError').innerHTML = '';
     rango(6); // vista inicial: últimos 6 meses
   }catch(e){
     document.getElementById('zonaError').innerHTML =
-      `<div class="error">No se pudo cargar datos.json desde GitHub (${esc(e.message)}). Verifica que el archivo exista en el repositorio klimm-mx/solon.</div>`;
+      `<div class="error">No se pudo cargar la demanda sin catálogo desde el backend (${esc(e.message)}). Revisa la dirección del backend y la clave en “Conexión”.</div>`;
     document.getElementById('zonaVacio').textContent = 'Sin datos.';
   }
 }
-cargar();
+if(BACKEND && CLAVE) cargar(); else abrirConfig();
 </script>
 </body>
 </html>
