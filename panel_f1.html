@@ -1645,9 +1645,12 @@ function c2_pintarDetalleExcluida(e){
 function c2_pintarDetallePendiente(p){
   const sem = c2_semaforo(p.dias_silencio);
   const nombre = c2_nombre(p);
-  // El texto del pendiente vive en el diagnóstico (motivo/senales); si no, algo honesto.
-  const detalle = (p.diagnostico && (p.diagnostico.motivo || p.diagnostico.pelota))
-    ? (p.diagnostico.motivo || p.diagnostico.pelota)
+  // El texto del pendiente vive en las SEÑALES del diagnóstico: la lectura que la
+  // IA hizo del tramo (qué quedamos a deber). OJO (bug corregido): 'diagnostico.motivo'
+  // solo existe cuando la IA NO pudo clasificar; 'diagnostico.pelota' vale siempre
+  // "nuestra" aquí y NO describe la deuda — leerlo hacía que todas dijeran "nuestra".
+  const detalle = (p.diagnostico && (p.diagnostico.senales || p.diagnostico.motivo))
+    ? (p.diagnostico.senales || p.diagnostico.motivo)
     : 'Quedamos de enviar algo a este cliente y aún no lo hemos hecho.';
   f2$('#f2-detalle').innerHTML = `
     <h2 class="d-nombre">${f2_esc(nombre)}</h2>
@@ -1671,6 +1674,11 @@ function c2_pintarDetalleCliente(t){
   const provisional = (t.redaccion && t.redaccion.provisional)
     ? '<div class="editado">◐ Mensaje provisional (la IA lo marcó para revisar con cuidado antes de enviar).</div>'
     : '';
+  // CONTEXTO para que el humano apruebe/ajuste con criterio: la lectura que la IA
+  // hizo del tramo (diagnostico.senales) + de qué lado quedó la pelota, su confianza
+  // y los días sin movimiento. senales SÍ llega en el paquete; el hilo textual crudo
+  // hoy no (el orquestador lo recorta — ver maestro; pieza futura si hace falta).
+  const contextoHTML = c2_contextoHTML(t);
   const waLink = t.telefono_llave
     ? ('https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(msg))
     : null;
@@ -1680,11 +1688,33 @@ function c2_pintarDetalleCliente(t){
   f2$('#f2-detalle').innerHTML = `
     <h2 class="d-nombre">${f2_esc(nombre)}</h2>
     <div class="d-sub">${f2_esc(fam)} · del análisis de WhatsApp</div>
+    ${contextoHTML}
     <div class="msg-tit">Mensaje sugerido — revísalo y envíalo</div>
     <textarea class="msg" id="c2-msg">${f2_esc(msg)}</textarea>
     ${provisional}
     <div class="acciones">
       ${botonWA}
+    </div>`;
+}
+
+// Caja de contexto del análisis (reutiliza las clases deuda-* para no tocar CSS).
+// Muestra las SEÑALES que vio la IA y una línea de metadatos (pelota/confianza/días).
+// Si no hay señales, no pinta la caja (honesto: no inventa contexto).
+function c2_contextoHTML(t){
+  const dg = t.diagnostico || {};
+  const senales = (dg.senales && String(dg.senales).trim()) ? String(dg.senales).trim() : '';
+  if (!senales) return '';
+  const meta = [];
+  if (dg.pelota)    meta.push('Pelota: ' + dg.pelota);
+  if (dg.confianza) meta.push('confianza ' + dg.confianza);
+  if (typeof t.dias_silencio === 'number') meta.push(t.dias_silencio + ' d sin movimiento');
+  const metaHTML = meta.length
+    ? `<div class="deuda-txt" style="margin-top:6px;font-size:12px;opacity:.7">${f2_esc(meta.join(' · '))}</div>`
+    : '';
+  return `<div class="deuda-caja">
+      <div class="deuda-tit">Contexto — lo que vio el análisis</div>
+      <div class="deuda-txt">${f2_esc(senales)}</div>
+      ${metaHTML}
     </div>`;
 }
 
