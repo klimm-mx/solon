@@ -333,6 +333,9 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
         <button data-sp="fuera" onclick="f2_cambiarSub('fuera')">
           Fuera de operación<span class="sp-num" id="f2-n3">0</span>
         </button>
+        <button data-sp="atendidos" onclick="f2_cambiarSub('atendidos')">
+          Atendidos<span class="sp-num" id="f2-n4">0</span>
+        </button>
       </div>
 
       <div class="cola" id="f2-cola"></div>
@@ -357,6 +360,7 @@ textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-
 let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al cliente")
 let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
 let C2_EXCLUIDOS = [];     // tarjetas EXCLUIR (van a "Fuera de operación", solo lectura)
+let C2_ATENDIDOS = [];     // tarjetas ya atendidas (memoria de envíos → subpestaña "Atendidos")
 let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
 let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
 
@@ -1117,6 +1121,31 @@ function f2_pintarCola(){
     return;
   }
 
+  // ---- Subpestaña ATENDIDOS: rastro de lo ya enviado (memoria de envíos) ----
+  //      Salen de "Seguimiento" al marcarse atendidas. Si el cliente vuelve a
+  //      escribir, el backend las regresa solas a Seguimiento (por la huella).
+  if (f2_subActiva === 'atendidos'){
+    if (!C2_ATENDIDOS.length){
+      cola.innerHTML = '<div class="f2-sin-datos">Aún no hay atendidos. Cuando envíes un seguimiento, la tarjeta se moverá aquí como rastro.</div>';
+      return;
+    }
+    cola.innerHTML = C2_ATENDIDOS.map(t=>{
+      const clases = ['item','enviado'];
+      if (t._uiId===c2_activoId) clases.push('activo');
+      const nombre = c2_nombre(t);
+      const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+      return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${t._uiId}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(nombre)}</div>
+          <div class="it-sil">${(typeof t.dias_silencio==='number')?t.dias_silencio+' d':''}</div>
+        </div>
+        <div class="it-linea">${f2_esc(fam)} · del análisis de WhatsApp</div>
+        <div class="it-chips"><span class="chip chip-enviado">Atendido</span></div>
+      </div>`;
+    }).join('');
+    return;
+  }
+
   // ---- Subpestaña SEGUIMIENTO AL CLIENTE: F2 (recurrentes) + Carril 2 (con mensaje) ----
   let html = '';
 
@@ -1467,6 +1496,7 @@ function f2_actualizarContadores(){
   const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
   const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
   const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera + C2_EXCLUIDOS.length;
+  const n4 = f2$('#f2-n4'); if (n4) n4.textContent = C2_ATENDIDOS.length;
   const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
 }
 
@@ -1549,6 +1579,8 @@ function cambiarVista(vista){
    o no hay datos, avisa sin inventar. No toca nada de F1 ni de F2.
    ==================================================================== */
 const C2_RUTA_COLA = '/agente/carril2/cola';
+const C2_RUTA_ENVIADO = '/agente/carril2/enviado';   // registrar envío (memoria de envíos)
+const C2_RUTA_REABRIR = '/agente/carril2/reabrir';   // reversibilidad: quitar la marca
 
 // (Las variables de estado C2_CLIENTE, C2_PENDIENTES, c2_activoId y c2_estado
 //  se declaran ARRIBA, junto al estado de F2, para que existan desde el arranque
@@ -1593,17 +1625,18 @@ async function c2_cargar(){
     const data = await resp.json();
     if (!data || !data.ok){
       c2_estado = (data && data.motivo === 'carril2-apagado') ? 'apagado' : 'sin-datos';
-      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = [];
+      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = [];
       return;
     }
     // Éxito: repartir a las tres listas, con id de UI estable.
     C2_CLIENTE = (data.tarjetas || []).map((t,i) => ({ ...t, _uiId: 'c2c'+i }));
     C2_PENDIENTES = (data.pendientesNuestros || []).map((p,i) => ({ ...p, _uiId: 'c2p'+i }));
     C2_EXCLUIDOS = (data.excluidos || []).map((e,i) => ({ ...e, _uiId: 'c2x'+i }));
+    C2_ATENDIDOS = (data.atendidos || []).map((t,i) => ({ ...t, _uiId: 'c2a'+i }));
     c2_estado = 'ok';
   } catch (_) {
     c2_estado = 'sin-conexion';
-    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = [];
+    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = [];
   }
 }
 
@@ -1622,6 +1655,8 @@ function c2_pintarDetalle(uiId){
   if (cli){ c2_pintarDetalleCliente(cli); return; }
   const exc = C2_EXCLUIDOS.find(x=>x._uiId===uiId);
   if (exc){ c2_pintarDetalleExcluida(exc); return; }
+  const at = C2_ATENDIDOS.find(x=>x._uiId===uiId);
+  if (at){ c2_pintarDetalleAtendido(at); return; }
   f2_pintarVacio();
 }
 
@@ -1682,8 +1717,11 @@ function c2_pintarDetalleCliente(t){
   const waLink = t.telefono_llave
     ? ('https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(msg))
     : null;
-  const botonWA = waLink
-    ? `<a class="boton boton-wa" href="${waLink}" target="_blank" rel="noopener">${f2_iconoWA} Enviar por WhatsApp</a>`
+  // El envío ahora REGISTRA: abre WhatsApp con el texto EDITADO y marca la
+  // conversación como atendida (sale a "Atendidos"). c2_enviar arma el link al
+  // hacer clic (así el mensaje enviado es el que el operador ve, no el original).
+  const botonWA = t.telefono_llave
+    ? `<button class="boton boton-wa" onclick="c2_enviar('${t._uiId}')">${f2_iconoWA} Enviar por WhatsApp</button>`
     : `<button class="boton boton-wa" disabled title="Sin teléfono para abrir WhatsApp">${f2_iconoWA} Enviar por WhatsApp</button>`;
   f2$('#f2-detalle').innerHTML = `
     <h2 class="d-nombre">${f2_esc(nombre)}</h2>
@@ -1716,6 +1754,100 @@ function c2_contextoHTML(t){
       <div class="deuda-txt">${f2_esc(senales)}</div>
       ${metaHTML}
     </div>`;
+}
+
+// Detalle de una ATENDIDA: solo lectura del mensaje enviado + botón Reabrir.
+function c2_pintarDetalleAtendido(t){
+  const nombre = c2_nombre(t);
+  const msg = (t.redaccion && t.redaccion.mensaje) ? t.redaccion.mensaje : '';
+  const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">${f2_esc(fam)} · atendido</div>
+    <div class="movido-box">
+      <div class="txt"><strong>Ya lo atendiste.</strong> Salió del área de trabajo. Si el cliente vuelve a escribir, reaparecerá solo en Seguimiento.</div>
+    </div>
+    <div class="msg-tit">Mensaje que se envió</div>
+    <textarea class="msg" readonly>${f2_esc(msg)}</textarea>
+    <div class="acciones">
+      <button class="boton" onclick="c2_reabrir('${t._uiId}')">Reabrir (volver a Seguimiento)</button>
+    </div>`;
+}
+
+// c2_enviar — el operador envía el seguimiento (Carril 2). Toma el texto EDITADO,
+// abre WhatsApp con ese texto, y registra el envío en el backend (cuaderno +
+// memoria de envíos). Al confirmar, recarga la cola: la tarjeta pasa a "Atendidos".
+async function c2_enviar(uiId){
+  const t = C2_CLIENTE.find(x=>x._uiId===uiId);
+  if (!t) return;
+  const ta = f2$('#c2-msg');
+  const editado = ta ? ta.value : ((t.redaccion && t.redaccion.mensaje) || '');
+  const sugerido = (t.redaccion && t.redaccion.mensaje) || '';
+  const fam = (t.redaccion && t.redaccion.familia) ? t.redaccion.familia
+            : ((t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento');
+
+  // 1) Abrir WhatsApp con el mensaje EDITADO (lo que el operador realmente manda).
+  if (t.telefono_llave){
+    const link = 'https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(editado);
+    window.open(link, '_blank');
+  }
+
+  // 2) Registrar en el backend (cuaderno + memoria de envíos con jid+huella).
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: se abrió WhatsApp pero no se pudo registrar. Reintenta.'); return; }
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_ENVIADO, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({
+        jid: t.jid,
+        huella: t.fecha_ultimo_msg_mx,   // misma huella que usa el incremental
+        familia: fam,
+        empresaNombre: c2_nombre(t),
+        mensajeSugerido: sugerido,
+        mensajeEnviado: editado,
+        canal: 'whatsapp',
+        senales: (t.diagnostico && t.diagnostico.senales) || undefined,
+      }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){
+      alert('Se abrió WhatsApp, pero el registro no confirmó. La tarjeta sigue en Seguimiento; reintenta.');
+      return;
+    }
+    // 3) Éxito: recargar la cola para que la tarjeta pase a "Atendidos".
+    c2_activoId = null;
+    await c2_cargar();
+    f2_actualizarContadores();
+    f2_pintarCola();
+    f2_pintarVacio();
+    if (typeof refrescarBurbujas === 'function') refrescarBurbujas();
+  } catch (_) {
+    alert('Sin conexión al registrar el envío. Se abrió WhatsApp; reintenta el registro.');
+  }
+}
+
+// c2_reabrir — quita la marca de atendido: la conversación vuelve a Seguimiento.
+async function c2_reabrir(uiId){
+  const t = C2_ATENDIDOS.find(x=>x._uiId===uiId);
+  if (!t) return;
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede reabrir.'); return; }
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_REABRIR, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ jid: t.jid }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){ alert('No se pudo reabrir. Reintenta.'); return; }
+    c2_activoId = null;
+    await c2_cargar();
+    f2_actualizarContadores();
+    f2_pintarCola();
+    f2_pintarVacio();
+    if (typeof refrescarBurbujas === 'function') refrescarBurbujas();
+  } catch (_) {
+    alert('Sin conexión al reabrir. Reintenta.');
+  }
 }
 
 </script>
