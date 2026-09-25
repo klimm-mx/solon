@@ -361,6 +361,7 @@ let C2_CLIENTE = [];       // tarjetas con mensaje (van a "Seguimiento al client
 let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuestro")
 let C2_EXCLUIDOS = [];     // tarjetas EXCLUIR (van a "Fuera de operación", solo lectura)
 let C2_ATENDIDOS = [];     // tarjetas ya atendidas (memoria de envíos → subpestaña "Atendidos")
+let C2_DESCARTADOS = [];   // tarjetas sacadas a mano ("por ahora") → "Fuera de operación"
 let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
 let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
 
@@ -1081,8 +1082,9 @@ function f2_pintarCola(){
   //      los exponga, se sumarán a esta misma lista sin cambiar la estructura.
   if (f2_subActiva === 'fuera'){
     const fueraF2 = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return s && s.movidoA; });
-    const fueraC2 = C2_EXCLUIDOS;   // EXCLUIR del análisis de WhatsApp (solo lectura)
-    if (!fueraF2.length && !fueraC2.length){
+    const fueraC2 = C2_EXCLUIDOS;      // EXCLUIR del análisis de WhatsApp (solo lectura)
+    const descC2 = C2_DESCARTADOS;     // sacadas a mano por el operador (rescatables)
+    if (!fueraF2.length && !fueraC2.length && !descC2.length){
       cola.innerHTML = '<div class="f2-sin-datos">Nada fuera de operación. Aquí llegan los clientes que descartes o envíes a encuesta, y los que el análisis de WhatsApp excluyó.</div>';
       return;
     }
@@ -1115,6 +1117,21 @@ function f2_pintarCola(){
         </div>
         <div class="it-linea">Excluida por el análisis · del análisis de WhatsApp</div>
         <div class="it-chips"><span class="chip chip-movido">Excluida</span></div>
+      </div>`;
+    }).join('');
+    // 3) Descartadas A MANO por el operador — rescatables.
+    h += descC2.map(t=>{
+      const clases = ['item','movido'];
+      if (t._uiId===c2_activoId) clases.push('activo');
+      const nombre = c2_nombre(t);
+      const sil = (typeof t.dias_silencio === 'number') ? t.dias_silencio + ' d' : '';
+      return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${t._uiId}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(nombre)}</div>
+          <div class="it-sil">${sil}</div>
+        </div>
+        <div class="it-linea">Sacada del análisis a mano · del análisis de WhatsApp</div>
+        <div class="it-chips"><span class="chip chip-movido">Descartado a mano</span></div>
       </div>`;
     }).join('');
     cola.innerHTML = h;
@@ -1495,7 +1512,7 @@ function f2_actualizarContadores(){
   const nNuestro = C2_PENDIENTES.length;
   const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
   const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
-  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera + C2_EXCLUIDOS.length;
+  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera + C2_EXCLUIDOS.length + C2_DESCARTADOS.length;
   const n4 = f2$('#f2-n4'); if (n4) n4.textContent = C2_ATENDIDOS.length;
   const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
 }
@@ -1580,7 +1597,8 @@ function cambiarVista(vista){
    ==================================================================== */
 const C2_RUTA_COLA = '/agente/carril2/cola';
 const C2_RUTA_ENVIADO = '/agente/carril2/enviado';   // registrar envío (memoria de envíos)
-const C2_RUTA_REABRIR = '/agente/carril2/reabrir';   // reversibilidad: quitar la marca
+const C2_RUTA_REABRIR = '/agente/carril2/reabrir';   // reversibilidad: quitar la marca (rescatar)
+const C2_RUTA_DESCARTAR = '/agente/carril2/descartar'; // sacar a mano del análisis
 
 // (Las variables de estado C2_CLIENTE, C2_PENDIENTES, c2_activoId y c2_estado
 //  se declaran ARRIBA, junto al estado de F2, para que existan desde el arranque
@@ -1625,7 +1643,7 @@ async function c2_cargar(){
     const data = await resp.json();
     if (!data || !data.ok){
       c2_estado = (data && data.motivo === 'carril2-apagado') ? 'apagado' : 'sin-datos';
-      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = [];
+      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = []; C2_DESCARTADOS = [];
       return;
     }
     // Éxito: repartir a las tres listas, con id de UI estable.
@@ -1633,10 +1651,11 @@ async function c2_cargar(){
     C2_PENDIENTES = (data.pendientesNuestros || []).map((p,i) => ({ ...p, _uiId: 'c2p'+i }));
     C2_EXCLUIDOS = (data.excluidos || []).map((e,i) => ({ ...e, _uiId: 'c2x'+i }));
     C2_ATENDIDOS = (data.atendidos || []).map((t,i) => ({ ...t, _uiId: 'c2a'+i }));
+    C2_DESCARTADOS = (data.descartados || []).map((t,i) => ({ ...t, _uiId: 'c2d'+i }));
     c2_estado = 'ok';
   } catch (_) {
     c2_estado = 'sin-conexion';
-    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = [];
+    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = []; C2_DESCARTADOS = [];
   }
 }
 
@@ -1657,6 +1676,8 @@ function c2_pintarDetalle(uiId){
   if (exc){ c2_pintarDetalleExcluida(exc); return; }
   const at = C2_ATENDIDOS.find(x=>x._uiId===uiId);
   if (at){ c2_pintarDetalleAtendido(at); return; }
+  const des = C2_DESCARTADOS.find(x=>x._uiId===uiId);
+  if (des){ c2_pintarDetalleDescartado(des); return; }
   f2_pintarVacio();
 }
 
@@ -1732,6 +1753,12 @@ function c2_pintarDetalleCliente(t){
     ${provisional}
     <div class="acciones">
       ${botonWA}
+    </div>
+    <div style="margin-top:10px;text-align:center">
+      <button type="button" onclick="c2_descartar('${t._uiId}')"
+        style="background:none;border:none;color:var(--tinta-suave);font-family:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer">
+        No me interesa · sacar del análisis
+      </button>
     </div>`;
 }
 
@@ -1829,25 +1856,76 @@ async function c2_enviar(uiId){
 // c2_reabrir — quita la marca de atendido: la conversación vuelve a Seguimiento.
 async function c2_reabrir(uiId){
   const t = C2_ATENDIDOS.find(x=>x._uiId===uiId);
+  if (t) return c2_quitarMarca(t.jid);
+}
+
+// Detalle de una DESCARTADA a mano: solo lectura + botón Rescatar.
+function c2_pintarDetalleDescartado(t){
+  const nombre = c2_nombre(t);
+  const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">${f2_esc(fam)} · sacada del análisis a mano</div>
+    <div class="movido-box">
+      <div class="txt"><strong>La sacaste del análisis.</strong> No aparece en Seguimiento. Si el cliente vuelve a escribir, reaparecerá solo. También puedes regresarla ahora con Rescatar.</div>
+    </div>
+    <div class="acciones">
+      <button class="boton" onclick="c2_rescatar('${t._uiId}')">Rescatar (volver a Seguimiento)</button>
+    </div>`;
+}
+
+// c2_rescatar — regresa una descartada a Seguimiento (quita la marca).
+async function c2_rescatar(uiId){
+  const t = C2_DESCARTADOS.find(x=>x._uiId===uiId);
+  if (t) return c2_quitarMarca(t.jid);
+}
+
+// c2_descartar — el operador saca a mano una tarjeta de Seguimiento del análisis.
+async function c2_descartar(uiId){
+  const t = C2_CLIENTE.find(x=>x._uiId===uiId);
   if (!t) return;
-  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede reabrir.'); return; }
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se puede sacar del análisis.'); return; }
+  const fam = (t.redaccion && t.redaccion.familia) ? t.redaccion.familia
+            : ((t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento');
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_DESCARTAR, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ jid: t.jid, huella: t.fecha_ultimo_msg_mx, familia: fam }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){ alert('No se pudo sacar del análisis. Reintenta.'); return; }
+    c2_recargarCola();
+  } catch (_) {
+    alert('Sin conexión al sacar del análisis. Reintenta.');
+  }
+}
+
+// Helper compartido: quita una marca (atendido/descartado) por jid y recarga.
+async function c2_quitarMarca(jid){
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón.'); return; }
   try {
     const resp = await fetch(BACKEND + C2_RUTA_REABRIR, {
       method: 'POST',
       headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
-      body: JSON.stringify({ jid: t.jid }),
+      body: JSON.stringify({ jid }),
     });
     const data = await resp.json();
-    if (!data || !data.ok){ alert('No se pudo reabrir. Reintenta.'); return; }
-    c2_activoId = null;
-    await c2_cargar();
-    f2_actualizarContadores();
-    f2_pintarCola();
-    f2_pintarVacio();
-    if (typeof refrescarBurbujas === 'function') refrescarBurbujas();
+    if (!data || !data.ok){ alert('No se pudo. Reintenta.'); return; }
+    c2_recargarCola();
   } catch (_) {
-    alert('Sin conexión al reabrir. Reintenta.');
+    alert('Sin conexión. Reintenta.');
   }
+}
+
+// Helper compartido: recargar la cola de Carril 2 y repintar.
+async function c2_recargarCola(){
+  c2_activoId = null;
+  await c2_cargar();
+  f2_actualizarContadores();
+  f2_pintarCola();
+  f2_pintarVacio();
+  if (typeof refrescarBurbujas === 'function') refrescarBurbujas();
 }
 
 </script>
