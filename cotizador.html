@@ -107,6 +107,17 @@ textarea{min-height:120px;resize:vertical}
 
 /* Combobox de producto con buscador sobre el catálogo completo */
 .combo{position:relative}
+/* Agregar renglones a mano: separador discreto entre tarjetas, visible al pasar el cursor */
+.insertar{position:relative;height:16px;margin:-14px 0 -2px;display:flex;align-items:center;cursor:pointer;opacity:0;transition:opacity .12s;z-index:2}
+.insertar:hover,.insertar:focus-within{opacity:1}
+.insertar-linea{flex:1;height:2px;background:var(--agua);border-radius:1px}
+.insertar-boton{width:22px;height:22px;border-radius:50%;border:2px solid var(--agua);background:var(--superficie);color:var(--agua-oscuro);font-size:16px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;margin:0 6px;padding:0;cursor:pointer;font-family:inherit}
+.insertar-boton:hover,.insertar-boton:focus-visible{background:var(--agua);color:#fff;outline:none}
+@media (hover:none){.insertar{opacity:.55}} /* en pantallas táctiles no hay "pasar el cursor" */
+.linea.manual{border-style:dashed;border-color:var(--agua)}
+.chip-manual{background:var(--agua-claro);color:var(--agua-oscuro);border:1px dashed var(--agua)}
+.quitar-manual{background:none;border:none;color:var(--tinta-suave);cursor:pointer;font-size:12.5px;font-family:inherit;padding:2px 4px;border-radius:6px}
+.quitar-manual:hover{color:var(--alerta);background:var(--alerta-bg)}
 .combo-lista{position:absolute;top:100%;left:0;right:0;background:var(--superficie);border:1px solid var(--borde);border-radius:8px;margin-top:4px;max-height:300px;overflow-y:auto;z-index:25;box-shadow:0 8px 24px rgba(22,50,59,.14);display:none}
 .combo-lista.visible{display:block}
 .combo-grupo{font-size:11px;font-weight:700;color:var(--tinta-suave);padding:6px 12px;text-transform:uppercase;letter-spacing:.5px;background:var(--fondo);position:sticky;top:0}
@@ -649,6 +660,36 @@ document.addEventListener('click', e => {
   if(!e.target.closest('.combo')) document.querySelectorAll('.combo-lista').forEach(x => x.classList.remove('visible'));
 });
 
+/* ---- Renglones agregados a mano (no vienen del pedido del cliente) ----
+   Se insertan debajo de la tarjeta elegida, usan el mismo buscador de catálogo
+   y se pueden quitar. No cuentan como "corrección" para el aprendizaje: no hubo
+   sugerencia que corregir. */
+function agregarManual(despuesDe){
+  const nuevo = {
+    manual: true, client_line: '', quantity: 1, status: 'matched', caso: 'manual',
+    confianza: null, producto: null, candidatos: [], motivo: null, avisos: [],
+    incluir: true, accion: null, productoElegido: null, cantidadElegida: 1,
+    tamano_valor: null, tamano_unidad: null, unidad_pedido: null, producto_base: null,
+  };
+  const pos = despuesDe + 1;
+  lineasResultado.splice(pos, 0, nuevo);
+  pintarResultados(false);
+  const inp = document.getElementById('comboEntrada' + pos);
+  if(inp){ inp.focus(); }
+}
+function quitarManual(i){
+  if(!lineasResultado[i] || !lineasResultado[i].manual) return;
+  lineasResultado.splice(i, 1);
+  pintarResultados(false);
+}
+function separadorInsertar(i){
+  return `<div class="insertar" onclick="agregarManual(${i})" title="Agregar un producto aquí">
+    <span class="insertar-linea"></span>
+    <button type="button" class="insertar-boton" aria-label="Agregar un producto debajo de la línea ${i+1}">+</button>
+    <span class="insertar-linea"></span>
+  </div>`;
+}
+
 function setAccion(i, accion){
   const l = lineasResultado[i];
   l.accion = accion;
@@ -690,9 +731,28 @@ function labelPidio(l){
   return `<div class="pidio">Pidió: <strong>${esc(texto)}</strong></div>`;
 }
 
-function pintarResultados(){
+function pintarResultados(desplazar = true){
   const cont = document.getElementById('listaResultados');
   cont.innerHTML = lineasResultado.map((l, i) => {
+    if(l.manual) return `
+    <div class="linea manual" id="linea${i}">
+      <div class="linea-encabezado">
+        <div class="linea-info">
+          <div class="linea-num">${i+1}</div>
+          <div class="linea-cliente"><strong>Producto agregado a mano</strong></div>
+        </div>
+        <div class="chips">
+          <span class="chip chip-manual">Manual</span>
+          <button type="button" class="quitar-manual" onclick="quitarManual(${i})" aria-label="Quitar la línea ${i+1}">✕ Quitar</button>
+        </div>
+      </div>
+      <div class="linea-cuerpo">
+        ${renderCombo(i)}
+        <div><label>Cantidad</label>
+        <input type="text" inputmode="numeric" value="${l.cantidadElegida}"
+          onchange="lineasResultado[${i}].cantidadElegida = Math.max(1, parseInt(this.value)||1); this.value = lineasResultado[${i}].cantidadElegida"></div>
+      </div>
+    </div>${separadorInsertar(i)}`;
     const esRevision = l.status === 'revision';
     return `
     <div class="linea ${esRevision?'revision':''} ${!l.incluir && !esRevision ?'excluida':''}" id="linea${i}">
@@ -723,12 +783,12 @@ function pintarResultados(){
              <label><input type="radio" name="accion${i}" ${l.accion==='excluir'?'checked':''} onchange="setAccion(${i},'excluir')"> Excluir por completo — no lo manejamos ni hay sustituto</label>`
           : `<label><input type="checkbox" checked onchange="lineasResultado[${i}].incluir = this.checked; document.getElementById('linea${i}').classList.toggle('excluida', !this.checked); actualizarResumen()"> Incluir en la cotización</label>`}
       </div>
-    </div>`;
+    </div>${separadorInsertar(i)}`;
   }).join('');
   document.getElementById('pasoResultados').style.display = 'block';
   document.getElementById('barraFinal').classList.add('visible');
   actualizarResumen();
-  document.getElementById('pasoResultados').scrollIntoView({behavior:'smooth'});
+  if(desplazar) document.getElementById('pasoResultados').scrollIntoView({behavior:'smooth'});
 }
 
 function actualizarResumen(){
@@ -748,6 +808,11 @@ function actualizarResumen(){
 
 /* ================= PASO 4: CREAR EN ODOO ================= */
 async function crearCotizacion(){
+  const manualesVacias = lineasResultado.filter(l => l.manual && !l.productoElegido);
+  if(manualesVacias.length){
+    avisar(`Hay ${manualesVacias.length} línea(s) agregada(s) a mano sin producto. Elige el producto en el buscador o quítala(s) con "✕ Quitar".`, 'error');
+    return;
+  }
   const sinProducto = lineasResultado.filter(l =>
     l.status==='revision' && l.accion==='incluir' && !l.productoElegido);
   if(sinProducto.length){
@@ -776,7 +841,7 @@ async function crearCotizacion(){
   // Captura para autoaprendizaje: líneas donde el vendedor cambió la sugerencia.
   // La sugerencia original fue l.producto (o el primer candidato en revisión).
   const correcciones = lineasResultado
-    .filter(l => l.caso !== 'bastón')
+    .filter(l => l.caso !== 'bastón' && !l.manual)
     .filter(l => (l.status!=='revision' ? l.incluir : l.accion==='incluir'))
     .map(l => {
       const sugeridoId = l.producto ? l.producto.id : (l.candidatos[0]?.id || null);
