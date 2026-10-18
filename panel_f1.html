@@ -589,13 +589,13 @@ function pintarDetalle(){
   } else if (bloqueado){
     // Teléfono roto: WhatsApp no es opción; queda el correo (si lo hay).
     accionesHTML = (btnCorreo || `<span style="font-size:13px;color:var(--alerta)">Sin correo para responder — revisar el teléfono en Odoo.</span>`)
-      + `\n      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+      + `\n      <button class="boton boton-hecho" onclick="atendidoManual('${l.id}')">Ya lo atendí</button>`;
   } else {
     // Caso normal: WhatsApp como canal principal + correo al lado si existe
     // (para el número que resulta NO tener WhatsApp y rebota). Los dos visibles;
     // el operador elige. Ninguno es "el correcto" a ciegas.
     accionesHTML = [btnWa, btnCorreo].filter(Boolean).join('\n      ')
-      + `\n      <button class="boton boton-hecho" onclick="marcarEnviado('${l.id}')">Ya lo atendí</button>`;
+      + `\n      <button class="boton boton-hecho" onclick="atendidoManual('${l.id}')">Ya lo atendí</button>`;
   }
 
   // El textarea es editable siempre que se pueda actuar sobre el lead. En
@@ -730,6 +730,23 @@ function abrirCorreo(id, elemento){
   return true;
 }
 
+/**
+ * atendidoManual — botón "Ya lo atendí" (sesión 18-oct).
+ * Antes llamaba a marcarEnviado SIN datos, así que el contacto se registraba en
+ * Odoo pero el mensaje NO llegaba al cuaderno. En la práctica el operador a
+ * veces copia el texto del panel, lo pega en WhatsApp y da este botón: ese
+ * mensaje sí se envió y es aprendizaje. Ahora se manda el texto vigente (el del
+ * textarea, con sus ediciones) con canal "manual", para distinguirlo de los
+ * envíos hechos con el botón verde o el de correo.
+ */
+function atendidoManual(id){
+  const l = LEADS.find(x=>x.id===id);
+  if (!l) return;
+  const ta = document.getElementById('ta-'+id);
+  const mensaje = ta ? ta.value : (borradores[id] !== undefined ? borradores[id] : l.mensaje);
+  marcarEnviado(id, { sugerido: l.mensaje, enviado: mensaje, canal: 'manual' });
+}
+
 function marcarEnviado(id, datosCuaderno){
   const l = LEADS.find(x=>x.id===id);
   if (!l) return;
@@ -750,9 +767,8 @@ function marcarEnviado(id, datosCuaderno){
   setTimeout(()=>{ pintarCola(); pintarDetalle(); }, 60);
 
   // datosCuaderno (opcional): { sugerido, enviado, canal }. Viene de abrirWa /
-  // abrirCorreo (un envío real, con mensaje que aprender). El botón "Ya lo
-  // atendí" llama SIN datos: se registra el contacto pero no hay corrección que
-  // guardar, y el backend simplemente no escribe renglón.
+  // abrirCorreo (un envío real, con mensaje que aprender), o de atendidoManual
+  // ("Ya lo atendí", canal "manual"). Sin datos, el backend no escribe renglón.
   avisarContactado(l.odooId, l, datosCuaderno).then((ok)=>{
     l.enProceso = false;
     if (ok){
