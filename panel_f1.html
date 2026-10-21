@@ -86,6 +86,9 @@ textarea.mensaje{width:100%;min-height:120px;padding:13px 14px;border:1px solid 
 textarea.mensaje:focus{outline:2px solid var(--agua);outline-offset:-1px;border-color:var(--agua)}
 .mensaje-pie{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
 .mensaje-nota{font-size:12px;color:var(--tinta-suave)}
+.btn-copiar{background:none;border:1px solid var(--borde);border-radius:6px;padding:1px 8px;font-family:inherit;font-size:12px;cursor:pointer;color:var(--tinta-suave);vertical-align:middle}
+.btn-copiar:hover{background:var(--fondo);color:var(--tinta)}
+.fila-copiar{display:flex;justify-content:flex-end;margin-top:6px}
 .restaurar{background:none;border:none;color:var(--agua-oscuro);cursor:pointer;font-size:12.5px;font-weight:600;text-decoration:underline;font-family:inherit}
 
 /* Avisos del parser — reusa el patrón del cotizador */
@@ -532,7 +535,7 @@ function pintarDetalle(){
   const meta = [];
   if (l.lead.empresa) meta.push(`<div class="campo"><div class="et">Empresa</div><div class="va">${esc(l.lead.empresa)}</div></div>`);
   if (l.lead.ubicacion) meta.push(`<div class="campo"><div class="et">Ubicación</div><div class="va">${esc(l.lead.ubicacion)}</div></div>`);
-  meta.push(`<div class="campo"><div class="et">Teléfono</div><div class="va">${esc(l.lead.telefono || '—')}</div></div>`);
+  meta.push(`<div class="campo"><div class="et">Teléfono</div><div class="va">${esc(l.lead.telefono || '—')}${btnCopiarTel(l.lead.telefono)}</div></div>`);
 
   // Reloj de R1
   const urgente = l.minutos >= 15;
@@ -603,12 +606,16 @@ function pintarDetalle(){
   // Solo queda en modo consulta si NO hay ningún canal para completar.
   const puedeEditar = !l.enProceso && (hayWa || hayCorreo);
   const textareaHTML = !puedeEditar
-    ? `<div class="pidio-texto" style="font-style:normal">${esc(mensajeActual)}</div>`
+    ? `<div class="pidio-texto" style="font-style:normal" id="tx-${l.id}">${esc(mensajeActual)}</div>
+       <div class="fila-copiar"><button type="button" class="btn-copiar" onclick="copiarCampo('tx-${l.id}', this)">Copiar mensaje</button></div>`
     : `<div class="mensaje-caja">
           <textarea class="mensaje" id="ta-${l.id}" oninput="editar('${l.id}', this.value)">${esc(mensajeActual)}</textarea>
           <div class="mensaje-pie">
             <span class="mensaje-nota">${editado ? 'Editado — el botón usa tu versión.' : 'Puede ajustarlo antes de enviar.'}</span>
-            ${editado ? `<button class="restaurar" onclick="restaurar('${l.id}')">Restaurar original</button>` : ''}
+            <span>
+              ${editado ? `<button class="restaurar" onclick="restaurar('${l.id}')">Restaurar original</button>` : ''}
+              <button type="button" class="btn-copiar" style="margin-left:8px" onclick="copiarCampo('ta-${l.id}', this)">Copiar mensaje</button>
+            </span>
           </div>
         </div>`;
 
@@ -1084,7 +1091,7 @@ function f2_pintarCola(){
           <div class="it-nombre">${f2_esc(nombre)}</div>
           <div class="it-sil">${p.dias_silencio} d</div>
         </div>
-        <div class="it-linea">Le debemos algo · lleva ${p.dias_silencio} d sin movimiento</div>
+        <div class="it-linea">Le debemos algo · lleva ${p.dias_silencio} d sin movimiento${c2_telefono(p) ? ' · ' + f2_esc(c2_telefono(p)) : ''}</div>
         <div class="it-chips"><span class="chip chip-sem sem-${sem.clase}">${sem.texto}</span></div>
       </div>`;
     }).join('');
@@ -1166,13 +1173,14 @@ function f2_pintarCola(){
       const clases = ['item','enviado'];
       if (t._uiId===c2_activoId) clases.push('activo');
       const nombre = c2_nombre(t);
-      const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
+      const fam = t._pendienteResuelto ? 'Pendiente nuestro'
+        : ((t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento');
       return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${t._uiId}')">
         <div class="it-top">
           <div class="it-nombre">${f2_esc(nombre)}</div>
           <div class="it-sil">${(typeof t.dias_silencio==='number')?t.dias_silencio+' d':''}</div>
         </div>
-        <div class="it-linea">${f2_esc(fam)} · del análisis de WhatsApp</div>
+        <div class="it-linea">${f2_esc(fam)}${c2_telefono(t) ? ' · ' + f2_esc(c2_telefono(t)) : ''}</div>
         <div class="it-chips"><span class="chip chip-enviado">Atendido</span></div>
       </div>`;
     }).join('');
@@ -1305,6 +1313,7 @@ function f2_pintarDetalle(){
 
     <div class="msg-tit">Mensaje del toque ${st.toque} — revísalo y envíalo</div>
     <textarea class="msg" id="f2-msg" oninput="f2_editarMsg('${c.id}')">${f2_esc(borrador)}</textarea>
+    <div class="fila-copiar"><button type="button" class="btn-copiar" onclick="copiarCampo('f2-msg', this)">Copiar mensaje</button></div>
     <div class="acciones">
       <button class="boton boton-wa" onclick="f2_enviar('${c.id}')">${f2_iconoWA} Enviar por WhatsApp</button>
       <button class="boton boton-correo" onclick="f2_enviar('${c.id}')">${f2_iconoMail} Enviar por correo</button>
@@ -1615,6 +1624,7 @@ const C2_RUTA_COLA = '/agente/carril2/cola';
 const C2_RUTA_ENVIADO = '/agente/carril2/enviado';   // registrar envío (memoria de envíos)
 const C2_RUTA_REABRIR = '/agente/carril2/reabrir';   // reversibilidad: quitar la marca (rescatar)
 const C2_RUTA_DESCARTAR = '/agente/carril2/descartar'; // sacar a mano del análisis
+const C2_RUTA_RESUELTO = '/agente/carril2/resuelto';   // "Ya lo atendí" en Pendiente nuestro
 
 // (Las variables de estado C2_CLIENTE, C2_PENDIENTES, c2_activoId y c2_estado
 //  se declaran ARRIBA, junto al estado de F2, para que existan desde el arranque
@@ -1644,18 +1654,40 @@ function c2_telefonoHTML(t){
   if (!tel) return '<div class="d-sub">Sin teléfono registrado</div>';
   const soloDigitos = tel.replace(/[^0-9]/g, '');
   return `<div class="d-sub">WhatsApp: <strong style="color:var(--tinta);user-select:all">${f2_esc(tel)}</strong>
-      <button type="button" onclick="c2_copiar('${soloDigitos}', this)"
-        style="margin-left:6px;background:none;border:1px solid var(--borde);border-radius:6px;padding:1px 8px;font-family:inherit;font-size:12px;cursor:pointer;color:var(--tinta-suave)">Copiar</button>
+      <button type="button" class="btn-copiar" style="margin-left:6px" onclick="copiarTexto('${soloDigitos}', this)">Copiar</button>
     </div>`;
 }
 
-function c2_copiar(texto, boton){
-  const listo = () => { if (boton){ const o = boton.textContent; boton.textContent = 'Copiado'; setTimeout(()=>{ boton.textContent = o; }, 1500); } };
+function c2_copiar(texto, boton){ return copiarTexto(texto, boton); }
+
+// ---- Copiar al portapapeles (21-oct): teléfonos y mensajes de todo el panel ----
+// copiarTexto copia un texto fijo (p. ej. el número). copiarCampo copia lo que
+// HAY en ese momento en un cuadro (value del textarea, con las ediciones del
+// operador; o el texto si es solo lectura). El botón dice "Copiado" un momento.
+function copiarTexto(texto, boton){
+  const listo = () => { if (boton){ const o = boton.dataset.orig || boton.textContent; boton.dataset.orig = o; boton.textContent = 'Copiado'; setTimeout(()=>{ boton.textContent = o; }, 1500); } };
+  const respaldo = () => {
+    // Navegadores sin API de portapapeles: copiar con un textarea temporal.
+    try {
+      const t = document.createElement('textarea'); t.value = texto; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); listo();
+    } catch (_) { /* el texto igual se puede seleccionar a mano */ }
+  };
   try {
     if (navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(texto).then(listo, ()=>{});
-    }
-  } catch (_) { /* sin portapapeles: el número igual se puede seleccionar a mano */ }
+      navigator.clipboard.writeText(texto).then(listo, respaldo);
+    } else { respaldo(); }
+  } catch (_) { respaldo(); }
+}
+function copiarCampo(idElemento, boton){
+  const el = document.getElementById(idElemento);
+  if (!el) return;
+  const texto = ('value' in el && el.tagName === 'TEXTAREA') ? el.value : el.textContent;
+  copiarTexto(texto || '', boton);
+}
+function btnCopiarTel(tel){
+  const d = String(tel || '').replace(/[^0-9]/g, '');
+  return d ? ` <button type="button" class="btn-copiar" onclick="event.stopPropagation();copiarTexto('${d}', this)">Copiar</button>` : '';
 }
 
 // Semáforo por calendario, sobre dias_silencio (el reloj más honesto que
@@ -1769,7 +1801,10 @@ function c2_pintarDetallePendiente(p){
       <div class="deuda-tit">Lo que le debemos</div>
       <div class="deuda-txt">${f2_esc(detalle)}</div>
     </div>
-    <div class="nota-sin-envio">◇ Sin mensaje que enviar: la acción es nuestra. Resuélvelo por el canal que corresponda (cotización, flete, documento) y quedará al día en la próxima corrida.</div>`;
+    <div class="nota-sin-envio">◇ Sin mensaje que enviar: la acción es nuestra. Resuélvelo por el canal que corresponda (cotización, flete, documento) y márcalo aquí.</div>
+    <div class="acciones">
+      <button class="boton boton-hecho" style="flex:0 0 auto;border:1px solid var(--borde);background:var(--superficie);padding:12px 26px;min-height:44px" onclick="c2_resolverPendiente('${p._uiId}')">Ya lo atendí</button>
+    </div>`;
 }
 
 // Detalle de SEGUIMIENTO AL CLIENTE (Carril 2): mensaje redactado, editable + enviar.
@@ -1801,6 +1836,7 @@ function c2_pintarDetalleCliente(t){
     ${contextoHTML}
     <div class="msg-tit">Mensaje sugerido — revísalo y envíalo</div>
     <textarea class="msg" id="c2-msg">${f2_esc(msg)}</textarea>
+    <div class="fila-copiar"><button type="button" class="btn-copiar" onclick="copiarCampo('c2-msg', this)">Copiar mensaje</button></div>
     ${provisional}
     <div class="acciones">
       ${botonWA}
@@ -1838,6 +1874,24 @@ function c2_contextoHTML(t){
 // Detalle de una ATENDIDA: solo lectura del mensaje enviado + botón Reabrir.
 function c2_pintarDetalleAtendido(t){
   const nombre = c2_nombre(t);
+  if (t._pendienteResuelto){
+    const deuda = (t.diagnostico && (t.diagnostico.senales || t.diagnostico.motivo)) || 'Quedamos de enviar algo a este cliente.';
+    f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">Pendiente nuestro · atendido</div>
+    ${c2_telefonoHTML(t)}
+    <div class="movido-box">
+      <div class="txt"><strong>Lo marcaste como atendido.</strong> Salió de Pendiente nuestro. Si hay mensajes nuevos en la conversación, se vuelve a revisar en la próxima corrida.</div>
+    </div>
+    <div class="deuda-caja">
+      <div class="deuda-tit">Lo que le debíamos</div>
+      <div class="deuda-txt">${f2_esc(deuda)}</div>
+    </div>
+    <div class="acciones">
+      <button class="boton" onclick="c2_reabrir('${t._uiId}')">Reabrir (volver a Pendiente nuestro)</button>
+    </div>`;
+    return;
+  }
   const msg = (t.redaccion && t.redaccion.mensaje) ? t.redaccion.mensaje : '';
   const fam = (t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento';
   f2$('#f2-detalle').innerHTML = `
@@ -1848,7 +1902,8 @@ function c2_pintarDetalleAtendido(t){
       <div class="txt"><strong>Ya lo atendiste.</strong> Salió del área de trabajo. Si el cliente vuelve a escribir, reaparecerá solo en Seguimiento.</div>
     </div>
     <div class="msg-tit">Mensaje que se envió</div>
-    <textarea class="msg" readonly>${f2_esc(msg)}</textarea>
+    <textarea class="msg" id="c2-msg-env" readonly>${f2_esc(msg)}</textarea>
+    <div class="fila-copiar"><button type="button" class="btn-copiar" onclick="copiarCampo('c2-msg-env', this)">Copiar mensaje</button></div>
     <div class="acciones">
       <button class="boton" onclick="c2_reabrir('${t._uiId}')">Reabrir (volver a Seguimiento)</button>
     </div>`;
@@ -1932,6 +1987,32 @@ async function c2_registrarEnvio(t, sugerido, editado, fam, canal){
   } catch (_) {
     alert(yaAbrio ? 'Sin conexión al registrar el envío. Se abrió WhatsApp; reintenta el registro.'
                   : 'Sin conexión al registrar. Reintenta.');
+  }
+}
+
+// c2_resolverPendiente — "Ya lo atendí" en Pendiente nuestro (21-oct). No hay
+// mensaje: solo se marca (POST /carril2/resuelto) y pasa a Atendidos. Se puede
+// deshacer con Reabrir. Si hay mensajes nuevos, vuelve a evaluarse solo.
+async function c2_resolverPendiente(uiId){
+  const p = C2_PENDIENTES.find(x=>x._uiId===uiId);
+  if (!p) return;
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se pudo registrar. Reintenta.'); return; }
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_RESUELTO, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ jid: p.jid, huella: p.fecha_ultimo_msg_mx }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){ alert('El registro no confirmó. Sigue en Pendiente nuestro; reintenta.'); return; }
+    c2_activoId = null;
+    await c2_cargar();
+    f2_actualizarContadores();
+    f2_pintarCola();
+    f2_pintarVacio();
+    if (typeof refrescarBurbujas === 'function') refrescarBurbujas();
+  } catch (_) {
+    alert('Sin conexión al registrar. Reintenta.');
   }
 }
 
