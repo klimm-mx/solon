@@ -139,6 +139,8 @@ textarea{min-height:120px;resize:vertical}
 .mensaje-error{background:var(--alerta-bg);color:var(--alerta);border:1px solid var(--alerta)}
 .mensaje-exito{background:var(--ok-bg);border:1px solid var(--ok);color:var(--ok)}
 .mensaje-exito a{color:var(--ok);font-weight:700}
+.mensaje-info{background:var(--agua-claro);border:1px solid var(--agua);color:var(--tinta)}
+.mensaje-info ul{margin:4px 0 0 18px}
 .cargando{display:flex;align-items:center;gap:12px;padding:20px;justify-content:center;color:var(--tinta-suave)}
 .girador{width:22px;height:22px;border:3px solid var(--borde);border-top-color:var(--agua);border-radius:50%;animation:girar .8s linear infinite}
 @keyframes girar{to{transform:rotate(360deg)}}
@@ -210,9 +212,9 @@ textarea{min-height:120px;resize:vertical}
     <div id="panelArchivo">
       <div class="zona-archivo" id="zonaArchivo" onclick="document.getElementById('entradaArchivo').click()">
         <strong>Haz clic para elegir archivos</strong> o arrástralos aquí<br>
-        <span style="font-size:12.5px">PDF, imagen (JPG/PNG), Excel o texto · puedes elegir varios a la vez</span>
+        <span style="font-size:12.5px">PDF, imagen (JPG/PNG), Excel, Word o texto · puedes elegir varios a la vez</span>
       </div>
-      <input type="file" id="entradaArchivo" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.csv,.txt" style="display:none" multiple>
+      <input type="file" id="entradaArchivo" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.csv,.txt,.docx,.doc" style="display:none" multiple>
       <div id="archivoCargado" style="display:none" class="archivo-cargado">
         <span id="nombreArchivo"></span>
         <button class="quitar" onclick="quitarArchivo()">Quitar</button>
@@ -431,16 +433,12 @@ zonaArchivo.addEventListener('drop', e => {
 });
 
 // Estado de archivos cargados (puede ser varios)
-let archivosTexto = [];    // { nombre, texto } para Excel/CSV/TXT
+let archivosTexto = [];    // { nombre, fuente, ... } para Excel/CSV/TXT/Word (se convierten a texto al procesar)
 let archivosBase64 = [];   // { nombre, base64, tipo } para imágenes/PDF
 
-async function leerArchivoUno(archivo){
-  const ext = archivo.name.split('.').pop().toLowerCase();
-  if(['xlsx','xls'].includes(ext)){
-    const buf = await archivo.arrayBuffer();
-    const libro = XLSX.read(buf);
-    const hoja = libro.Sheets[libro.SheetNames[0]];
-    const filas = XLSX.utils.sheet_to_json(hoja, { header: 1, defval: '' });
+/* RESPALDO LOCAL — lectura de Excel ANTERIOR, sin cambios. Solo se usa si el
+   backend no responde a /api/leer-tabla (p. ej. backend aún sin actualizar). */
+function heuristicaExcel(filas){
     // Detectar fila de encabezado
     let inicio = 0;
     for(let i = 0; i < Math.min(5, filas.length); i++){
@@ -468,9 +466,75 @@ async function leerArchivoUno(archivo){
         return `${desc} |UNIDAD:${unid} |CANTIDAD:${cant}`;
       })
       .filter(Boolean);
-    return { tipo: 'texto', nombre: archivo.name, dato: lineas.join('\n') };
+    return lineas.join('\n');
+}
+
+/* Word (.docx): se carga la librería solo cuando hace falta, para que nada más dependa de ella */
+let promesaMammoth = null;
+function cargarMammoth(){
+  if(window.mammoth) return Promise.resolve();
+  if(!promesaMammoth){
+    promesaMammoth = new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js';
+      s.onload = () => res();
+      s.onerror = () => { promesaMammoth = null; rej(new Error('no se pudo cargar el lector de Word (revisa tu conexión)')); };
+      document.head.appendChild(s);
+    });
+  }
+  return promesaMammoth;
+}
+
+/* Separa un .docx en tablas (filas/celdas) y texto libre (párrafos fuera de tablas) */
+async function leerWord(archivo){
+  await cargarMammoth();
+  const { value: html } = await window.mammoth.convertToHtml({ arrayBuffer: await archivo.arrayBuffer() });
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const limpiar = t => String(t||'').replace(/\s+/g,' ').trim();
+  const tablas = [...doc.querySelectorAll('table')].filter(t => !t.parentElement.closest('table'));
+  const hojas = tablas.map((t, n) => {
+    const filas = [...t.rows].map(tr => {
+      const celdas = [];
+      for(const td of tr.cells){
+        celdas.push(limpiar(td.textContent));
+        for(let k = 1; k < (td.colSpan || 1); k++) celdas.push(''); // conservar alineación de columnas
+      }
+      return celdas;
+    });
+    return { nombre: 'Tabla ' + (n + 1), filas };
+  });
+  tablas.forEach(t => t.remove());
+  // Texto de cada bloque SIN sus sub-listas (cada sub-viñeta sale una sola vez, en su propia línea)
+  const textoPropio = e => {
+    const c = e.cloneNode(true);
+    c.querySelectorAll('ul, ol').forEach(x => x.remove());
+    return limpiar(c.textContent);
+  };
+  const textoLibre = [...doc.body.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6')]
+    .filter(e => !(e.tagName === 'P' && e.closest('li')))
+    .map(textoPropio).filter(Boolean).join('\n');
+  return { hojas, textoLibre };
+}
+
+async function leerArchivoUno(archivo){
+  const ext = archivo.name.split('.').pop().toLowerCase();
+  if(['xlsx','xls'].includes(ext)){
+    const buf = await archivo.arrayBuffer();
+    const libro = XLSX.read(buf);
+    // Todas las hojas, en orden; el backend decide cuáles son lista de productos
+    const hojas = libro.SheetNames.map((nombre, i) => ({
+      nombre,
+      oculta: !!(libro.Workbook && libro.Workbook.Sheets && libro.Workbook.Sheets[i] && libro.Workbook.Sheets[i].Hidden),
+      filas: XLSX.utils.sheet_to_json(libro.Sheets[nombre], { header: 1, defval: '' }),
+    }));
+    return { tipo: 'texto', nombre: archivo.name, fuente: 'excel', hojas, respaldo: heuristicaExcel(hojas[0] ? hojas[0].filas : []) };
   } else if(['csv','txt'].includes(ext)){
-    return { tipo: 'texto', nombre: archivo.name, dato: await archivo.text() };
+    return { tipo: 'texto', nombre: archivo.name, fuente: ext, texto: await archivo.text() };
+  } else if(ext === 'docx'){
+    const { hojas, textoLibre } = await leerWord(archivo);
+    return { tipo: 'texto', nombre: archivo.name, fuente: 'word', hojas, textoLibre };
+  } else if(ext === 'doc'){
+    throw new Error(archivo.name + ' es Word antiguo (.doc). Ábrelo en Word y usa "Guardar como" → .docx');
   } else if(ext === 'pdf' || ['png','jpg','jpeg','webp'].includes(ext)){
     const base64 = await new Promise((res, rej) => {
       const r = new FileReader();
@@ -491,7 +555,7 @@ async function cargarArchivos(archivos){
   try{
     const resultados = await Promise.all(archivos.map(leerArchivoUno));
     for(const r of resultados){
-      if(r.tipo === 'texto') archivosTexto.push({ nombre: r.nombre, texto: r.dato });
+      if(r.tipo === 'texto') archivosTexto.push(r);
       else archivosBase64.push({ nombre: r.nombre, base64: r.dato, tipo: r.mediaType });
     }
     const nombres = archivos.map(a => a.name);
@@ -552,12 +616,6 @@ async function procesarPedido(){
     avisar('Pega el pedido o sube un archivo (Paso 2).', 'error'); return;
   }
 
-  // Texto manual o Excel/CSV/TXT: se concatenan y van como clientText
-  if(hayTextoManual) cuerpo.clientText = texto;
-  if(hayTextos){
-    const todos = archivosTexto.map(a => a.texto).join('\n');
-    cuerpo.clientText = cuerpo.clientText ? cuerpo.clientText + '\n' + todos : todos;
-  }
   // Imágenes/PDF: van como array; el backend los procesa en paralelo
   if(hayBase64){
     cuerpo.files = archivosBase64.map(a => ({ base64: a.base64, mediaType: a.tipo }));
@@ -570,7 +628,20 @@ async function procesarPedido(){
   document.getElementById('textoCargando').textContent =
     'Leyendo el pedido y buscando en el catálogo… (si el sistema estaba dormido puede tardar hasta 1 minuto)';
 
+  let avisosLectura = [];
   try{
+    // Texto manual o Excel/CSV/TXT/Word: primero se entiende la estructura (columnas),
+    // luego se concatenan y van como clientText, igual que antes
+    if(hayTextoManual || hayTextos){
+      const lecturas = await Promise.all([
+        ...(hayTextoManual ? [convertirTextoPegado(texto)] : []),
+        ...archivosTexto.map(convertirArchivoTexto),
+      ]);
+      cuerpo.clientText = lecturas.map(l => l.texto).filter(t => t && t.trim()).join('\n');
+      avisosLectura = lecturas.flatMap(l => l.avisos || []);
+      if(!cuerpo.clientText && !hayBase64) throw new Error('el archivo no trae renglones legibles');
+    }
+
     const [d] = await Promise.all([
       llamar('/api/match', { method:'POST', body: JSON.stringify(cuerpo) }),
       cargarCatalogo(),
@@ -587,12 +658,46 @@ async function procesarPedido(){
       producto_base: l.producto_base || null,
     }));
     pintarResultados();
+    if(avisosLectura.length){
+      avisar('<strong>Cómo se leyó la lista:</strong><ul>' + avisosLectura.map(a => `<li>${esc(a)}</li>`).join('') + '</ul>', 'info');
+    }
   }catch(e){
     avisar('No se pudo procesar el pedido: ' + e.message, 'error');
   }finally{
     document.getElementById('botonProcesar').disabled = false;
     document.getElementById('zonaCargando').style.display = 'none';
   }
+}
+
+/* ---- Lectura de estructura (columnas) antes del matching ----
+   Cada función devuelve { texto, avisos }. Si /api/leer-tabla falla por lo que
+   sea, se usa la lectura ANTERIOR, así que nunca se pierde lo que ya funcionaba. */
+async function leerTabla(cuerpo){
+  return llamar('/api/leer-tabla', { method:'POST', body: JSON.stringify(cuerpo) });
+}
+async function convertirTextoPegado(texto){
+  try{ return await leerTabla({ texto, permitirComa: false }); }
+  catch(e){ console.warn('leer-tabla (texto pegado):', e.message); return { texto, avisos: [] }; }
+}
+async function convertirArchivoTexto(a){
+  if(a.fuente === 'excel'){
+    try{ return await leerTabla({ hojas: a.hojas, respaldo: 'heuristica' }); }
+    catch(e){ console.warn('leer-tabla (excel):', e.message); return { texto: a.respaldo, avisos: [] }; }
+  }
+  if(a.fuente === 'word'){
+    let tablas = { texto: '', avisos: [] };
+    if(a.hojas.length){
+      try{ tablas = await leerTabla({ hojas: a.hojas, respaldo: 'crudo' }); }
+      catch(e){
+        console.warn('leer-tabla (word):', e.message);
+        tablas = { texto: a.hojas.flatMap(h => h.filas.filter(f => f.some(Boolean)).map(f => f.join('\t'))).join('\n'), avisos: [] };
+      }
+    }
+    return { texto: [a.textoLibre, tablas.texto].filter(Boolean).join('\n'), avisos: tablas.avisos || [] };
+  }
+  // csv / txt
+  try{ return await leerTabla({ texto: a.texto, permitirComa: a.fuente === 'csv' }); }
+  catch(e){ console.warn('leer-tabla (' + a.fuente + '):', e.message); return { texto: a.texto, avisos: [] }; }
 }
 
 const NOMBRE_CASO = {1:'Historial del cliente',2:'Coincidencia de texto',3:'Producto estándar',4:'Licitación','bastón':'Bastón automático'};
