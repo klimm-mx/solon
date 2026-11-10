@@ -73,6 +73,7 @@ header .contenedor{display:flex;align-items:baseline;justify-content:space-betwe
 .det-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
 .det-meta .campo .et{font-size:11px;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
 .det-meta .campo .va{font-size:14px;font-weight:600;margin-top:1px}
+.det-meta .campo .va-correo{overflow-wrap:anywhere}
 
 .det-cuerpo{padding:20px 22px}
 .bloque{margin-bottom:18px}
@@ -531,11 +532,12 @@ function pintarDetalle(){
   const mensajeActual = (borradores[l.id] !== undefined) ? borradores[l.id] : l.mensaje;
   const editado = borradores[l.id] !== undefined && borradores[l.id] !== l.mensaje;
 
-  // Meta (empresa / ubicación / teléfono)
+  // Meta (empresa / ubicación / teléfono / correo)
   const meta = [];
   if (l.lead.empresa) meta.push(`<div class="campo"><div class="et">Empresa</div><div class="va">${esc(l.lead.empresa)}</div></div>`);
   if (l.lead.ubicacion) meta.push(`<div class="campo"><div class="et">Ubicación</div><div class="va">${esc(l.lead.ubicacion)}</div></div>`);
   meta.push(`<div class="campo"><div class="et">Teléfono</div><div class="va">${esc(l.lead.telefono || '—')}${btnCopiarTel(l.lead.telefono)}</div></div>`);
+  meta.push(`<div class="campo"><div class="et">Correo</div><div class="va va-correo">${esc(correoDe(l) || '—')}${btnCopiarCorreo(correoDe(l))}</div></div>`);
 
   // Reloj de R1
   const urgente = l.minutos >= 15;
@@ -1685,6 +1687,14 @@ function copiarCampo(idElemento, boton){
   const texto = ('value' in el && el.tagName === 'TEXTAREA') ? el.value : el.textContent;
   copiarTexto(texto || '', boton);
 }
+// Botón "Copiar" para el correo del lead (mismo estilo que el del teléfono).
+// El correo viaja en data-copiar (escapado), no dentro del onclick, para que un
+// correo con caracteres raros no rompa el botón.
+function btnCopiarCorreo(correo){
+  const c = String(correo || '').trim();
+  return c ? ` <button type="button" class="btn-copiar" data-copiar="${esc(c)}" onclick="event.stopPropagation();copiarTexto(this.dataset.copiar, this)">Copiar</button>` : '';
+}
+
 function btnCopiarTel(tel){
   const d = String(tel || '').replace(/[^0-9]/g, '');
   return d ? ` <button type="button" class="btn-copiar" onclick="event.stopPropagation();copiarTexto('${d}', this)">Copiar</button>` : '';
