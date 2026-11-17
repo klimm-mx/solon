@@ -1777,6 +1777,10 @@ async function c2_cargar(){
     C2_PENDIENTES = C2_PENDIENTES.filter(c2_desdeDiaCero);
     C2_OCULTOS_CLIENTE = nCli - C2_CLIENTE.length;
     C2_OCULTOS_NUESTRO = nNue - C2_PENDIENTES.length;
+    // Familias DORMIDAS (17-nov): el agente las marca redaccion.dormida (hoy:
+    // "Post-venta", que espera la fuente de entregas de Odoo, aún no construida).
+    // Por diseño no se encienden; no se muestran en Seguimiento al cliente.
+    C2_CLIENTE = C2_CLIENTE.filter(t => !(t.redaccion && t.redaccion.dormida));
     c2_estado = 'ok';
   } catch (_) {
     c2_estado = 'sin-conexion';
@@ -1889,7 +1893,7 @@ function c2_pintarDetalleCliente(t){
     <div style="margin-top:10px;text-align:center">
       <button type="button" onclick="c2_descartar('${t._uiId}')"
         style="background:none;border:none;color:var(--tinta-suave);font-family:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer">
-        No me interesa · sacar del análisis
+        Sacar del panel · regresa si el cliente escribe
       </button>
     </div>`;
 }
