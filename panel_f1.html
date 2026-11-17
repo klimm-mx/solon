@@ -368,6 +368,15 @@ let C2_ATENDIDOS = [];     // tarjetas ya atendidas (memoria de envíos → subp
 let C2_DESCARTADOS = [];   // tarjetas sacadas a mano ("por ahora") → "Fuera de operación"
 let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
 let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
+/* DÍA 0 (líder, 16-nov-2026): arranque limpio del seguimiento de WhatsApp.
+   En "Seguimiento al cliente" y "Pendiente nuestro" solo se muestran las
+   conversaciones de Carril 2 con algún mensaje (del cliente o nuestro) desde
+   esta fecha. Las anteriores se ocultan; si el cliente vuelve a escribir,
+   reaparecen solas. El agente y sus reglas NO cambian: es solo lo que se ve.
+   Fecha FIJA a propósito (no "últimos N días"). Para quitarlo: poner ''. */
+const C2_DIA_CERO = '2026-11-09';
+let C2_OCULTOS_CLIENTE = 0;   // cuántas se ocultaron por el día 0 (para el aviso)
+let C2_OCULTOS_NUESTRO = 0;
 
 /* ============================================================
    La cola arranca VACÍA. El panel NO muestra tarjetas de
@@ -1080,7 +1089,7 @@ function f2_pintarCola(){
   // ---- Subpestaña PENDIENTE NUESTRO: solo Carril 2, con semáforo ----
   if (f2_subActiva === 'nuestro'){
     if (!C2_PENDIENTES.length){
-      cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('nuestro')) + '</div>';
+      cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('nuestro')) + '</div>' + c2_avisoDiaCero(C2_OCULTOS_NUESTRO);
       return;
     }
     cola.innerHTML = C2_PENDIENTES.map(p=>{
@@ -1096,7 +1105,7 @@ function f2_pintarCola(){
         <div class="it-linea">Le debemos algo · lleva ${p.dias_silencio} d sin movimiento${c2_telefono(p) ? ' · ' + f2_esc(c2_telefono(p)) : ''}</div>
         <div class="it-chips"><span class="chip chip-sem sem-${sem.clase}">${sem.texto}</span></div>
       </div>`;
-    }).join('');
+    }).join('') + c2_avisoDiaCero(C2_OCULTOS_NUESTRO);
     return;
   }
 
@@ -1235,6 +1244,7 @@ function f2_pintarCola(){
   if (!f2Activos.length && !C2_CLIENTE.length){
     html = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('cliente')) + '</div>';
   }
+  html += c2_avisoDiaCero(C2_OCULTOS_CLIENTE);
 
   cola.innerHTML = html;
 }
@@ -1723,6 +1733,24 @@ function c2_mensajeVacio(cual){
     : 'No hay seguimientos al cliente por ahora.';
 }
 
+// Día 0: ¿la conversación tuvo algún mensaje desde C2_DIA_CERO? Usa
+// fecha_ultimo_msg_mx (ISO en hora de México, la misma "huella" del backend).
+// Si la tarjeta no trae fecha, se MUESTRA (ante la duda, no esconder).
+function c2_desdeDiaCero(t){
+  if (!C2_DIA_CERO) return true;
+  const f = String((t && t.fecha_ultimo_msg_mx) || '').slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(f)) return true;
+  return f >= C2_DIA_CERO;
+}
+// Línea discreta al pie de la lista: cuántas quedaron ocultas por el día 0.
+function c2_avisoDiaCero(n){
+  if (!C2_DIA_CERO || !n) return '';
+  const [a, m, d] = C2_DIA_CERO.split('-');
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const txt = n === 1 ? '1 conversación sin movimiento' : `${n} conversaciones sin movimiento`;
+  return `<div class="f2-sin-datos" style="font-size:12px;opacity:.75">${txt} desde el ${parseInt(d,10)}-${meses[parseInt(m,10)-1]} no se muestran (día 0). Si el cliente vuelve a escribir, reaparecen.</div>`;
+}
+
 // --- Carga REAL de Carril 2 desde el backend (GET /agente/carril2/cola) ---
 async function c2_cargar(){
   if (window.__PREVIEW__){ c2_estado = 'sin-datos'; return; } // vista previa: sin red
@@ -1743,6 +1771,12 @@ async function c2_cargar(){
     C2_EXCLUIDOS = (data.excluidos || []).map((e,i) => ({ ...e, _uiId: 'c2x'+i }));
     C2_ATENDIDOS = (data.atendidos || []).map((t,i) => ({ ...t, _uiId: 'c2a'+i }));
     C2_DESCARTADOS = (data.descartados || []).map((t,i) => ({ ...t, _uiId: 'c2d'+i }));
+    // Día 0: ocultar lo que no ha tenido movimiento desde la fecha de arranque.
+    const nCli = C2_CLIENTE.length, nNue = C2_PENDIENTES.length;
+    C2_CLIENTE = C2_CLIENTE.filter(c2_desdeDiaCero);
+    C2_PENDIENTES = C2_PENDIENTES.filter(c2_desdeDiaCero);
+    C2_OCULTOS_CLIENTE = nCli - C2_CLIENTE.length;
+    C2_OCULTOS_NUESTRO = nNue - C2_PENDIENTES.length;
     c2_estado = 'ok';
   } catch (_) {
     c2_estado = 'sin-conexion';
