@@ -366,6 +366,7 @@ let C2_PENDIENTES = [];    // tarjetas PENDIENTE_NUESTRO (van a "Pendiente nuest
 let C2_EXCLUIDOS = [];     // tarjetas EXCLUIR (van a "Fuera de operación", solo lectura)
 let C2_ATENDIDOS = [];     // tarjetas ya atendidas (memoria de envíos → subpestaña "Atendidos")
 let C2_DESCARTADOS = [];   // tarjetas sacadas a mano ("por ahora") → "Fuera de operación"
+let C2_POSPUESTOS = [];    // (18-nov) pospuestas N días → "Fuera de operación" hasta su fecha
 let c2_activoId = null;    // id de UI de la tarjeta de Carril 2 seleccionada
 let c2_estado = 'sin-cargar'; // 'sin-cargar' | 'apagado' | 'sin-datos' | 'sin-conexion' | 'ok'
 /* DÍA 0 (líder, 16-nov-2026): arranque limpio del seguimiento de WhatsApp.
@@ -1089,7 +1090,7 @@ function f2_pintarCola(){
   // ---- Subpestaña PENDIENTE NUESTRO: solo Carril 2, con semáforo ----
   if (f2_subActiva === 'nuestro'){
     if (!C2_PENDIENTES.length){
-      cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('nuestro')) + '</div>' + c2_avisoDiaCero(C2_OCULTOS_NUESTRO);
+      cola.innerHTML = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('nuestro')) + '</div>' + c2_avisoPospuestos('nuestro') + c2_avisoDiaCero(C2_OCULTOS_NUESTRO);
       return;
     }
     cola.innerHTML = C2_PENDIENTES.map(p=>{
@@ -1103,9 +1104,9 @@ function f2_pintarCola(){
           <div class="it-sil">${p.dias_silencio} d</div>
         </div>
         <div class="it-linea">Le debemos algo · lleva ${p.dias_silencio} d sin movimiento${c2_telefono(p) ? ' · ' + f2_esc(c2_telefono(p)) : ''}</div>
-        <div class="it-chips"><span class="chip chip-sem sem-${sem.clase}">${sem.texto}</span></div>
+        <div class="it-chips"><span class="chip chip-sem sem-${sem.clase}">${sem.texto}</span>${p._pospuestoVencido ? '<span class="chip chip-toque">Recordatorio</span>' : ''}</div>
       </div>`;
-    }).join('') + c2_avisoDiaCero(C2_OCULTOS_NUESTRO);
+    }).join('') + c2_avisoPospuestos('nuestro') + c2_avisoDiaCero(C2_OCULTOS_NUESTRO);
     return;
   }
 
@@ -1118,11 +1119,27 @@ function f2_pintarCola(){
     const fueraF2 = F2_CLIENTES.filter(c => { const s = f2_estadoCliente[c.id]; return s && s.movidoA; });
     const fueraC2 = C2_EXCLUIDOS;      // EXCLUIR del análisis de WhatsApp (solo lectura)
     const descC2 = C2_DESCARTADOS;     // sacadas a mano por el operador (rescatables)
-    if (!fueraF2.length && !fueraC2.length && !descC2.length){
+    const posC2 = C2_POSPUESTOS;       // (18-nov) pospuestas: regresan solas en su fecha
+    if (!fueraF2.length && !fueraC2.length && !descC2.length && !posC2.length){
       cola.innerHTML = '<div class="f2-sin-datos">Nada fuera de operación. Aquí llegan los clientes que descartes o envíes a encuesta, y los que el análisis de WhatsApp excluyó.</div>';
       return;
     }
     let h = '';
+    // 0) Pospuestas (18-nov) — primero, porque regresan solas.
+    h += posC2.map(t=>{
+      const clases = ['item','movido'];
+      if (t._uiId===c2_activoId) clases.push('activo');
+      const at = t._atendido || {};
+      const nota = at.nota ? ' · ' + f2_esc(at.nota.length > 60 ? at.nota.slice(0,60) + '…' : at.nota) : '';
+      return `<div class="${clases.join(' ')}" onclick="c2_seleccionar('${t._uiId}')">
+        <div class="it-top">
+          <div class="it-nombre">${f2_esc(c2_nombre(t))}</div>
+          <div class="it-sil">${(typeof t.dias_silencio==='number')?t.dias_silencio+' d':''}</div>
+        </div>
+        <div class="it-linea">${t._pendienteNuestro ? 'Pendiente nuestro' : 'Seguimiento'}${nota}</div>
+        <div class="it-chips"><span class="chip chip-toque">Pospuesta · regresa ${f2_esc(c2_fechaCorta(at.hasta))}</span></div>
+      </div>`;
+    }).join('');
     // 1) F2 movidos por ti (descartado / en encuesta) — rescatables.
     h += fueraF2.map(c=>{
       const st = f2_estadoCliente[c.id];
@@ -1236,7 +1253,7 @@ function f2_pintarCola(){
         <div class="it-sil">${t.dias_silencio} d</div>
       </div>
       <div class="it-linea">${f2_esc(fam)}${c2_telefono(t) ? ' · ' + f2_esc(c2_telefono(t)) : ''}</div>
-      <div class="it-chips"><span class="chip chip-origen">WhatsApp</span></div>
+      <div class="it-chips"><span class="chip chip-origen">WhatsApp</span>${t._pospuestoVencido ? '<span class="chip chip-toque">Recordatorio</span>' : ''}</div>
     </div>`;
   }).join('');
 
@@ -1244,7 +1261,7 @@ function f2_pintarCola(){
   if (!f2Activos.length && !C2_CLIENTE.length){
     html = '<div class="f2-sin-datos">' + f2_esc(c2_mensajeVacio('cliente')) + '</div>';
   }
-  html += c2_avisoDiaCero(C2_OCULTOS_CLIENTE);
+  html += c2_avisoPospuestos('cliente') + c2_avisoDiaCero(C2_OCULTOS_CLIENTE);
 
   cola.innerHTML = html;
 }
@@ -1549,7 +1566,7 @@ function f2_actualizarContadores(){
   const nNuestro = C2_PENDIENTES.length;
   const n1 = f2$('#f2-n1'); if (n1) n1.textContent = nCliente;
   const n2 = f2$('#f2-n2'); if (n2) n2.textContent = nNuestro;
-  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera + C2_EXCLUIDOS.length + C2_DESCARTADOS.length;
+  const n3 = f2$('#f2-n3'); if (n3) n3.textContent = f2Fuera + C2_EXCLUIDOS.length + C2_DESCARTADOS.length + C2_POSPUESTOS.length;
   const n4 = f2$('#f2-n4'); if (n4) n4.textContent = C2_ATENDIDOS.length;
   const cont = f2$('#f2-conteo'); if (cont) cont.textContent = nCliente;
 }
@@ -1637,6 +1654,7 @@ const C2_RUTA_ENVIADO = '/agente/carril2/enviado';   // registrar envío (memori
 const C2_RUTA_REABRIR = '/agente/carril2/reabrir';   // reversibilidad: quitar la marca (rescatar)
 const C2_RUTA_DESCARTAR = '/agente/carril2/descartar'; // sacar a mano del análisis
 const C2_RUTA_RESUELTO = '/agente/carril2/resuelto';   // "Ya lo atendí" en Pendiente nuestro
+const C2_RUTA_POSPONER = '/agente/carril2/posponer';   // (18-nov) posponer N días + nota
 
 // (Las variables de estado C2_CLIENTE, C2_PENDIENTES, c2_activoId y c2_estado
 //  se declaran ARRIBA, junto al estado de F2, para que existan desde el arranque
@@ -1751,6 +1769,89 @@ function c2_avisoDiaCero(n){
   return `<div class="f2-sin-datos" style="font-size:12px;opacity:.75">${txt} desde el ${parseInt(d,10)}-${meses[parseInt(m,10)-1]} no se muestran (día 0). Si el cliente vuelve a escribir, reaparecen.</div>`;
 }
 
+// ---- POSPONER (18-nov) ----
+// '2026-11-21' -> '21-nov'
+function c2_fechaCorta(f){
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(f || ''));
+  if (!m) return '';
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return parseInt(m[3],10) + '-' + meses[parseInt(m[2],10)-1];
+}
+// Línea al pie de "Seguimiento al cliente" / "Pendiente nuestro": cuántas hay pospuestas.
+function c2_avisoPospuestos(cual){
+  const n = C2_POSPUESTOS.filter(t => (cual === 'nuestro') === !!t._pendienteNuestro).length;
+  if (!n) return '';
+  const txt = n === 1 ? '1 pospuesta' : `${n} pospuestas`;
+  return `<div class="f2-sin-datos" style="font-size:12px;opacity:.75">${txt} — las ves en "Fuera de operación" y regresan solas en su fecha.</div>`;
+}
+// Caja con la nota de cuando se pospuso (la tarjeta ya regresó).
+function c2_notaPospuestoHTML(t){
+  const v = t && t._pospuestoVencido;
+  if (!v) return '';
+  const nota = v.nota ? f2_esc(v.nota) : '<em>(sin nota)</em>';
+  return `<div class="deuda-caja" style="background:var(--agua-claro);border-color:var(--agua)">
+      <div class="deuda-tit" style="color:var(--agua-oscuro)">Recordatorio — la pospusiste${v.desde ? ' el ' + f2_esc(c2_fechaCorta(v.desde)) : ''}</div>
+      <div class="deuda-txt">${nota}</div>
+    </div>`;
+}
+// Bloque "Posponer…" (se despliega al hacer clic) para el detalle.
+function c2_posponerHTML(uiId){
+  return `<div style="margin-top:12px;text-align:center" id="c2-posp">
+      <button type="button" onclick="document.getElementById('c2-posp-form').style.display='flex';this.style.display='none'"
+        style="background:none;border:none;color:var(--agua-oscuro);font-family:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer">
+        Posponer · que regrese en unos días
+      </button>
+      <div id="c2-posp-form" style="display:none;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px">
+        <label style="font-size:13px">Regresar en
+          <input type="number" id="c2-posp-dias" min="1" max="60" step="1" value="1" style="width:60px;padding:6px;border:1px solid var(--borde);border-radius:6px;font-family:inherit"> días</label>
+        <input type="text" id="c2-posp-nota" maxlength="200" placeholder="Nota (opcional)" style="flex:1 1 220px;padding:6px 8px;border:1px solid var(--borde);border-radius:6px;font-family:inherit">
+        <button type="button" class="boton" style="flex:0 0 auto;padding:6px 16px" onclick="c2_posponer('${uiId}')">Posponer</button>
+      </div>
+    </div>`;
+}
+async function c2_posponer(uiId){
+  const t = C2_CLIENTE.find(x=>x._uiId===uiId) || C2_PENDIENTES.find(x=>x._uiId===uiId);
+  if (!t) return;
+  const dias = Number((document.getElementById('c2-posp-dias') || {}).value);
+  if (!Number.isInteger(dias) || dias < 1 || dias > 60){ alert('Escribe un número de días entre 1 y 60.'); return; }
+  const nota = String((document.getElementById('c2-posp-nota') || {}).value || '').trim().slice(0, 200);
+  if (!BACKEND || !CLAVE){ alert('Sin conexión con Solón: no se pudo posponer.'); return; }
+  const fam = (t.redaccion && t.redaccion.familia) ? t.redaccion.familia
+            : (t.motivoNoRedacta || 'Seguimiento');
+  try {
+    const resp = await fetch(BACKEND + C2_RUTA_POSPONER, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-backend-key': CLAVE },
+      body: JSON.stringify({ jid: t.jid, huella: t.fecha_ultimo_msg_mx, familia: fam, dias, nota }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok){ alert('No se pudo posponer. Reintenta.'); return; }
+    c2_recargarCola();
+  } catch (_) {
+    alert('Sin conexión al posponer. Reintenta.');
+  }
+}
+function c2_pintarDetallePospuesto(t){
+  const nombre = c2_nombre(t);
+  const at = t._atendido || {};
+  const origen = t._pendienteNuestro ? 'Pendiente nuestro'
+    : ((t.redaccion && t.redaccion.familiaNombre) ? t.redaccion.familiaNombre : 'Seguimiento');
+  f2$('#f2-detalle').innerHTML = `
+    <h2 class="d-nombre">${f2_esc(nombre)}</h2>
+    <div class="d-sub">${f2_esc(origen)} · pospuesta</div>
+    ${c2_telefonoHTML(t)}
+    <div class="movido-box">
+      <div class="txt"><strong>La pospusiste. Regresa sola el ${f2_esc(c2_fechaCorta(at.hasta))}.</strong> Si hay un mensaje nuevo en la conversación antes, regresa de inmediato.</div>
+    </div>
+    <div class="deuda-caja">
+      <div class="deuda-tit">Nota</div>
+      <div class="deuda-txt">${at.nota ? f2_esc(at.nota) : '<em>(sin nota)</em>'}</div>
+    </div>
+    <div class="acciones">
+      <button class="boton" onclick="c2_quitarMarca('${f2_esc(t.jid)}')">Regresarla hoy</button>
+    </div>`;
+}
+
 // --- Carga REAL de Carril 2 desde el backend (GET /agente/carril2/cola) ---
 async function c2_cargar(){
   if (window.__PREVIEW__){ c2_estado = 'sin-datos'; return; } // vista previa: sin red
@@ -1762,7 +1863,7 @@ async function c2_cargar(){
     const data = await resp.json();
     if (!data || !data.ok){
       c2_estado = (data && data.motivo === 'carril2-apagado') ? 'apagado' : 'sin-datos';
-      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = []; C2_DESCARTADOS = [];
+      C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = []; C2_DESCARTADOS = []; C2_POSPUESTOS = [];
       return;
     }
     // Éxito: repartir a las tres listas, con id de UI estable.
@@ -1771,6 +1872,7 @@ async function c2_cargar(){
     C2_EXCLUIDOS = (data.excluidos || []).map((e,i) => ({ ...e, _uiId: 'c2x'+i }));
     C2_ATENDIDOS = (data.atendidos || []).map((t,i) => ({ ...t, _uiId: 'c2a'+i }));
     C2_DESCARTADOS = (data.descartados || []).map((t,i) => ({ ...t, _uiId: 'c2d'+i }));
+    C2_POSPUESTOS = (data.pospuestos || []).map((t,i) => ({ ...t, _uiId: 'c2z'+i }));
     // Día 0: ocultar lo que no ha tenido movimiento desde la fecha de arranque.
     const nCli = C2_CLIENTE.length, nNue = C2_PENDIENTES.length;
     C2_CLIENTE = C2_CLIENTE.filter(c2_desdeDiaCero);
@@ -1784,7 +1886,7 @@ async function c2_cargar(){
     c2_estado = 'ok';
   } catch (_) {
     c2_estado = 'sin-conexion';
-    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = []; C2_DESCARTADOS = [];
+    C2_CLIENTE = []; C2_PENDIENTES = []; C2_EXCLUIDOS = []; C2_ATENDIDOS = []; C2_DESCARTADOS = []; C2_POSPUESTOS = [];
   }
 }
 
@@ -1807,6 +1909,8 @@ function c2_pintarDetalle(uiId){
   if (at){ c2_pintarDetalleAtendido(at); return; }
   const des = C2_DESCARTADOS.find(x=>x._uiId===uiId);
   if (des){ c2_pintarDetalleDescartado(des); return; }
+  const pos = C2_POSPUESTOS.find(x=>x._uiId===uiId);
+  if (pos){ c2_pintarDetallePospuesto(pos); return; }
   f2_pintarVacio();
 }
 
@@ -1841,6 +1945,7 @@ function c2_pintarDetallePendiente(p){
     <h2 class="d-nombre">${f2_esc(nombre)}</h2>
     <div class="d-sub">Pendiente nuestro · del análisis de WhatsApp</div>
     ${c2_telefonoHTML(p)}
+    ${c2_notaPospuestoHTML(p)}
     <div class="reloj-datos">
       <div class="rd"><div class="et">Sin movimiento</div><div class="va">${p.dias_silencio} d</div></div>
       <div class="rd destacar"><div class="et">Urgencia</div><div class="va">${f2_esc(sem.texto)}</div></div>
@@ -1852,7 +1957,8 @@ function c2_pintarDetallePendiente(p){
     <div class="nota-sin-envio">◇ Sin mensaje que enviar: la acción es nuestra. Resuélvelo por el canal que corresponda (cotización, flete, documento) y márcalo aquí.</div>
     <div class="acciones">
       <button class="boton boton-hecho" style="flex:0 0 auto;border:1px solid var(--borde);background:var(--superficie);padding:12px 26px;min-height:44px" onclick="c2_resolverPendiente('${p._uiId}')">Ya lo atendí</button>
-    </div>`;
+    </div>
+    ${c2_posponerHTML(p._uiId)}`;
 }
 
 // Detalle de SEGUIMIENTO AL CLIENTE (Carril 2): mensaje redactado, editable + enviar.
@@ -1881,6 +1987,7 @@ function c2_pintarDetalleCliente(t){
     <h2 class="d-nombre">${f2_esc(nombre)}</h2>
     <div class="d-sub">${f2_esc(fam)} · del análisis de WhatsApp</div>
     ${c2_telefonoHTML(t)}
+    ${c2_notaPospuestoHTML(t)}
     ${contextoHTML}
     <div class="msg-tit">Mensaje sugerido — revísalo y envíalo</div>
     <textarea class="msg" id="c2-msg">${f2_esc(msg)}</textarea>
@@ -1895,7 +2002,8 @@ function c2_pintarDetalleCliente(t){
         style="background:none;border:none;color:var(--tinta-suave);font-family:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer">
         Sacar del panel · regresa si el cliente escribe
       </button>
-    </div>`;
+    </div>
+    ${c2_posponerHTML(t._uiId)}`;
 }
 
 // Caja de contexto del análisis (reutiliza las clases deuda-* para no tocar CSS).
@@ -2017,6 +2125,15 @@ async function c2_registrarEnvio(t, sugerido, editado, fam, canal){
         mensajeEnviado: editado,
         canal,
         senales: (t.diagnostico && t.diagnostico.senales) || undefined,
+        // (18-nov) la situación que vio el análisis, para el aprendizaje futuro
+        contexto: {
+          analisis: (t.diagnostico && t.diagnostico.senales) || undefined,
+          familia_diagnostico: (t.diagnostico && t.diagnostico.familia) || undefined,
+          pelota: (t.diagnostico && t.diagnostico.pelota) || undefined,
+          confianza: (t.diagnostico && t.diagnostico.confianza) || undefined,
+          dias_silencio: (typeof t.dias_silencio === 'number') ? t.dias_silencio : undefined,
+          nota_pospuesto: (t._pospuestoVencido && t._pospuestoVencido.nota) || undefined,
+        },
       }),
     });
     const data = await resp.json();
