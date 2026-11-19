@@ -1678,6 +1678,18 @@ function c2_telefono(t){
   return nac.length === 10 ? `${nac.slice(0,2)} ${nac.slice(2,6)} ${nac.slice(6)}` : nac;
 }
 
+// Número para el link wa.me (19-nov). La lectura de la Mac guarda telefono_llave
+// en 10 dígitos (sin lada de país); wa.me lo leía como número extranjero
+// (4791136013 → Noruega +47, "no está en WhatsApp"). Se antepone 52 a los de
+// 10 dígitos y se normalizan las formas mexicanas (52 / 521 + 10). Otros, tal cual.
+function c2_numeroWA(t){
+  const d = String((t && t.telefono_llave) || '').replace(/[^0-9]/g, '');
+  if (d.length === 10) return '52' + d;
+  if (d.length === 12 && d.startsWith('52')) return d;
+  if (d.length === 13 && d.startsWith('521')) return '52' + d.slice(3);
+  return d;
+}
+
 // Línea con el teléfono y botón para copiarlo (detalle de Seguimiento).
 function c2_telefonoHTML(t){
   const tel = c2_telefono(t);
@@ -1975,7 +1987,7 @@ function c2_pintarDetalleCliente(t){
   // hoy no (el orquestador lo recorta — ver maestro; pieza futura si hace falta).
   const contextoHTML = c2_contextoHTML(t);
   const waLink = t.telefono_llave
-    ? ('https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(msg))
+    ? ('https://wa.me/' + c2_numeroWA(t) + '?text=' + encodeURIComponent(msg))
     : null;
   // El envío ahora REGISTRA: abre WhatsApp con el texto EDITADO y marca la
   // conversación como atendida (sale a "Atendidos"). c2_enviar arma el link al
@@ -2079,7 +2091,7 @@ async function c2_enviar(uiId){
 
   // 1) Abrir WhatsApp con el mensaje EDITADO (lo que el operador realmente manda).
   if (t.telefono_llave){
-    const link = 'https://wa.me/' + String(t.telefono_llave).replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(editado);
+    const link = 'https://wa.me/' + c2_numeroWA(t) + '?text=' + encodeURIComponent(editado);
     window.open(link, '_blank');
   }
 
